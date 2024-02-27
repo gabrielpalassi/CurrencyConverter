@@ -1,4 +1,86 @@
-/* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-scrollbar {
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: white;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgb(203, 213, 225);
+        border-radius: 3px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .conversion-custom-grid {
+        display: grid;
+        grid-template-columns: 1.5fr 1.5fr 2.75rem 1.5fr 1fr;
+        gap: 15px;
+    }
+}
+
+.select-animation {
+    animation: slideDown 0.2s ease;
+
+    &.disappear {
+        animation: slideUp 0.2s ease;
+    }
+}
+
+.menu-animation {
+    animation: fadeIn 0.1s ease;
+
+    &.disappear {
+        animation: fadeOut 0.1s ease;
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}

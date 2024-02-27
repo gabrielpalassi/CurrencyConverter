@@ -1,14 +1,32 @@
 <div class="w-full flex justify-center">
-    <div class="w-full mt-5 mb-12 max-w-7xl">
+    <div class="w-full mt-5 mb-10 max-w-7xl">
         <div class="py-6 lg:px-8 px-6 w-full">
+            <!-- Title and description -->
             <div class="w-full mb-12">
                 <p class="text-base font-semibold text-blue-500">Global currency converter</p>
                 <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">CurrencyConverter</h2>
-                <p class="text-lg leading-8 text-slate-400 mt-1">Best source for trusted global currency conversion and tracking exchange rates.</p>
+                <p class="text-lg leading-8 text-slate-400 mt-1">Trusted and open-source global currency conversion and tracking of exchange rates.</p>
             </div>
-            <div class="bg-white p-7 w-full rounded-lg shadow-xl shadow-slate-700 flex flex-wrap gap-4">
-                <app-input class="w-full lg:w-auto" title="Amount" [prefix]="fromCurrencyPrefix" [value]="value" [placeholder]="'0.00'"></app-input>
-                <app-select class="w-full lg:w-auto"></app-select>
+            <!-- Conversion container -->
+            <div class="bg-white py-8 px-8 lg:px-9 w-full rounded-lg shadow-xl shadow-slate-700 flex flex-col gap-4 conversion-custom-grid">
+                <!-- Amount -->
+                <app-currency-input class="w-full" label="Amount" [prefix]="conversionData.from.prefix" [(value)]="conversionData.value" [placeholder]="'0.00'"></app-currency-input>
+                <!-- Currency from -->
+                <app-currency-select class="w-full" label="From" [options]="conversionData.options" [(selectedOption)]="conversionData.from"></app-currency-select>
+                <!-- Switch currencies button -->
+                <button
+                class="transition delay-70 lg:mt-8 rounded-full h-11 w-11 text-sm ring-1 ring-inset ring-gray-300 hover:text-slate-500"
+                (click)="switchConversionCurrencies()">
+                    &#8644;
+                </button>
+                <!-- Currency to -->
+                <app-currency-select class="w-full" label="To" [options]="conversionData.options" [(selectedOption)]="conversionData.to"></app-currency-select>
+                <!-- Convert button -->
+                <button
+                (click)="convertCurrency()"
+                class="w-full transition delay-70 lg:mt-8 h-11 rounded-md bg-blue-500 px-3.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500">
+                    Convert
+                </button>
             </div>
         </div>
     </div>
