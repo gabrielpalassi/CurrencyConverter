@@ -26,10 +26,10 @@ Make sure you have the following installed:
     git clone https://github.com/your-username/CurrencyConverter.git
     ```
 
-2. Navigate to the project directory:
+2. Navigate to the backend project directory:
 
     ```bash
-    cd CurrencyConverter
+    cd CurrencyConverter/backend
     ```
 
 3. Install dependencies:
@@ -38,18 +38,30 @@ Make sure you have the following installed:
     npm install
     ```
 
-### Usage
-
-1. Start the Node.js backend:
-
+4. Do the same for the frontend:
     ```bash
-    node server.js
+    cd ../frontend
+    npm install
     ```
 
-2. Navigate to the Angular frontend:
+### Usage
+
+1. Navigate to the Node.js backend:
 
     ```bash
-    cd frontend
+    cd backend
+    ```
+
+2. Start the server:
+
+    ```bash
+    node index.js
+    ```
+
+2. Navigate to the frontend directory:
+
+    ```bash
+    cd ../frontend
     ```
 
 3. Run the Angular app:
