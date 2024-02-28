@@ -23,8 +23,9 @@
       <div class="select-animation absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg" [ngClass]="{'disappear': animateCloseDropdown}">
         <!-- Search -->
         <input
+        #searchInput
         type="text"
-        placeholder="Search..."
+        placeholder="Type to search..."
         class="w-full px-3 py-2.5 rounded-t-md outline-none"
         [(ngModel)]="searchTerm"
         (ngModelChange)="filterOptions()">

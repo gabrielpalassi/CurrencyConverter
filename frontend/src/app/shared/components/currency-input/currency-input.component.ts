@@ -14,7 +14,6 @@ import { NgxCurrencyDirective } from "ngx-currency";
   templateUrl: './currency-input.component.html'
 })
 export class CurrencyInputComponent {
-  // Input and output variables
   @Input() label: string = '';
   @Input() prefix: string = '';
   @Input() placeholder: string = '';

@@ -1,5 +1,5 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { Currency } from '../../interfaces/Currency.interface';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
+import { Currency } from '../../interfaces/currency.interface';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -13,22 +13,20 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './currency-select.component.html'
 })
 export class CurrencySelectComponent {
-  // Input and output variables
   @Input() label: string = '';
   @Input() options: Currency[] = [];
   @Input() selectedOption: Currency = this.options[0];
   @Output() selectedOptionChange = new EventEmitter<Currency>();
 
-  // Component's variables
   isDropdownOpen: boolean = false;
   filteredOptions: Currency[] = [];
   searchTerm: string = '';
   animateCloseDropdown: boolean = false;
 
-  // Constructor
+  @ViewChild('searchInput') searchInput!: ElementRef;
+
   constructor(private elementRef: ElementRef) { }
 
-  // Lifecycle hook - runs when the component is initialized
   ngOnInit(): void {
     this.filteredOptions = this.options;
   }
@@ -38,8 +36,11 @@ export class CurrencySelectComponent {
     if (state === false) {
       this.animateCloseDropdown = true;
       setTimeout(() => {
-        this.isDropdownOpen = state;
+        // Sets the state and reset the animation state and search filter
+        this.isDropdownOpen = false;
         this.animateCloseDropdown = false;
+        this.searchTerm = '';
+        this.filterOptions();
       }, 100);
     } else {
       this.isDropdownOpen = state;
@@ -72,6 +73,14 @@ export class CurrencySelectComponent {
     const clickedInside = this.elementRef.nativeElement.contains(target);
     if (!clickedInside) {
       this.setDropdownOpenState(false);
+    }
+  }
+
+  // Listen for keypress events and focus the search input if the dropdown is open
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent() {
+    if (this.isDropdownOpen) {
+      this.searchInput.nativeElement.focus();
     }
   }
 }
