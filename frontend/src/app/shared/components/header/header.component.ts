@@ -1,3 +1,4 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -9,23 +10,19 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     NgClass
   ],
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(10px)' }),
+        animate('200ms ease', style({ opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        animate('100ms ease', style({ opacity: 0, transform: 'translateX(10px)' }))
+      ])
+    ])
+  ],
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {
-  // Component's variables
   showMobileMenu: boolean = false;
-  animateCloseMobileMenu: boolean = false;
-  
-  // Sets showMobileMenu state after a delay to allow for the animation to play
-  setShowMobileMenuState(state: boolean): void {
-    if (state === false) {
-      this.animateCloseMobileMenu = true;
-      setTimeout(() => {
-        this.showMobileMenu = state;
-        this.animateCloseMobileMenu = false;
-      }, 70);
-    } else {
-      this.showMobileMenu = state;
-    }
-  }
 }

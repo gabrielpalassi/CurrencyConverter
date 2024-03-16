@@ -14,10 +14,10 @@ import { NgxCurrencyDirective } from "ngx-currency";
   templateUrl: './currency-input.component.html'
 })
 export class CurrencyInputComponent {
-  @Input() label: string = '';
-  @Input() prefix: string = '';
-  @Input() placeholder: string = '';
-  @Input() type: string = '';
-  @Input() value: number | undefined = undefined;
+  @Input() label: string | undefined;
+  @Input() prefix: string | undefined;
+  @Input() placeholder: string | undefined;
+  @Input() value: number | undefined;
+  @Input() error: string | undefined;
   @Output() valueChange = new EventEmitter<number>();
 }

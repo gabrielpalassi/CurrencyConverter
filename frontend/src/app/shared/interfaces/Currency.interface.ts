@@ -1,5 +1,6 @@
 export interface Currency {
-    name: string;
-    flag: string;
-    prefix: string;
+  shortName: string;
+  fullName: string;
+  flag: string;
+  prefix: string;
 }

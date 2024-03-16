@@ -1,16 +1,28 @@
-<div id="customDropdown" class="w-full">
+<div class="w-full">
   <!-- Label -->
-  <label (click)="setDropdownOpenState(false)" for="custom-select" class="block font-medium text-slate-900">{{ label }}</label>
-  <div class="mt-2 relative rounded-md shadow-sm">
+  @if (label) {
+    <label (click)="isDropdownOpen = false" for="custom-select" class="block font-medium text-slate-900 mb-2">{{ label }}</label>
+  }
+  <div class="relative rounded-md shadow-sm">
     <!-- Button that simulates select -->
     <button
-      (click)="setDropdownOpenState(!this.isDropdownOpen)"
+      (click)="isDropdownOpen = !isDropdownOpen"
       type="button" aria-haspopup="listbox"
       [attr.aria-expanded]="isDropdownOpen.toString()"
-      class="transition delay-70 py-2.5 relative w-full rounded-md bg-white pl-3 pr-10 text-left text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-      <div class="flex items-center space-x-3">
-        <img [src]="selectedOption.flag" alt="" class="flex-shrink-0 h-6 w-6 rounded-full">
-        <span class="block truncate">{{ selectedOption.name }}</span>
+      class="transition delay-70 py-3 relative w-full rounded-md bg-white pl-3 pr-10 text-left text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <div class="flex items-center space-x-3 h-6">
+        @if (selectedOption?.flag) {
+          <!-- Flag -->
+          <img [src]="selectedOption?.flag" alt="Country flag" class="flex-shrink-0 h-6 w-6 rounded-full">
+        }
+        @if (selectedOption?.shortName && selectedOption?.fullName) {
+          <!-- Name -->
+          <span class="block truncate">{{ selectedOption?.shortName + ' - ' + selectedOption?.fullName }}</span>
+        }
+        @else {
+          <!-- Placeholder -->
+          <span class="block truncate text-slate-400">Select an option</span>
+        }
       </div>
       <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
         <svg [class.rotate]="isDropdownOpen ? 'rotate-180' : ''" class="h-5 w-5 text-slate-400 transition-transform duration-200 transform" viewBox="0 0 20 20" fill="currentColor">
@@ -20,13 +32,13 @@
     </button>
     <!-- Dropdown menu -->
     @if (isDropdownOpen) {
-      <div class="select-animation absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg" [ngClass]="{'disappear': animateCloseDropdown}">
+      <div @slideInOut class="absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg">
         <!-- Search -->
         <input
         #searchInput
         type="text"
         placeholder="Type to search..."
-        class="w-full px-3 py-2.5 rounded-t-md outline-none"
+        class="w-full px-3 py-3 rounded-t-md outline-none"
         [(ngModel)]="searchTerm"
         (ngModelChange)="filterOptions()">
         <!-- Divider -->
@@ -37,12 +49,12 @@
         role="listbox"
         aria-labelledby="assigned-to-label"
         aria-activedescendant="assigned-to-option-0"
-        class="custom-scrollbar scroll-smooth max-h-60 rounded-b-md py-1 text-base leading-6 shadow-xs overflow-auto outline-none">
-          @for (option of filteredOptions; track option.name) {
-            <li (click)="selectOption(option)" role="option" class="text-slate-900 cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-slate-100">
+        class="w-full custom-scrollbar scroll-smooth max-h-60 rounded-b-md py-1 text-base leading-6 shadow-xs overflow-auto outline-none">
+          @for (option of filteredOptions; track option.shortName) {
+            <li (click)="selectOption(option)" role="option" class="w-full text-slate-900 cursor-pointer select-none relative py-3 pl-3 pr-9 hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <img [src]="option.flag" alt="" class="flex-shrink-0 h-6 w-6 rounded-full">
-                <span class="block truncate" [ngClass]="{'font-semibold': option === selectedOption}">{{ option.name }}</span>
+                <span class="block truncate" [ngClass]="{'font-semibold': option === selectedOption}">{{ option.shortName + ' - ' + option.fullName }}</span>
               </div>
               <!-- Highlights in case it's the option that is selected -->
               @if (option === selectedOption) {

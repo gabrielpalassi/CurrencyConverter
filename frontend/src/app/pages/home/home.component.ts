@@ -1,13 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CurrencyInputComponent } from '../../shared/components/currency-input/currency-input.component';
 import { CurrencySelectComponent } from '../../shared/components/currency-select/currency-select.component';
-import { Currency } from '../../shared/interfaces/Currency.interface';
+import { Currency } from '../../shared/interfaces/currency.interface';
+import { CurrencyService } from '../../shared/services/currency.service';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { HighchartsChartModule, HighchartsChartComponent } from 'highcharts-angular';
+import * as Highcharts from 'highcharts';
+import { chartConfig } from './chart.config';
 
 interface ConversionData {
-  options: Currency[];
   from: Currency;
   to: Currency;
   value: number | undefined;
+}
+
+interface ConversionResponse {
+  from: {
+    currency: Currency;
+    value: number;
+  },
+  to: {
+    currency: Currency;
+    value: number;
+  },
+  rate: number
 }
 
 @Component({
@@ -15,17 +31,54 @@ interface ConversionData {
   standalone: true,
   imports: [
     CurrencyInputComponent,
-    CurrencySelectComponent
+    CurrencySelectComponent,
+    HighchartsChartModule
+  ],
+  animations: [
+    trigger('expand', [
+      transition(':enter', [
+        style({ height: 0, overflow: 'hidden' }),
+        animate('500ms ease', style({ height: '124px', overflow: 'hidden' }))
+      ])
+    ]),
+    trigger('fadeInOut', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('200ms ease', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ opacity: 1 }),
+        animate('200ms ease', style({ opacity: 0 }))
+      ])
+    ])
   ],
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
-  // Component's variables
-  conversionData: ConversionData = {} as ConversionData;
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options = chartConfig;
+  conversionData: ConversionData = {
+    from: { shortName: '', fullName: '', flag: '', prefix: '' },
+    to: { shortName: '', fullName: '', flag: '', prefix: '' },
+    value: undefined
+  };
+  currencyList: Currency[] | undefined;
+  conversionResponse: ConversionResponse | undefined;
+  inputError: string | undefined;
+  loading: boolean = false;
 
-  // Lifecycle hook - runs when the component is initialized
+  // Injects the currency list service
+  constructor(private readonly currencyService: CurrencyService) { }
+
+  // Fetches the currency list and sets the default conversion data
   ngOnInit(): void {
-    this.fetchCurrenciesList();
+    this.loading = true;
+    this.currencyService.getCurrencyList().then(currencyList => {
+      this.currencyList = currencyList;
+      this.conversionData.from = currencyList[0];
+      this.conversionData.to = currencyList[1];
+      this.loading = false;
+    });
   }
 
   // Switches the currencies
@@ -35,30 +88,26 @@ export class HomeComponent {
     this.conversionData.to = temp;
   }
 
-  // Fetches the currencies list and sets conversionData
-  fetchCurrenciesList(): void {
-    this.conversionData = {
-      options: [
-        { name: 'USD - US Dollar', flag: 'https://cdn-icons-png.flaticon.com/512/551/551953.png', prefix: '$'},
-        { name: 'BRL - Brazilian Real', flag: 'https://cdn-icons-png.flaticon.com/512/551/551856.png', prefix: 'R$'},
-        { name: 'EUR - Euro', flag: 'https://cdn-icons-png.flaticon.com/512/552/552084.png', prefix: '€'},
-        { name: 'GBP - British Pound', flag: 'https://cdn-icons-png.flaticon.com/512/551/551844.png', prefix: '£'},
-        { name: 'JPY - Japanese Yen', flag: 'https://cdn-icons-png.flaticon.com/512/552/552073.png', prefix: '¥'},
-        { name: 'CNY - Chinese Yuan', flag: 'https://cdn-icons-png.flaticon.com/512/551/551856.png', prefix: '¥'},
-        { name: 'CAD - Canadian Dollar', flag: 'https://cdn-icons-png.flaticon.com/512/551/551953.png', prefix: '$'},
-        { name: 'AUD - Australian Dollar', flag: 'https://cdn-icons-png.flaticon.com/512/551/551856.png', prefix: '$'},
-        { name: 'CHF - Swiss Franc', flag: 'https://cdn-icons-png.flaticon.com/512/552/552084.png', prefix: 'Fr'},
-      ],
-      from: {} as Currency,
-      to: {} as Currency,
-      value: undefined
-    };
-    this.conversionData.from = this.conversionData.options[0];
-    this.conversionData.to = this.conversionData.options[1];
-  }
-
   // Handles the conversion
   convertCurrency(): void {
-    console.log('Converting currency...');
+    if (!this.conversionData.value) {
+      this.inputError = 'Please enter a value greater than zero.';
+      return;
+    }
+    this.inputError = undefined;
+    this.loading = true;
+    this.currencyService.convert(
+      this.conversionData.from,
+      this.conversionData.to,
+      this.conversionData.value
+    ).then(response => {
+      this.chartOptions.series![0] = {
+        ...this.chartOptions.series![0],
+        name: response.from.currency.shortName + ' to ' + response.to.currency.shortName,
+        data: response.chartData
+      };
+      this.conversionResponse = response;
+      this.loading = false;
+    });
   }
 }
