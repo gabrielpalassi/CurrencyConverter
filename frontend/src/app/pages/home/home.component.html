@@ -1,93 +1,94 @@
-<div class="w-full flex justify-center text-slate-900">
-   <div class="w-full mt-5 mb-10 max-w-7xl">
-      <div class="py-6 lg:px-8 px-6 w-full">
-         <!-- Title and description -->
-         <div class="w-full mb-12">
-            <p class="text-base font-semibold text-blue-500">Global currency converter</p>
-            <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">CurrencyConverter</h2>
-            <p class="text-lg leading-8 text-slate-400 mt-1">Trusted and open-source global currency conversion and tracking of exchange rates.</p>
+<section class="w-full flex justify-center text-slate-900">
+   <div class="mt-5 max-w-7xl py-6 lg:px-8 px-6 w-full">
+      <!-- Title and description -->
+      <section class="w-full mb-12">
+         <p class="text-base font-semibold text-blue-500">Global currency converter</p>
+         <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">CurrencyConverter</h2>
+         <p class="text-lg leading-8 text-slate-400 mt-1">Trusted and open-source global currency conversion and tracking of exchange rates.</p>
+      </section>
+      <!-- Conversion container -->
+      <section class="bg-white py-8 px-8 lg:px-9 w-full rounded-lg shadow-xl shadow-slate-700">
+         <div class="flex flex-col gap-4 conversion-custom-grid w-full">
+            <!-- Amount -->
+            <app-currency-input
+            class="w-full"
+            label="Amount"
+            [prefix]="conversionData.from.prefix"
+            [(value)]="conversionData.value"
+            [placeholder]="'0.00'"
+            [(error)]="inputError">
+            </app-currency-input>
+            <!-- Currency from -->
+            <app-currency-select
+            class="w-full lg:max-w-[283.64px]"
+            label="From"
+            [options]="currencyList"
+            [(selectedOption)]="conversionData.from">
+            </app-currency-select>
+            <!-- Switch currencies button -->
+            <button
+            class="transition delay-70 lg:mt-8 rounded-full h-[48px] w-[48px] text-sm ring-1 ring-inset ring-gray-300 hover:text-slate-500 disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:text-slate-400"
+            (click)="switchConversionCurrencies()"
+            [disabled]="loading">
+               &#8644;
+            </button>
+            <!-- Currency to -->
+            <app-currency-select
+            class="w-full lg:max-w-[283.64px]"
+            label="To"
+            [options]="currencyList"
+            [(selectedOption)]="conversionData.to">
+            </app-currency-select>
+            <!-- Convert button -->
+            <button
+            (click)="convertCurrency()"
+            class="w-full transition delay-70 lg:mt-8 h-[48px] rounded-md bg-blue-500 px-3.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 disabled:cursor-not-allowed disabled:bg-blue-300 disabled:hover:bg-blue-300"
+            [disabled]="loading">
+               @if (loading) {
+                  <div class="w-full h-full flex justify-center items-center gap-2">
+                     <div class="border-blue-200 h-4 w-4 animate-spin rounded-full border-2 border-t-white"></div>
+                     Loading...
+                  </div>
+               }
+               @else {
+                  Convert
+               }
+            </button>
          </div>
-         <!-- Conversion container -->
-         <div class="bg-white py-8 px-8 lg:px-9 w-full rounded-lg shadow-xl shadow-slate-700">
-            <div class="flex flex-col gap-4 conversion-custom-grid w-full">
-               <!-- Amount -->
-               <app-currency-input
-               class="w-full"
-               label="Amount"
-               [prefix]="conversionData.from.prefix"
-               [(value)]="conversionData.value"
-               [placeholder]="'0.00'"
-               [error]="!conversionData.value ? inputError : undefined">
-               </app-currency-input>
-               <!-- Currency from -->
-               <app-currency-select
-               class="w-full lg:max-w-[283.64px]"
-               label="From"
-               [options]="currencyList"
-               [(selectedOption)]="conversionData.from">
-               </app-currency-select>
-               <!-- Switch currencies button -->
-               <button
-               class="transition delay-70 lg:mt-8 rounded-full h-[48px] w-[48px] text-sm ring-1 ring-inset ring-gray-300 hover:text-slate-500 disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:text-slate-400"
-               (click)="switchConversionCurrencies()"
-               [disabled]="loading">
-                  &#8644;
-               </button>
-               <!-- Currency to -->
-               <app-currency-select
-               class="w-full lg:max-w-[283.64px]"
-               label="To"
-               [options]="currencyList"
-               [(selectedOption)]="conversionData.to">
-               </app-currency-select>
-               <!-- Convert button -->
-               <button
-               (click)="convertCurrency()"
-               class="w-full transition delay-70 lg:mt-8 h-[48px] rounded-md bg-blue-500 px-3.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 disabled:cursor-not-allowed disabled:bg-blue-300 disabled:hover:bg-blue-300"
-               [disabled]="loading">
-                  @if (loading) {
-                     <div class="w-full h-full flex justify-center items-center gap-2">
-                        <div class="border-blue-200 h-4 w-4 animate-spin rounded-full border-2 border-t-white"></div>
-                        Loading...
-                     </div>
-                  }
-                  @else {
-                     Convert
-                  }
-               </button>
+         <!-- Conversion response -->
+         @if (conversionResponse) {
+            <div class="w-full flex gap-3 h-[124px]" @expand>
+               @if (!loading) {
+                  <!-- Data -->
+                  <div @fadeInOut>
+                     <p class="text-base font-semibold text-blue-500 mt-6 whitespace-nowrap">
+                        {{ conversionResponse.from.value | number: '1.2-5' }} {{ conversionResponse.from.currency.shortName }}
+                     </p>
+                     <p class="text-2xl font-bold whitespace-nowrap">
+                        {{ conversionResponse.to.value | number: '1.2-5' }} {{ conversionResponse.to.currency.shortName }}
+                     </p>
+                     <p class="text-xs text-slate-500 mt-2 whitespace-nowrap">
+                        1 {{ conversionResponse.from.currency.fullName }} = {{ conversionResponse.rate | number: '1.2-5' }} {{ conversionResponse.to.currency.fullName }}
+                     </p>
+                     <p class="text-xs text-slate-500 mt-1 whitespace-nowrap">
+                        1 {{ conversionResponse.to.currency.fullName }} = {{ (1 / conversionResponse.rate) | number: '1.2-5' }} {{ conversionResponse.from.currency.fullName }}
+                     </p>
+                  </div>
+                  <!-- Chart -->
+                  <div class="*:rounded-b-lg flex w-full" @fadeInOut>
+                     <highcharts-chart 
+                     [Highcharts]="Highcharts"
+                     [options]="chartOptions"
+                     class="w-full display:block mt-6">
+                     </highcharts-chart>
+                  </div>
+               }
             </div>
-            <!-- Conversion response -->
-            @if (conversionResponse) {
-               <div class="w-full flex gap-3 h-[124px]" @expand>
-                  @if (!loading) {
-                     <div @fadeInOut>
-                        <p class="text-base font-semibold text-blue-500 mt-6 whitespace-nowrap">
-                           {{ conversionResponse.from.currency.prefix }} {{ conversionResponse.from.value.toFixed(2) }} ({{ conversionResponse.from.currency.shortName }})
-                        </p>
-                        <p class="text-2xl font-bold whitespace-nowrap">
-                           {{ conversionResponse.to.currency.prefix }} {{ conversionResponse.to.value.toFixed(2) }} ({{ conversionResponse.to.currency.shortName }})
-                        </p>
-                        <p class="text-xs text-slate-500 mt-2 whitespace-nowrap">
-                           1 {{ conversionResponse.from.currency.fullName }} ≅ {{ conversionResponse.rate.toFixed(2) }} {{ conversionResponse.to.currency.fullName }}
-                        </p>
-                        <p class="text-xs text-slate-500 mt-1 whitespace-nowrap">
-                           1 {{ conversionResponse.to.currency.fullName }} ≅ {{ (1/conversionResponse.rate).toFixed(2) }} {{ conversionResponse.from.currency.fullName }}
-                        </p>
-                     </div>
-                     <div class="*:rounded-b-lg flex w-full" @fadeInOut>
-                        <highcharts-chart 
-                        [Highcharts]="Highcharts"
-                        [options]="chartOptions"
-                        class="w-full display:block mt-6">
-                        </highcharts-chart>
-                     </div>
-                  }
-               </div>
-            }
-         </div>
-      </div>
+         }
+      </section>
    </div>
-</div>
-<div class="bg-white w-full h-full rounded-t-3xl">
-   <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-</div>
+</section>
+<section class="bg-white w-full rounded-t-3xl mt-10 flex flex-col justify-center items-center">
+   <section id="exchangeRates" class="max-w-7xl h-144 py-6 lg:px-8 px-6 w-full"><div>Exchange rates</div></section>
+   <section id="tools" class="max-w-7xl h-144 py-6 lg:px-8 px-6 w-full"><div>Tools</div></section>
+</section>

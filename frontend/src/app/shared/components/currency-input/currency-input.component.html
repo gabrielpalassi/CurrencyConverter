@@ -14,15 +14,11 @@
     name="price" 
     id="price" 
     class="transition delay-70 py-3 block w-full rounded-md border-0 pr-2 text-slate-900 ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400" 
-    [ngClass]="{'pl-3': !prefix, 'pl-6': prefix?.length === 1, 'pl-8': prefix?.length === 2, 'pl-10': prefix?.length === 3}" 
+    [ngClass]="{'ring-red-500': error, 'pl-3': !prefix, 'pl-6': prefix?.length === 1, 'pl-8': prefix?.length === 2, 'pl-10': prefix?.length === 3}" 
     [placeholder]="placeholder"
     [(ngModel)]="value"
-    (ngModelChange)="valueChange.emit($event)"
+    (ngModelChange)="valueChange.emit($event); error = false; errorChange.emit(false)"
     currencyMask
     [options]="{ align : 'left', allowNegative: false, prefix: '', nullable: true }">
   </div>
-  <!-- Error -->
-  @if (error) {
-    <div class="text-red-500 text-xs">{{ error }}</div>
-  }
 </div>

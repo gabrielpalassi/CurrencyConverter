@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+// Setting default scrollbar behavior
+
+html {
+    @apply scroll-smooth;
+}
+
 // Custom scrollbar
 
 .custom-scrollbar {

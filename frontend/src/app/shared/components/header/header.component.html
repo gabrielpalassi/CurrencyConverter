@@ -19,19 +19,19 @@
     </div>
     <!-- Center navigation links - only on large screens -->
     <div class="hidden lg:flex lg:gap-x-12">
-        <a routerLink="/" class="text-sm font-semibold leading-6 text-slate-400 hover:text-slate-300 transition delay-70">
+        <a (click)="routeToElement('/')" class="text-sm font-semibold leading-6 text-slate-400 hover:text-slate-300 transition delay-70 cursor-pointer">
             Home
         </a>
-        <a routerLink="/" class="text-sm font-semibold leading-6 text-slate-400 hover:text-slate-300 transition delay-70">
+        <a (click)="routeToElement('/', 'exchangeRates')" class="text-sm font-semibold leading-6 text-slate-400 hover:text-slate-300 transition delay-70 cursor-pointer">
             Exchange Rates
         </a>
-        <a routerLink="/" class="text-sm font-semibold leading-6 text-slate-400 hover:text-slate-300 transition delay-70">
+        <a (click)="routeToElement('/', 'tools')" class="text-sm font-semibold leading-6 text-slate-400 hover:text-slate-300 transition delay-70 cursor-pointer">
             Tools
         </a>
     </div>
     <!-- Right navigation links - only on large screens -->
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a routerLink="/about" class="text-sm font-semibold leading-6 text-slate-400 hover:text-slate-300 transition delay-70">
+        <a (click)="routeToElement('/about')" class="text-sm font-semibold leading-6 text-slate-400 hover:text-slate-300 transition delay-70 cursor-pointer">
             About
         </a>
     </div>
@@ -48,7 +48,7 @@
                 <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
             </a>
             <!-- Close button -->
-            <button type="button" (click)="showMobileMenu = false" class="-m-2.5 rounded-md p-2.5 text-slate-900">
+            <button type="button" (click)="showMobileMenu = false" class="-m-2.5 rounded-md p-2.5 text-slate-900 cursor-pointer">
                 <span class="sr-only">Close menu</span>
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -59,18 +59,18 @@
         <div class="mt-6 flow-root">
             <div class="-my-6 divide-y divide-slate-500/10">
                 <div class="space-y-2 py-6">
-                    <a routerLink="/" (click)="showMobileMenu = false"  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-900">
+                    <a (click)="routeToElement('/')" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-900 cursor-pointer">
                         Home
                     </a>
-                    <a routerLink="/" (click)="showMobileMenu = false"  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-900">
+                    <a (click)="routeToElement('/', 'exchangeRates')" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-900 cursor-pointer">
                         Exchange Rates
                     </a>
-                    <a routerLink="/" (click)="showMobileMenu = false"  class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-900">
+                    <a (click)="routeToElement('/', 'tools')" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-900 cursor-pointer">
                         Tools
                     </a>
                 </div>
                 <div class="py-6">
-                    <a routerLink="/about" (click)="showMobileMenu = false" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-slate-900">
+                    <a (click)="routeToElement('/about')" (click)="showMobileMenu = false" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-slate-900 cursor-pointer">
                         About
                     </a>
                 </div>

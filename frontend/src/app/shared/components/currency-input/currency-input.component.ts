@@ -18,6 +18,7 @@ export class CurrencyInputComponent {
   @Input() prefix: string | undefined;
   @Input() placeholder: string | undefined;
   @Input() value: number | undefined;
-  @Input() error: string | undefined;
+  @Input() error: boolean | undefined;
+  @Output() errorChange = new EventEmitter<boolean>();
   @Output() valueChange = new EventEmitter<number>();
 }

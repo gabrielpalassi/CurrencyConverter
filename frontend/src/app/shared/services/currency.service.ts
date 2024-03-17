@@ -47,9 +47,9 @@ export class CurrencyService {
           },
           to: {
             currency: to,
-            value: value * 5
+            value: value / 3
           },
-          rate: 5,
+          rate: 2000,
           chartData: data
         });
       }, 500);

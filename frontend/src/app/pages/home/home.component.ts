@@ -1,12 +1,13 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { CurrencyInputComponent } from '../../shared/components/currency-input/currency-input.component';
 import { CurrencySelectComponent } from '../../shared/components/currency-select/currency-select.component';
 import { Currency } from '../../shared/interfaces/currency.interface';
 import { CurrencyService } from '../../shared/services/currency.service';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { HighchartsChartModule, HighchartsChartComponent } from 'highcharts-angular';
+import { HighchartsChartModule } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
 import { chartConfig } from './chart.config';
+import { DecimalPipe } from '@angular/common';
 
 interface ConversionData {
   from: Currency;
@@ -32,7 +33,8 @@ interface ConversionResponse {
   imports: [
     CurrencyInputComponent,
     CurrencySelectComponent,
-    HighchartsChartModule
+    HighchartsChartModule,
+    DecimalPipe
   ],
   animations: [
     trigger('expand', [
@@ -44,11 +46,11 @@ interface ConversionResponse {
     trigger('fadeInOut', [
       transition(':enter', [
         style({ opacity: 0 }),
-        animate('200ms ease', style({ opacity: 1 }))
+        animate('300ms ease', style({ opacity: 1 }))
       ]),
       transition(':leave', [
         style({ opacity: 1 }),
-        animate('200ms ease', style({ opacity: 0 }))
+        animate('300ms ease', style({ opacity: 0 }))
       ])
     ])
   ],
@@ -64,10 +66,10 @@ export class HomeComponent {
   };
   currencyList: Currency[] | undefined;
   conversionResponse: ConversionResponse | undefined;
-  inputError: string | undefined;
+  inputError: boolean = false;
   loading: boolean = false;
 
-  // Injects the currency list service
+  // Injects the currency service
   constructor(private readonly currencyService: CurrencyService) { }
 
   // Fetches the currency list and sets the default conversion data
@@ -91,16 +93,12 @@ export class HomeComponent {
   // Handles the conversion
   convertCurrency(): void {
     if (!this.conversionData.value) {
-      this.inputError = 'Please enter a value greater than zero.';
+      this.inputError = true;
       return;
     }
-    this.inputError = undefined;
+    if (this.inputError) this.inputError = false;
     this.loading = true;
-    this.currencyService.convert(
-      this.conversionData.from,
-      this.conversionData.to,
-      this.conversionData.value
-    ).then(response => {
+    this.currencyService.convert(this.conversionData.from, this.conversionData.to, this.conversionData.value).then(response => {
       this.chartOptions.series![0] = {
         ...this.chartOptions.series![0],
         name: response.from.currency.shortName + ' to ' + response.to.currency.shortName,
