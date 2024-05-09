@@ -19,12 +19,12 @@ interface ConversionResponse {
   from: {
     currency: Currency;
     value: number;
-  },
+  };
   to: {
     currency: Currency;
     value: number;
-  },
-  rate: number
+    chartData: any;
+  };
 }
 
 @Component({
@@ -34,27 +34,27 @@ interface ConversionResponse {
     CurrencyInputComponent,
     CurrencySelectComponent,
     HighchartsChartModule,
-    DecimalPipe
+    DecimalPipe,
   ],
   animations: [
     trigger('expand', [
       transition(':enter', [
         style({ height: 0, overflow: 'hidden' }),
-        animate('500ms ease', style({ height: '124px', overflow: 'hidden' }))
-      ])
+        animate('500ms ease', style({ height: '124px', overflow: 'hidden' })),
+      ]),
     ]),
     trigger('fadeInOut', [
       transition(':enter', [
         style({ opacity: 0 }),
-        animate('300ms ease', style({ opacity: 1 }))
+        animate('300ms ease', style({ opacity: 1 })),
       ]),
       transition(':leave', [
         style({ opacity: 1 }),
-        animate('300ms ease', style({ opacity: 0 }))
-      ])
-    ])
+        animate('300ms ease', style({ opacity: 0 })),
+      ]),
+    ]),
   ],
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
 })
 export class HomeComponent {
   Highcharts: typeof Highcharts = Highcharts;
@@ -62,23 +62,28 @@ export class HomeComponent {
   conversionData: ConversionData = {
     from: { shortName: '', fullName: '', flag: '', prefix: '' },
     to: { shortName: '', fullName: '', flag: '', prefix: '' },
-    value: undefined
+    value: undefined,
   };
+  conversionTableData: any[] = [];
   currencyList: Currency[] | undefined;
   conversionResponse: ConversionResponse | undefined;
   inputError: boolean = false;
   loading: boolean = false;
 
   // Injects the currency service
-  constructor(private readonly currencyService: CurrencyService) { }
+  constructor(private readonly currencyService: CurrencyService) {}
 
   // Fetches the currency list and sets the default conversion data
   ngOnInit(): void {
     this.loading = true;
-    this.currencyService.getCurrencyList().then(currencyList => {
+    Promise.all([
+      this.currencyService.getCurrencyList(),
+      this.currencyService.getConversionTable(this.conversionData.from),
+    ]).then(([currencyList, conversionTable]) => {
       this.currencyList = currencyList;
       this.conversionData.from = currencyList[0];
       this.conversionData.to = currencyList[1];
+      this.conversionTableData = conversionTable.to;
       this.loading = false;
     });
   }
@@ -98,14 +103,23 @@ export class HomeComponent {
     }
     if (this.inputError) this.inputError = false;
     this.loading = true;
-    this.currencyService.convert(this.conversionData.from, this.conversionData.to, this.conversionData.value).then(response => {
-      this.chartOptions.series![0] = {
-        ...this.chartOptions.series![0],
-        name: response.from.currency.shortName + ' to ' + response.to.currency.shortName,
-        data: response.chartData
-      };
-      this.conversionResponse = response;
-      this.loading = false;
-    });
+    this.currencyService
+      .convert(
+        this.conversionData.from,
+        this.conversionData.to,
+        this.conversionData.value,
+      )
+      .then((response) => {
+        this.chartOptions.series![0] = {
+          ...this.chartOptions.series![0],
+          name:
+            response.from.currency.shortName +
+            ' to ' +
+            response.to.currency.shortName,
+          data: response.to.chartData,
+        };
+        this.conversionResponse = response;
+        this.loading = false;
+      });
   }
 }

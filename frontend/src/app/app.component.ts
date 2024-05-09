@@ -6,13 +6,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterModule,
-    EmptyPageComponent,
-    HeaderComponent
-  ],
-  templateUrl: './app.component.html'
+  imports: [RouterModule, EmptyPageComponent, HeaderComponent],
+  templateUrl: './app.component.html',
 })
-export class AppComponent {
-
-}
+export class AppComponent {}

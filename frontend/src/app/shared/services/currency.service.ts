@@ -3,7 +3,7 @@ import { Currency } from '../interfaces/currency.interface';
 import { data } from '../../pages/home/data.mock';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CurrencyService {
   // Simulates a request to an API to get the currency list
@@ -11,11 +11,36 @@ export class CurrencyService {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve([
-          { shortName: 'USD', fullName: 'US Dollar', flag: 'https://cdn-icons-png.flaticon.com/512/551/551953.png', prefix: '$' },
-          { shortName: 'EUR', fullName: 'Euro', flag: 'https://cdn-icons-png.flaticon.com/512/552/552084.png', prefix: '€' },
-          { shortName: 'BRL', fullName: 'Brazilian Real', flag: 'https://cdn-icons-png.flaticon.com/512/551/551856.png', prefix: 'R$' },
-          { shortName: 'GBP', fullName: 'British Pound', flag: 'https://cdn-icons-png.flaticon.com/512/551/551844.png', prefix: '£' },
-          { shortName: 'JPY', fullName: 'Japanese Yen', flag: 'https://cdn-icons-png.flaticon.com/512/552/552073.png', prefix: '¥' }
+          {
+            shortName: 'USD',
+            fullName: 'US Dollar',
+            flag: 'https://cdn-icons-png.flaticon.com/512/551/551953.png',
+            prefix: '$',
+          },
+          {
+            shortName: 'EUR',
+            fullName: 'Euro',
+            flag: 'https://cdn-icons-png.flaticon.com/512/552/552084.png',
+            prefix: '€',
+          },
+          {
+            shortName: 'BRL',
+            fullName: 'Brazilian Real',
+            flag: 'https://cdn-icons-png.flaticon.com/512/551/551856.png',
+            prefix: 'R$',
+          },
+          {
+            shortName: 'GBP',
+            fullName: 'British Pound',
+            flag: 'https://cdn-icons-png.flaticon.com/512/551/551844.png',
+            prefix: '£',
+          },
+          {
+            shortName: 'JPY',
+            fullName: 'Japanese Yen',
+            flag: 'https://cdn-icons-png.flaticon.com/512/552/552073.png',
+            prefix: '¥',
+          },
         ]);
       }, 500);
     });
@@ -25,13 +50,69 @@ export class CurrencyService {
   getConversionTable(from: Currency): Promise<any> {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve([
-          { currency: { shortName: 'USD', fullName: 'US Dollar', flag: 'https://cdn-icons-png.flaticon.com/512/551/551953.png', prefix: '$' }, rate: 1 },
-          { currency: { shortName: 'EUR', fullName: 'Euro', flag: 'https://cdn-icons-png.flaticon.com/512/552/552084.png', prefix: '€' }, rate: 0.85 },
-          { currency: { shortName: 'BRL', fullName: 'Brazilian Real', flag: 'https://cdn-icons-png.flaticon.com/512/551/551856.png', prefix: 'R$' }, rate: 5.5 },
-          { currency: { shortName: 'GBP', fullName: 'British Pound', flag: 'https://cdn-icons-png.flaticon.com/512/551/551844.png', prefix: '£' }, rate: 0.72 },
-          { currency: { shortName: 'JPY', fullName: 'Japanese Yen', flag: 'https://cdn-icons-png.flaticon.com/512/552/552073.png', prefix: '¥' }, rate: 110 }
-        ]);
+        resolve({
+          from: {
+            currency: {
+              shortName: 'USD',
+              fullName: 'US Dollar',
+              flag: 'https://cdn-icons-png.flaticon.com/512/551/551953.png',
+              prefix: '$',
+            },
+            value: 1,
+          },
+          to: [
+            {
+              currency: {
+                shortName: 'USD',
+                fullName: 'US Dollar',
+                flag: 'https://cdn-icons-png.flaticon.com/512/551/551953.png',
+                prefix: '$',
+              },
+              value: 1,
+              chartData: data,
+            },
+            {
+              currency: {
+                shortName: 'EUR',
+                fullName: 'Euro',
+                flag: 'https://cdn-icons-png.flaticon.com/512/552/552084.png',
+                prefix: '€',
+              },
+              value: 0.85,
+              chartData: data,
+            },
+            {
+              currency: {
+                shortName: 'BRL',
+                fullName: 'Brazilian Real',
+                flag: 'https://cdn-icons-png.flaticon.com/512/551/551856.png',
+                prefix: 'R$',
+              },
+              value: 5.5,
+              chartData: data,
+            },
+            {
+              currency: {
+                shortName: 'GBP',
+                fullName: 'British Pound',
+                flag: 'https://cdn-icons-png.flaticon.com/512/551/551844.png',
+                prefix: '£',
+              },
+              value: 0.72,
+              chartData: data,
+            },
+            {
+              currency: {
+                shortName: 'JPY',
+                fullName: 'Japanese Yen',
+                flag: 'https://cdn-icons-png.flaticon.com/512/552/552073.png',
+                prefix: '¥',
+              },
+              value: 110,
+              chartData: data,
+            },
+          ],
+        });
       }, 500);
     });
   }
@@ -43,14 +124,13 @@ export class CurrencyService {
         resolve({
           from: {
             currency: from,
-            value
+            value,
           },
           to: {
             currency: to,
-            value: value / 3
+            value: value * 2,
+            chartData: data,
           },
-          rate: 2000,
-          chartData: data
         });
       }, 500);
     });

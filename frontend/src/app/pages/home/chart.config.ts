@@ -1,36 +1,36 @@
 export const chartConfig: Highcharts.Options = {
   accessibility: {
-    enabled: false
+    enabled: false,
   },
   credits: {
-    enabled: false
+    enabled: false,
   },
   title: {
-    text: ''
+    text: '',
   },
   legend: {
-    enabled: false
+    enabled: false,
   },
   chart: {
     margin: 0,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   boost: {
     enabled: true,
     useGPUTranslations: true,
-    usePreallocated: true
+    usePreallocated: true,
   },
   series: [
     {
       type: 'area',
       color: 'rgba(59, 130, 246, 1)',
-    }
+    },
   ],
   xAxis: {
     visible: false,
     type: 'datetime',
     minPadding: 0,
-    maxPadding: 0
+    maxPadding: 0,
   },
   yAxis: {
     visible: false,
@@ -42,16 +42,16 @@ export const chartConfig: Highcharts.Options = {
           x1: 0,
           y1: 1,
           x2: 1,
-          y2: 1
+          y2: 1,
         },
         stops: [
           [0, 'rgba(255, 255, 255, 0)'],
           [0.1, 'rgba(59, 130, 246, 0.1)'],
           [1, 'rgba(59, 130, 246, 0.5)'],
-        ]
+        ],
       },
       marker: {
-        radius: 2
+        radius: 2,
       },
       lineWidth: 1,
       lineColor: {
@@ -59,21 +59,21 @@ export const chartConfig: Highcharts.Options = {
           x1: 0,
           y1: 1,
           x2: 1,
-          y2: 1
+          y2: 1,
         },
         stops: [
           [0, 'rgba(255, 255, 255, 0)'],
           [0.1, 'rgba(59, 130, 246, 0.5)'],
           [0.2, 'rgba(59, 130, 246, 1)'],
           [1, 'rgba(59, 130, 246, 1)'],
-        ]
+        ],
       },
       states: {
         hover: {
-          lineWidth: 1
-        }
+          lineWidth: 1,
+        },
       },
-      threshold: null
-    }
-  }
+      threshold: null,
+    },
+  },
 };

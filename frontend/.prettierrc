@@ -1,0 +1,22 @@
+{
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "angular",
+        "tabWidth": 2,
+        "bracketSameLine": true,
+        "singleAttributePerLine": true,
+        "printWidth": 120
+      }
+    },
+    {
+      "files": "*.ts",
+      "options": {
+        "tabWidth": 2,
+        "arrowParens": "always"
+      }
+    }
+  ]
+}

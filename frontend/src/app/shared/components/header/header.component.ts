@@ -5,21 +5,25 @@ import { Router, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [
-    RouterModule
-  ],
+  imports: [RouterModule],
   animations: [
     trigger('slideInOut', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateX(10px)' }),
-        animate('200ms ease', style({ opacity: 1, transform: 'translateY(0)' }))
+        animate(
+          '200ms ease',
+          style({ opacity: 1, transform: 'translateY(0)' }),
+        ),
       ]),
       transition(':leave', [
-        animate('150ms ease', style({ opacity: 0, transform: 'translateX(10px)' }))
-      ])
-    ])
+        animate(
+          '150ms ease',
+          style({ opacity: 0, transform: 'translateX(10px)' }),
+        ),
+      ]),
+    ]),
   ],
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
 })
 export class HeaderComponent {
   showMobileMenu: boolean = false;
@@ -31,7 +35,8 @@ export class HeaderComponent {
     if (this.showMobileMenu) this.showMobileMenu = false;
     this.router.navigate([route]).then(() => {
       setTimeout(() => {
-        if (element) document.getElementById(element)?.scrollIntoView({ block: 'center' });
+        if (element)
+          document.getElementById(element)?.scrollIntoView({ block: 'center' });
         else window.scrollTo({ top: 0 });
       });
     });
