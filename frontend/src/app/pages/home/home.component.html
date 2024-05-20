@@ -99,4 +99,70 @@
     </div>
   </div>
 </section>
-<div class="mt-10 flex w-full flex-col items-center justify-center rounded-t-4xl bg-white"></div>
+<div class="mt-10 flex w-full flex-col items-center justify-center rounded-t-4xl bg-white">
+  <section
+    id="exchangeRates"
+    class="mt-2 w-full max-w-7xl px-6 py-6 lg:mt-4 lg:px-8">
+    <!-- Title and description -->
+    <div class="mb-7 w-full">
+      <p class="text-base font-semibold text-slate-600">Stay updated</p>
+      <h2 class="text-2xl font-bold tracking-tight">Exchange Rates</h2>
+    </div>
+    <!-- Exchange rate table -->
+    <table class="w-full">
+      <thead>
+        <tr>
+          <th class="text-left font-semibold text-slate-500">Currency</th>
+          <th class="text-center font-semibold text-slate-500">Rate</th>
+          <th class="text-center font-semibold text-slate-500">Equivalence</th>
+          <th class="w-1/2 text-right font-semibold text-slate-500">Chart (24h)</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (entry of conversionTableData.to; track entry.shortName) {
+          <tr class="text-slate-500">
+            <th class="text-left font-semibold">
+              <div class="flex items-center gap-2">
+                @if (entry.currency.flag) {
+                  <!-- Flag -->
+                  <img
+                    [src]="entry.currency.flag"
+                    alt="Country flag"
+                    class="h-6 w-6 rounded-full" />
+                }
+                <div>
+                  <p>{{ entry.currency.fullName }}</p>
+                  <p class="text-xs font-medium">{{ entry.currency.shortName }}</p>
+                </div>
+              </div>
+            </th>
+            <td class="text-center font-semibold">
+              {{ entry.value }}
+            </td>
+            <td class="text-center font-semibold">
+              <p class="text-xs">
+                1 {{ conversionTableData.from.currency.shortName }} =
+                {{ entry.value | number: "1.2-5" }}
+                {{ entry.currency.shortName }}
+              </p>
+              <p class="text-xs">
+                1 {{ entry.currency.shortName }} =
+                {{ 1 / entry.value | number: "1.2-5" }}
+                {{ conversionTableData.from.currency.shortName }}
+              </p>
+            </td>
+            <td class="text-right font-semibold">
+              <div class="flex h-20 w-full *:rounded-b-lg">
+                <highcharts-chart
+                  [Highcharts]="Highcharts"
+                  [options]="otherChartOptions"
+                  class="display:block mt-6 w-full">
+                </highcharts-chart>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</div>

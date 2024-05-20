@@ -64,14 +64,16 @@ export class HomeComponent {
     to: { shortName: '', fullName: '', flag: '', prefix: '' },
     value: undefined,
   };
-  conversionTableData: any[] = [];
+  conversionTableData: any;
   currencyList: Currency[] | undefined;
   conversionResponse: ConversionResponse | undefined;
   inputError: boolean = false;
   loading: boolean = false;
 
+  otherChartOptions: Highcharts.Options = chartConfig;
+
   // Injects the currency service
-  constructor(private readonly currencyService: CurrencyService) {}
+  constructor(private readonly currencyService: CurrencyService) { }
 
   // Fetches the currency list and sets the default conversion data
   ngOnInit(): void {
@@ -83,7 +85,15 @@ export class HomeComponent {
       this.currencyList = currencyList;
       this.conversionData.from = currencyList[0];
       this.conversionData.to = currencyList[1];
-      this.conversionTableData = conversionTable.to;
+      this.conversionTableData = conversionTable;
+      this.otherChartOptions.series![0] = {
+        ...this.otherChartOptions.series![0],
+        name:
+          conversionTable.from.currency.shortName +
+          ' to ' +
+          conversionTable.to[1].currency.shortName,
+        data: conversionTable.to[1].chartData,
+      };
       this.loading = false;
     });
   }
