@@ -30,7 +30,7 @@
         <!-- Switch currencies button -->
         <button
           (click)="switchConversionCurrencies()"
-          [disabled]="loading"
+          [disabled]="pageIsLoading || conversionIsLoading"
           class="delay-70 h-[48px] w-[48px] rounded-full text-sm ring-1 ring-inset ring-slate-300 transition hover:text-slate-500 disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:text-slate-400 lg:mt-8">
           &#8644;
         </button>
@@ -44,9 +44,9 @@
         <!-- Convert button -->
         <button
           (click)="convertCurrency()"
-          [disabled]="loading"
+          [disabled]="pageIsLoading || conversionIsLoading"
           class="delay-70 h-[48px] w-full rounded-md bg-blue-500 px-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 disabled:cursor-not-allowed disabled:bg-blue-300 disabled:hover:bg-blue-300 lg:mt-8">
-          @if (loading) {
+          @if (pageIsLoading || conversionIsLoading) {
             <div class="flex h-full w-full items-center justify-center gap-2">
               <div class="h-4 w-4 animate-spin rounded-full border-2 border-blue-200 border-t-white"></div>
               Loading...
@@ -61,7 +61,7 @@
         <div
           class="flex h-[124px] w-full gap-3"
           @expand>
-          @if (!loading) {
+          @if (!pageIsLoading && !conversionIsLoading) {
             <!-- Data -->
             <div @fadeInOut>
               <p class="mt-6 whitespace-nowrap text-base font-semibold text-slate-600">
@@ -85,11 +85,11 @@
             </div>
             <!-- Chart -->
             <div
-              class="flex w-full *:rounded-b-lg"
+              class="flex w-full"
               @fadeInOut>
               <highcharts-chart
                 [Highcharts]="Highcharts"
-                [options]="chartOptions"
+                [options]="mainChartOptions"
                 class="display:block mt-6 w-full">
               </highcharts-chart>
             </div>
@@ -100,6 +100,7 @@
   </div>
 </section>
 <div class="mt-10 flex w-full flex-col items-center justify-center rounded-t-4xl bg-white">
+  <!-- Exchange rates table section -->
   <section
     id="exchangeRates"
     class="mt-2 w-full max-w-7xl px-6 py-6 lg:mt-4 lg:px-8">
@@ -109,60 +110,88 @@
       <h2 class="text-2xl font-bold tracking-tight">Exchange Rates</h2>
     </div>
     <!-- Exchange rate table -->
-    <table class="w-full">
-      <thead>
-        <tr>
-          <th class="text-left font-semibold text-slate-500">Currency</th>
-          <th class="text-center font-semibold text-slate-500">Rate</th>
-          <th class="text-center font-semibold text-slate-500">Equivalence</th>
-          <th class="w-1/2 text-right font-semibold text-slate-500">Chart (24h)</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (entry of conversionTableData.to; track entry.shortName) {
-          <tr class="text-slate-500">
-            <th class="text-left font-semibold">
-              <div class="flex items-center gap-2">
-                @if (entry.currency.flag) {
-                  <!-- Flag -->
-                  <img
-                    [src]="entry.currency.flag"
-                    alt="Country flag"
-                    class="h-6 w-6 rounded-full" />
-                }
-                <div>
-                  <p>{{ entry.currency.fullName }}</p>
-                  <p class="text-xs font-medium">{{ entry.currency.shortName }}</p>
-                </div>
-              </div>
-            </th>
-            <td class="text-center font-semibold">
-              {{ entry.value }}
-            </td>
-            <td class="text-center font-semibold">
-              <p class="text-xs">
-                1 {{ conversionTableData.from.currency.shortName }} =
-                {{ entry.value | number: "1.2-5" }}
-                {{ entry.currency.shortName }}
-              </p>
-              <p class="text-xs">
-                1 {{ entry.currency.shortName }} =
-                {{ 1 / entry.value | number: "1.2-5" }}
-                {{ conversionTableData.from.currency.shortName }}
-              </p>
-            </td>
-            <td class="text-right font-semibold">
-              <div class="flex h-20 w-full *:rounded-b-lg">
-                <highcharts-chart
-                  [Highcharts]="Highcharts"
-                  [options]="otherChartOptions"
-                  class="display:block mt-6 w-full">
-                </highcharts-chart>
-              </div>
-            </td>
+    @if (conversionTableData && !pageIsLoading) {
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th class="text-left font-semibold text-slate-500">Currency</th>
+            <th class="text-center font-semibold text-slate-500">Rate</th>
+            <th class="text-center font-semibold text-slate-500">Equivalence</th>
+            <th class="text-center font-semibold text-slate-500">Change (24h)</th>
+            <th class="w-2/5 text-right font-semibold text-slate-500">Chart (24h)</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (entry of conversionTableData.to; track entry.shortName) {
+            <tr class="h-[82px] text-slate-500">
+              <!-- Currency -->
+              <th class="text-left font-semibold">
+                <div class="flex items-center gap-2">
+                  @if (entry.currency.flag) {
+                    <!-- Flag -->
+                    <img
+                      [src]="entry.currency.flag"
+                      alt="Country flag"
+                      class="h-6 w-6 rounded-full" />
+                  }
+                  <!-- Currency name -->
+                  <div>
+                    <p>{{ entry.currency.fullName }}</p>
+                    <p class="text-xs font-medium">{{ entry.currency.shortName }}</p>
+                  </div>
+                </div>
+              </th>
+              <!-- Rate -->
+              <td class="text-center font-semibold">
+                @if (entry.currency.shortName !== conversionTableData.from.currency.shortName) {
+                  {{ entry.value | number: "1.2-5" }}
+                }
+              </td>
+              <!-- Equivalence -->
+              <td class="text-center font-semibold">
+                @if (entry.currency.shortName !== conversionTableData.from.currency.shortName) {
+                  <p class="text-xs">
+                    1 {{ conversionTableData.from.currency.shortName }} =
+                    {{ entry.value | number: "1.2-5" }}
+                    {{ entry.currency.shortName }}
+                  </p>
+                  <p class="text-xs">
+                    1 {{ entry.currency.shortName }} =
+                    {{ 1 / entry.value | number: "1.2-5" }}
+                    {{ conversionTableData.from.currency.shortName }}
+                  </p>
+                }
+              </td>
+              <!-- Change -->
+              <td
+                class="text-center font-semibold"
+                [ngClass]="{
+                  'text-red-500': entry.dailyChange < 0,
+                  'text-green-500': entry.dailyChange > 0
+                }">
+                @if (entry.currency.shortName !== conversionTableData.from.currency.shortName) {
+                  @if (entry.dailyChange > 0) {
+                    <span>+</span>
+                  }
+                  <span>{{ entry.dailyChange | number: "1.2-2" }}%</span>
+                }
+              </td>
+              <!-- Chart -->
+              <td class="text-right font-semibold">
+                @if (entry.currency.shortName !== conversionTableData.from.currency.shortName) {
+                  <div class="flex h-20 w-full *:rounded-b-lg">
+                    <highcharts-chart
+                      [Highcharts]="Highcharts"
+                      [options]="entry.chartOptions"
+                      class="display:block mt-6 w-full">
+                    </highcharts-chart>
+                  </div>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
   </section>
 </div>

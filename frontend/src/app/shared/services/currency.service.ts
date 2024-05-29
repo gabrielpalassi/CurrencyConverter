@@ -128,7 +128,7 @@ export class CurrencyService {
           },
           to: {
             currency: to,
-            value: value * 2,
+            value: value * 0.85,
             chartData: data,
           },
         });

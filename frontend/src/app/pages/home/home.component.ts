@@ -6,8 +6,10 @@ import { CurrencyService } from '../../shared/services/currency.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HighchartsChartModule } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
-import { chartConfig } from './chart.config';
+import { mainChartConfig } from './main-chart.config';
+import { tableChartConfig } from './table-chart.config';
 import { DecimalPipe } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 interface ConversionData {
   from: Currency;
@@ -35,6 +37,7 @@ interface ConversionResponse {
     CurrencySelectComponent,
     HighchartsChartModule,
     DecimalPipe,
+    NgClass
   ],
   animations: [
     trigger('expand', [
@@ -58,7 +61,8 @@ interface ConversionResponse {
 })
 export class HomeComponent {
   Highcharts: typeof Highcharts = Highcharts;
-  chartOptions: Highcharts.Options = chartConfig;
+  mainChartOptions: Highcharts.Options = mainChartConfig;
+  tableChartOptions: Highcharts.Options = tableChartConfig;
   conversionData: ConversionData = {
     from: { shortName: '', fullName: '', flag: '', prefix: '' },
     to: { shortName: '', fullName: '', flag: '', prefix: '' },
@@ -68,16 +72,15 @@ export class HomeComponent {
   currencyList: Currency[] | undefined;
   conversionResponse: ConversionResponse | undefined;
   inputError: boolean = false;
-  loading: boolean = false;
-
-  otherChartOptions: Highcharts.Options = chartConfig;
+  pageIsLoading: boolean = false;
+  conversionIsLoading: boolean = false;
 
   // Injects the currency service
   constructor(private readonly currencyService: CurrencyService) { }
 
   // Fetches the currency list and sets the default conversion data
   ngOnInit(): void {
-    this.loading = true;
+    this.pageIsLoading = true;
     Promise.all([
       this.currencyService.getCurrencyList(),
       this.currencyService.getConversionTable(this.conversionData.from),
@@ -86,15 +89,20 @@ export class HomeComponent {
       this.conversionData.from = currencyList[0];
       this.conversionData.to = currencyList[1];
       this.conversionTableData = conversionTable;
-      this.otherChartOptions.series![0] = {
-        ...this.otherChartOptions.series![0],
-        name:
-          conversionTable.from.currency.shortName +
-          ' to ' +
-          conversionTable.to[1].currency.shortName,
-        data: conversionTable.to[1].chartData,
-      };
-      this.loading = false;
+      this.conversionTableData.to.forEach((entry: any) => {
+        entry.dailyChange = ((entry.chartData.at(-1)[1] * 100) / entry.chartData[0][1]) - 100
+        entry.chartOptions = {
+          ...this.tableChartOptions,
+          series: [
+            {
+              ...this.tableChartOptions.series![0],
+              name: `${conversionTable.from.currency.shortName} to ${entry.currency.shortName}`,
+              data: entry.chartData,
+            }
+          ]
+        };
+      });
+      this.pageIsLoading = false;
     });
   }
 
@@ -112,7 +120,7 @@ export class HomeComponent {
       return;
     }
     if (this.inputError) this.inputError = false;
-    this.loading = true;
+    this.conversionIsLoading = true;
     this.currencyService
       .convert(
         this.conversionData.from,
@@ -120,16 +128,18 @@ export class HomeComponent {
         this.conversionData.value,
       )
       .then((response) => {
-        this.chartOptions.series![0] = {
-          ...this.chartOptions.series![0],
-          name:
-            response.from.currency.shortName +
-            ' to ' +
-            response.to.currency.shortName,
-          data: response.to.chartData,
+        this.mainChartOptions = {
+          ...this.mainChartOptions,
+          series: [
+            {
+              ...this.mainChartOptions.series![0],
+              name: `${response.from.currency.shortName} to ${response.to.currency.shortName}`,
+              data: response.to.chartData,
+            }
+          ]
         };
         this.conversionResponse = response;
-        this.loading = false;
+        this.conversionIsLoading = false;
       });
   }
 }

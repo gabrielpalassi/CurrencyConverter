@@ -1,4 +1,4 @@
-export const chartConfig: Highcharts.Options = {
+export const mainChartConfig: Highcharts.Options = {
   accessibility: {
     enabled: false,
   },
