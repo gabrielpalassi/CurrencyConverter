@@ -23,7 +23,7 @@ export const mainChartConfig: Highcharts.Options = {
   series: [
     {
       type: 'area',
-      color: 'rgba(59, 130, 246, 1)',
+      color: 'rgba(37, 99, 235, 1)',
     },
   ],
   xAxis: {
@@ -46,8 +46,8 @@ export const mainChartConfig: Highcharts.Options = {
         },
         stops: [
           [0, 'rgba(255, 255, 255, 0)'],
-          [0.1, 'rgba(59, 130, 246, 0.1)'],
-          [1, 'rgba(59, 130, 246, 0.5)'],
+          [0.1, 'rgba(37, 99, 235, 0.1)'],
+          [1, 'rgba(37, 99, 235, 0.5)'],
         ],
       },
       marker: {
@@ -63,9 +63,9 @@ export const mainChartConfig: Highcharts.Options = {
         },
         stops: [
           [0, 'rgba(255, 255, 255, 0)'],
-          [0.1, 'rgba(59, 130, 246, 0.5)'],
-          [0.2, 'rgba(59, 130, 246, 1)'],
-          [1, 'rgba(59, 130, 246, 1)'],
+          [0.1, 'rgba(37, 99, 235, 0.5)'],
+          [0.2, 'rgba(37, 99, 235, 1)'],
+          [1, 'rgba(37, 99, 235, 1)'],
         ],
       },
       states: {

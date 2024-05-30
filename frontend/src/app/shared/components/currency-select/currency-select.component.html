@@ -4,7 +4,7 @@
     <label
       (click)="isDropdownOpen = false"
       for="custom-select"
-      class="mb-2 block font-medium text-slate-900">
+      class="mb-2 block font-semibold text-slate-600">
       {{ label }}
     </label>
   }
@@ -15,7 +15,7 @@
       type="button"
       aria-haspopup="listbox"
       [attr.aria-expanded]="isDropdownOpen.toString()"
-      class="delay-70 relative w-full rounded-md bg-white py-3 pl-3 pr-10 text-left text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 transition focus:outline-none focus:ring-2 focus:ring-blue-500">
+      class="delay-70 relative w-full rounded-md bg-white py-3 pl-3 pr-10 text-left text-slate-600 shadow-sm ring-1 ring-inset ring-slate-300 transition focus:outline-none focus:ring-2 focus:ring-blue-500">
       <div class="flex h-6 items-center space-x-3">
         @if (selectedOption?.flag) {
           <!-- Flag -->
@@ -59,7 +59,7 @@
           placeholder="Type to search..."
           [(ngModel)]="searchTerm"
           (ngModelChange)="filterOptions()"
-          class="w-full rounded-t-md px-3 py-3 outline-none" />
+          class="w-full rounded-t-md px-3 py-3 text-slate-600 outline-none" />
         <!-- Divider -->
         <hr class="mx-auto w-11/12" />
         <!-- List -->
@@ -73,7 +73,7 @@
             <li
               (click)="selectOption(option)"
               role="option"
-              class="relative w-full cursor-pointer select-none py-3 pl-3 pr-9 text-slate-900 hover:bg-slate-100">
+              class="relative w-full cursor-pointer select-none py-3 pl-3 pr-9 text-slate-600 hover:bg-slate-100">
               <div class="flex items-center space-x-3">
                 <img
                   [src]="option.flag"

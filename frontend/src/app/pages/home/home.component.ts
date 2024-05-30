@@ -90,7 +90,8 @@ export class HomeComponent {
       this.conversionData.to = currencyList[1];
       this.conversionTableData = conversionTable;
       this.conversionTableData.to.forEach((entry: any) => {
-        entry.dailyChange = ((entry.chartData.at(-1)[1] * 100) / entry.chartData[0][1]) - 100
+        // entry.dailyChange = ((entry.chartData.at(-1)[1] * 100) / entry.chartData[0][1]) - 100
+        entry.dailyChange = 0.23;
         entry.chartOptions = {
           ...this.tableChartOptions,
           series: [

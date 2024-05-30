@@ -23,7 +23,7 @@ export const tableChartConfig: Highcharts.Options = {
   series: [
     {
       type: 'line',
-      color: 'rgba(59, 130, 246, 1)',
+      color: 'rgba(37, 99, 235, 1)',
     },
   ],
   xAxis: {
@@ -40,10 +40,10 @@ export const tableChartConfig: Highcharts.Options = {
       marker: {
         radius: 2,
       },
-      lineWidth: 1.5,
+      lineWidth: 1.2,
       states: {
         hover: {
-          lineWidth: 1.5,
+          lineWidth: 1.2,
         },
       },
       threshold: null,
