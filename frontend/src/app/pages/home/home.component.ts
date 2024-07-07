@@ -12,13 +12,13 @@ import { DecimalPipe } from '@angular/common';
 import { NgClass } from '@angular/common';
 
 interface ConversionData {
-  from: Currency;
+  origin: Currency;
   to: Currency;
   value: number | undefined;
 }
 
 interface ConversionResponse {
-  from: {
+  origin: {
     currency: Currency;
     value: number;
   };
@@ -27,6 +27,11 @@ interface ConversionResponse {
     value: number;
     chartData: any;
   };
+}
+
+interface ConversionTableData {
+  origin: Currency;
+  to: any[];
 }
 
 @Component({
@@ -64,7 +69,7 @@ export class HomeComponent {
   mainChartOptions: Highcharts.Options = mainChartConfig;
   tableChartOptions: Highcharts.Options = tableChartConfig;
   conversionData: ConversionData = {
-    from: { shortName: '', fullName: '', flag: '', prefix: '' },
+    origin: { shortName: '', fullName: '', flag: '', prefix: '' },
     to: { shortName: '', fullName: '', flag: '', prefix: '' },
     value: undefined,
   };
@@ -72,46 +77,34 @@ export class HomeComponent {
   currencyList: Currency[] | undefined;
   conversionResponse: ConversionResponse | undefined;
   inputError: boolean = false;
-  pageIsLoading: boolean = false;
   conversionIsLoading: boolean = false;
+  tableIsLoading: boolean = false;
 
   // Injects the currency service
   constructor(private readonly currencyService: CurrencyService) { }
 
   // Fetches the currency list and sets the default conversion data
   ngOnInit(): void {
-    this.pageIsLoading = true;
-    Promise.all([
-      this.currencyService.getCurrencyList(),
-      this.currencyService.getConversionTable(this.conversionData.from),
-    ]).then(([currencyList, conversionTable]) => {
+    this.conversionIsLoading = true;
+    this.tableIsLoading = true;
+    this.currencyService.getCurrencyList().then((currencyList) => {
       this.currencyList = currencyList;
-      this.conversionData.from = currencyList[0];
+      this.conversionData.origin = currencyList[0];
       this.conversionData.to = currencyList[1];
-      this.conversionTableData = conversionTable;
-      this.conversionTableData.to.forEach((entry: any) => {
-        // entry.dailyChange = ((entry.chartData.at(-1)[1] * 100) / entry.chartData[0][1]) - 100
-        entry.dailyChange = 0.23;
-        entry.chartOptions = {
-          ...this.tableChartOptions,
-          series: [
-            {
-              ...this.tableChartOptions.series![0],
-              name: `${conversionTable.from.currency.shortName} to ${entry.currency.shortName}`,
-              data: entry.chartData,
-            }
-          ]
-        };
+      this.conversionIsLoading = false;
+      this.currencyService.getConversionTable(this.conversionData.origin).then((conversionTable) => {
+        this.setTableData(conversionTable);
+        this.tableIsLoading = false;
       });
-      this.pageIsLoading = false;
     });
   }
 
   // Switches the currencies
   switchConversionCurrencies(): void {
-    const temp = this.conversionData.from;
-    this.conversionData.from = this.conversionData.to;
+    const temp = this.conversionData.origin;
+    this.conversionData.origin = this.conversionData.to;
     this.conversionData.to = temp;
+    if (this.conversionResponse) this.convertCurrency();
   }
 
   // Handles the conversion
@@ -124,7 +117,7 @@ export class HomeComponent {
     this.conversionIsLoading = true;
     this.currencyService
       .convert(
-        this.conversionData.from,
+        this.conversionData.origin,
         this.conversionData.to,
         this.conversionData.value,
       )
@@ -134,7 +127,7 @@ export class HomeComponent {
           series: [
             {
               ...this.mainChartOptions.series![0],
-              name: `${response.from.currency.shortName} to ${response.to.currency.shortName}`,
+              name: `${response.origin.currency.shortName} to ${response.to.currency.shortName}`,
               data: response.to.chartData,
             }
           ]
@@ -142,5 +135,34 @@ export class HomeComponent {
         this.conversionResponse = response;
         this.conversionIsLoading = false;
       });
+  }
+
+  // Handles the origin currency change for the table
+  changeOriginCurrency(origin: Currency): void {
+    this.tableIsLoading = true;
+    this.currencyService
+      .getConversionTable(origin)
+      .then((conversionTable) => {
+        this.setTableData(conversionTable);
+        this.tableIsLoading = false;
+      });
+  }
+
+  // Sets the data for the table
+  setTableData(conversionTable: ConversionTableData): void {
+    this.conversionTableData = conversionTable;
+    this.conversionTableData.to.forEach((entry: any) => {
+      entry.dailyChange = ((entry.chartData.at(-1)[1] * 100) / entry.chartData[0][1]) - 100
+      entry.chartOptions = {
+        ...this.tableChartOptions,
+        series: [
+          {
+            ...this.tableChartOptions.series![0],
+            name: `${conversionTable.origin.shortName} to ${entry.currency.shortName}`,
+            data: entry.chartData,
+          }
+        ]
+      };
+    });
   }
 }

@@ -47,19 +47,11 @@ export class CurrencyService {
   }
 
   // Simulates a request to an API to get the conversion table
-  getConversionTable(from: Currency): Promise<any> {
+  getConversionTable(origin: Currency): Promise<any> {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
-          from: {
-            currency: {
-              shortName: 'USD',
-              fullName: 'US Dollar',
-              flag: 'https://cdn-icons-png.flaticon.com/512/551/551953.png',
-              prefix: '$',
-            },
-            value: 1,
-          },
+          origin,
           to: [
             {
               currency: {
@@ -118,12 +110,12 @@ export class CurrencyService {
   }
 
   // Simulates a request to an API to convert a currency
-  convert(from: Currency, to: Currency, value: number): Promise<any> {
+  convert(origin: Currency, to: Currency, value: number): Promise<any> {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
-          from: {
-            currency: from,
+          origin: {
+            currency: origin,
             value,
           },
           to: {
