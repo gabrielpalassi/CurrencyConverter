@@ -22,55 +22,43 @@ Make sure you have the following installed:
 
 1. Clone the repository:
 
-    ```bash
-    git clone https://github.com/your-username/CurrencyConverter.git
-    ```
+   ```bash
+   git clone https://github.com/your-username/CurrencyConverter.git
+   ```
 
-2. Navigate to the backend project directory:
+2. Install dependencies:
 
-    ```bash
-    cd CurrencyConverter/backend
-    ```
+   ```bash
+   cd CurrencyConverter/backend && npm install && cd ../frontend && npm install
+   ```
 
-3. Install dependencies:
+### Running localy
 
-    ```bash
-    npm install
-    ```
+1. Navigate to the backend directory:
 
-4. Do the same for the frontend:
-    ```bash
-    cd ../frontend
-    npm install
-    ```
-
-### Usage
-
-1. Navigate to the Node.js backend:
-
-    ```bash
-    cd backend
-    ```
+   ```bash
+   cd backend
+   ```
 
 2. Start the server:
 
-    ```bash
-    node index.js
-    ```
+   ```bash
+   npm run start
+   ```
 
-2. Navigate to the frontend directory:
+3. Navigate to the frontend directory:
 
-    ```bash
-    cd ../frontend
-    ```
+   ```bash
+   cd ../frontend
+   ```
 
-3. Run the Angular app:
+4. Serve the Angular app:
 
-    ```bash
-    ng serve
-    ```
+   ```bash
+   npm run start
+   ```
 
-4. Open your browser and visit `http://localhost:4200` to use CurrencyConverter.
+5. Open your browser and visit `http://localhost:4200` to use the application.
 
 ## License
 
