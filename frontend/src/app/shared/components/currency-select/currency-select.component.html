@@ -27,7 +27,10 @@
         @if (selectedOption?.shortName && selectedOption?.fullName) {
           <!-- Name -->
           <span class="block truncate">
-            {{ selectedOption?.shortName + " - " + selectedOption?.fullName }}
+            <span class="inline md:hidden lg:inline">
+              {{ selectedOption?.shortName + " - " + selectedOption?.fullName }}
+            </span>
+            <span class="hidden md:inline lg:hidden">{{ selectedOption?.shortName }}</span>
           </span>
         } @else {
           <!-- Placeholder -->

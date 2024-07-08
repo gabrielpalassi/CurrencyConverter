@@ -9,7 +9,7 @@
       </p>
     </div>
     <!-- Conversion container -->
-    <div class="w-full rounded-lg bg-white px-8 py-8 lg:px-9">
+    <div class="w-full rounded-lg bg-white px-8 py-8 md:px-9">
       <div class="conversion-custom-grid flex w-full flex-col gap-4">
         <!-- Amount -->
         <currency-input
@@ -25,27 +25,28 @@
           label="From"
           [options]="currencyList"
           [(selectedOption)]="conversionData.origin"
-          class="w-full lg:max-w-[283.64px]">
+          class="w-full md:max-w-[283.64px]">
         </app-currency-select>
         <!-- Switch currencies button -->
         <button
           (click)="switchConversionCurrencies()"
           [disabled]="conversionIsLoading"
-          class="delay-70 h-[48px] w-[48px] rounded-full text-sm text-slate-600 ring-1 ring-inset ring-slate-300 transition hover:text-slate-500 disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:text-slate-400 lg:mt-8">
-          &#8644;
+          class="delay-70 h-[48px] w-[48px] rounded-full text-sm text-slate-600 ring-1 ring-inset ring-slate-300 transition hover:text-slate-500 disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:text-slate-400 md:mt-8">
+          <span class="hidden md:inline">&#x21C4;</span>
+          <span class="inline md:hidden">&#x21C5;</span>
         </button>
         <!-- Currency to -->
         <app-currency-select
           label="To"
           [options]="currencyList"
           [(selectedOption)]="conversionData.to"
-          class="w-full lg:max-w-[283.64px]">
+          class="w-full md:max-w-[283.64px]">
         </app-currency-select>
         <!-- Convert button -->
         <button
           (click)="convertCurrency()"
           [disabled]="conversionIsLoading"
-          class="delay-70 h-[48px] w-full rounded-md bg-blue-600 px-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:bg-blue-400 disabled:hover:bg-blue-400 lg:mt-8">
+          class="delay-70 h-[48px] w-full rounded-md bg-blue-600 px-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:bg-blue-400 disabled:hover:bg-blue-400 md:mt-8">
           @if (conversionIsLoading) {
             <div class="flex h-full w-full items-center justify-center gap-2">
               <div class="h-4 w-4 animate-spin rounded-full border-2 border-blue-200 border-t-white"></div>
@@ -116,11 +117,13 @@
         @fadeInOut>
         <thead>
           <tr class="text-slate-600">
-            <th class="max-w-[33%] truncate px-4 pb-4 text-left font-semibold">Currency</th>
-            <th class="hidden truncate px-4 pb-4 text-center font-semibold md:table-cell">Rate</th>
-            <th class="max-w-[33%] truncate px-4 pb-4 text-center font-semibold">Equivalence</th>
+            <th class="w-1/3 max-w-[33%] truncate px-4 pb-4 text-left font-semibold sm:w-auto">Currency</th>
+            <th class="w-1/3 max-w-[33%] truncate px-4 pb-4 text-center font-semibold sm:w-auto">Rate</th>
+            <th class="hidden truncate px-4 pb-4 text-center font-semibold sm:table-cell">Equivalence</th>
             <th class="hidden truncate px-4 pb-4 text-center font-semibold lg:table-cell">Change (24h)</th>
-            <th class="max-w-[33%] truncate px-4 pb-4 text-right font-semibold sm:w-2/5 sm:max-w-none">Chart (24h)</th>
+            <th class="w-1/3 max-w-[33%] truncate px-4 pb-4 text-right font-semibold sm:w-2/5 sm:max-w-none">
+              Chart (24h)
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -144,13 +147,13 @@
               </div>
             </th>
             <!-- Rate -->
-            <td class="hidden px-4 text-center font-semibold md:table-cell">1</td>
+            <td class="px-4 text-center font-semibold">1.00</td>
             <!-- Equivalence -->
-            <td class="px-4 text-center font-semibold">
-              <p class="text-xs">
+            <td class="hidden px-4 text-center font-semibold sm:table-cell">
+              <p class="truncate text-xs">
                 1 {{ conversionTableData.origin.shortName }} = 1 {{ conversionTableData.origin.shortName }}
               </p>
-              <p class="text-xs">
+              <p class="truncate text-xs">
                 1 {{ conversionTableData.origin.shortName }} = 1 {{ conversionTableData.origin.shortName }}
               </p>
             </td>
@@ -186,17 +189,17 @@
                   </div>
                 </th>
                 <!-- Rate -->
-                <td class="hidden px-4 text-center font-semibold md:table-cell">
+                <td class="px-4 text-center font-semibold">
                   {{ entry.value | number: "1.2-5" }}
                 </td>
                 <!-- Equivalence -->
-                <td class="px-4 text-center font-semibold">
-                  <p class="text-xs">
+                <td class="hidden px-4 text-center font-semibold sm:table-cell">
+                  <p class="truncate text-xs">
                     1 {{ conversionTableData.origin.shortName }} =
                     {{ entry.value | number: "1.2-2" }}
                     {{ entry.currency.shortName }}
                   </p>
-                  <p class="text-xs">
+                  <p class="truncate text-xs">
                     1 {{ entry.currency.shortName }} =
                     {{ 1 / entry.value | number: "1.2-2" }}
                     {{ conversionTableData.origin.shortName }}

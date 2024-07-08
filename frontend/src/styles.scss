@@ -27,7 +27,7 @@ html {
 
 // Custom grid for the conversion container
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .conversion-custom-grid {
     display: grid;
     grid-template-columns: 1.5fr 1.5fr 2.75rem 1.5fr 1fr;
