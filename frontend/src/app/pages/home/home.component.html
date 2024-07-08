@@ -74,12 +74,12 @@
               </p>
               <p class="mt-2 whitespace-nowrap text-xs text-slate-500">
                 1 {{ conversionResponse.origin.currency.fullName }} =
-                {{ conversionResponse.to.value / conversionResponse.origin.value | number: "1.2-5" }}
+                {{ conversionResponse.to.value / conversionResponse.origin.value | number: "1.2-2" }}
                 {{ conversionResponse.to.currency.fullName }}
               </p>
               <p class="mt-1 whitespace-nowrap text-xs text-slate-500">
                 1 {{ conversionResponse.to.currency.fullName }} =
-                {{ conversionResponse.origin.value / conversionResponse.to.value | number: "1.2-5" }}
+                {{ conversionResponse.origin.value / conversionResponse.to.value | number: "1.2-2" }}
                 {{ conversionResponse.origin.currency.fullName }}
               </p>
             </div>
@@ -103,7 +103,7 @@
   <!-- Exchange rates table section -->
   <section
     id="exchangeRates"
-    class="mt-2 w-full max-w-7xl px-6 py-6 lg:mt-4 lg:px-8">
+    class="mt-2 min-h-144 w-full max-w-7xl px-6 py-6 lg:mt-4 lg:px-8">
     <!-- Title and description -->
     <div class="mb-7 w-full">
       <p class="text-base font-semibold text-slate-600">Stay updated</p>
@@ -111,14 +111,16 @@
     </div>
     <!-- Exchange rate table -->
     @if (!tableIsLoading) {
-      <table class="w-full">
+      <table
+        class="w-full"
+        @fadeInOut>
         <thead>
           <tr class="text-slate-600">
-            <th class="truncate px-4 pb-4 text-left font-semibold">Currency</th>
+            <th class="max-w-[33%] truncate px-4 pb-4 text-left font-semibold">Currency</th>
             <th class="hidden truncate px-4 pb-4 text-center font-semibold md:table-cell">Rate</th>
-            <th class="truncate px-4 pb-4 text-center font-semibold">Equivalence</th>
+            <th class="max-w-[33%] truncate px-4 pb-4 text-center font-semibold">Equivalence</th>
             <th class="hidden truncate px-4 pb-4 text-center font-semibold lg:table-cell">Change (24h)</th>
-            <th class="truncate px-4 pb-4 text-right font-semibold sm:w-2/5">Chart (24h)</th>
+            <th class="max-w-[33%] truncate px-4 pb-4 text-right font-semibold sm:w-2/5 sm:max-w-none">Chart (24h)</th>
           </tr>
         </thead>
         <tbody>
@@ -145,15 +147,15 @@
             <td class="hidden px-4 text-center font-semibold md:table-cell">1</td>
             <!-- Equivalence -->
             <td class="px-4 text-center font-semibold">
-              <p class="truncate text-xs">
+              <p class="text-xs">
                 1 {{ conversionTableData.origin.shortName }} = 1 {{ conversionTableData.origin.shortName }}
               </p>
-              <p class="truncate text-xs">
+              <p class="text-xs">
                 1 {{ conversionTableData.origin.shortName }} = 1 {{ conversionTableData.origin.shortName }}
               </p>
             </td>
             <!-- Change -->
-            <td class="hidden px-4 text-center font-semibold lg:table-cell">0%</td>
+            <td class="hidden px-4 text-center font-semibold lg:table-cell">0.00%</td>
             <!-- Chart -->
             <td class="rounded-r-md px-4 text-right font-semibold"></td>
           </tr>
@@ -162,7 +164,7 @@
             @if (entry.currency.shortName !== conversionTableData.origin.shortName) {
               <tr
                 (click)="changeOriginCurrency(entry.currency)"
-                class="*:delay-70 cursor-pointer border-slate-100 text-slate-600 *:transition *:hover:bg-blue-50"
+                class="*:delay-70 h-19 cursor-pointer border-slate-100 text-slate-600 *:transition *:hover:bg-blue-50"
                 [ngClass]="{
                   'border-b-[1.5px]': entry.currency.shortName !== conversionTableData.to.at(-1).currency.shortName
                 }">
@@ -189,14 +191,14 @@
                 </td>
                 <!-- Equivalence -->
                 <td class="px-4 text-center font-semibold">
-                  <p class="truncate text-xs">
+                  <p class="text-xs">
                     1 {{ conversionTableData.origin.shortName }} =
-                    {{ entry.value | number: "1.2-5" }}
+                    {{ entry.value | number: "1.2-2" }}
                     {{ entry.currency.shortName }}
                   </p>
-                  <p class="truncate text-xs">
+                  <p class="text-xs">
                     1 {{ entry.currency.shortName }} =
-                    {{ 1 / entry.value | number: "1.2-5" }}
+                    {{ 1 / entry.value | number: "1.2-2" }}
                     {{ conversionTableData.origin.shortName }}
                   </p>
                 </td>
