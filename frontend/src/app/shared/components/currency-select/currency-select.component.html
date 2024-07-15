@@ -17,16 +17,17 @@
       [attr.aria-expanded]="isDropdownOpen.toString()"
       class="delay-70 relative w-full rounded-md bg-white py-3 pl-3 pr-10 text-left text-slate-600 shadow-sm ring-1 ring-inset ring-slate-300 transition focus:outline-none focus:ring-2 focus:ring-blue-500">
       <div class="flex h-6 items-center space-x-3">
-        @if (selectedOption?.flag) {
+        @if (selectedOption?.flag && selectedOption?.shortName && selectedOption?.fullName) {
           <!-- Flag -->
           <img
+            @fadeIn
             [src]="selectedOption?.flag"
             alt="Country flag"
             class="h-6 w-6 flex-shrink-0 rounded-full" />
-        }
-        @if (selectedOption?.shortName && selectedOption?.fullName) {
           <!-- Name -->
-          <span class="block truncate">
+          <span
+            class="block truncate"
+            @fadeIn>
             <span class="inline md:hidden lg:inline">
               {{ selectedOption?.shortName + " - " + selectedOption?.fullName }}
             </span>
@@ -34,7 +35,11 @@
           </span>
         } @else {
           <!-- Placeholder -->
-          <span class="block truncate text-slate-400"> Select an option </span>
+          <span
+            class="block truncate text-slate-400"
+            @fadeIn>
+            Select an option
+          </span>
         }
       </div>
       <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -53,7 +58,7 @@
     <!-- Dropdown menu -->
     @if (isDropdownOpen) {
       <div
-        @slideInOut
+        @slideOutIn
         class="absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg">
         <!-- Search -->
         <input

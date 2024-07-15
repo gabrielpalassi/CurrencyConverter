@@ -58,36 +58,40 @@
         </button>
       </div>
       <!-- Conversion response -->
-      @if (conversionResponse) {
+      @if (this.conversionData.response) {
         <div
           class="flex h-[124px] w-full gap-3"
           @expand>
           @if (!conversionIsLoading) {
             <!-- Data -->
-            <div @fadeInOut>
+            <div @fadeIn>
               <p class="mt-6 whitespace-nowrap text-base font-semibold text-slate-600">
-                {{ conversionResponse.origin.value | number: "1.2-2" }}
-                {{ conversionResponse.origin.currency.shortName }}
+                {{ this.conversionData.response.origin.value | number: "1.2-2" }}
+                {{ this.conversionData.response.origin.currency.shortName }}
               </p>
               <p class="whitespace-nowrap text-2xl font-bold">
-                {{ conversionResponse.to.value | number: "1.2-2" }}
-                {{ conversionResponse.to.currency.shortName }}
+                {{ this.conversionData.response.to.value | number: "1.2-2" }}
+                {{ this.conversionData.response.to.currency.shortName }}
               </p>
               <p class="mt-2 whitespace-nowrap text-xs text-slate-500">
-                1 {{ conversionResponse.origin.currency.fullName }} =
-                {{ conversionResponse.to.value / conversionResponse.origin.value | number: "1.2-2" }}
-                {{ conversionResponse.to.currency.fullName }}
+                1 {{ this.conversionData.response.origin.currency.fullName }} =
+                {{
+                  this.conversionData.response.to.value / this.conversionData.response.origin.value | number: "1.2-2"
+                }}
+                {{ this.conversionData.response.to.currency.fullName }}
               </p>
               <p class="mt-1 whitespace-nowrap text-xs text-slate-500">
-                1 {{ conversionResponse.to.currency.fullName }} =
-                {{ conversionResponse.origin.value / conversionResponse.to.value | number: "1.2-2" }}
-                {{ conversionResponse.origin.currency.fullName }}
+                1 {{ this.conversionData.response.to.currency.fullName }} =
+                {{
+                  this.conversionData.response.origin.value / this.conversionData.response.to.value | number: "1.2-2"
+                }}
+                {{ this.conversionData.response.origin.currency.fullName }}
               </p>
             </div>
             <!-- Chart -->
             <div
               class="flex w-full"
-              @fadeInOut>
+              @fadeIn>
               <highcharts-chart
                 [Highcharts]="Highcharts"
                 [options]="mainChartOptions"
@@ -108,13 +112,13 @@
     <!-- Title and description -->
     <div class="mb-7 w-full">
       <p class="text-base font-semibold text-slate-600">Stay updated</p>
-      <h2 class="text-2xl font-bold tracking-tight">Exchange Rates</h2>
+      <h2 class="text-2xl font-bold tracking-tight">Major Forex Rates</h2>
     </div>
     <!-- Exchange rate table -->
     @if (!tableIsLoading) {
       <table
         class="w-full"
-        @fadeInOut>
+        @fadeIn>
         <thead>
           <tr class="text-slate-600">
             <th class="w-1/3 max-w-[33%] truncate px-4 pb-4 text-left font-semibold sm:w-auto">Currency</th>
@@ -132,13 +136,11 @@
             <!-- Currency -->
             <th class="rounded-l-md px-4 text-left font-semibold">
               <div class="flex items-center gap-2">
-                @if (conversionTableData.origin.flag) {
-                  <!-- Flag -->
-                  <img
-                    [src]="conversionTableData.origin.flag"
-                    alt="Country flag"
-                    class="h-6 w-6 rounded-full" />
-                }
+                <!-- Flag -->
+                <img
+                  [src]="conversionTableData.origin.flag"
+                  alt="Country flag"
+                  class="h-6 w-6 rounded-full" />
                 <!-- Currency name -->
                 <div>
                   <p class="hidden truncate sm:block">{{ conversionTableData.origin.fullName }}</p>
@@ -164,71 +166,67 @@
           </tr>
           <!-- Conversions -->
           @for (entry of conversionTableData.to; track entry.currency.shortName) {
-            @if (entry.currency.shortName !== conversionTableData.origin.shortName) {
-              <tr
-                (click)="changeOriginCurrency(entry.currency)"
-                class="*:delay-70 h-19 cursor-pointer border-slate-100 text-slate-600 *:transition *:hover:bg-blue-50"
+            <tr
+              (click)="setOriginCurrencyOfTable(entry.currency)"
+              class="*:delay-70 h-19 cursor-pointer border-slate-100 text-slate-600 *:transition *:hover:bg-blue-50"
+              [ngClass]="{
+                'border-b-[1.5px]': entry.currency.shortName !== conversionTableData.to.at(-1)!.currency.shortName
+              }">
+              <!-- Currency -->
+              <th class="rounded-l-md px-4 text-left font-semibold">
+                <div class="flex items-center gap-2">
+                  <!-- Flag -->
+                  <img
+                    [src]="entry.currency.flag"
+                    alt="Country flag"
+                    class="h-6 w-6 rounded-full" />
+                  <!-- Currency name -->
+                  <div>
+                    <p class="hidden truncate sm:block">{{ entry.currency.fullName }}</p>
+                    <p class="sm:text-xs sm:font-medium">{{ entry.currency.shortName }}</p>
+                  </div>
+                </div>
+              </th>
+              <!-- Rate -->
+              <td class="px-4 text-center font-semibold">
+                {{ entry.value | number: "1.2-5" }}
+              </td>
+              <!-- Equivalence -->
+              <td class="hidden px-4 text-center font-semibold sm:table-cell">
+                <p class="truncate text-xs">
+                  1 {{ conversionTableData.origin.shortName }} =
+                  {{ entry.value | number: "1.2-2" }}
+                  {{ entry.currency.shortName }}
+                </p>
+                <p class="truncate text-xs">
+                  1 {{ entry.currency.shortName }} =
+                  {{ 1 / entry.value | number: "1.2-2" }}
+                  {{ conversionTableData.origin.shortName }}
+                </p>
+              </td>
+              <!-- Change -->
+              <td
+                class="hidden px-4 text-center font-semibold lg:table-cell"
                 [ngClass]="{
-                  'border-b-[1.5px]': entry.currency.shortName !== conversionTableData.to.at(-1).currency.shortName
+                  'text-red-500': entry.dailyChange < 0,
+                  'text-green-500': entry.dailyChange > 0
                 }">
-                <!-- Currency -->
-                <th class="rounded-l-md px-4 text-left font-semibold">
-                  <div class="flex items-center gap-2">
-                    @if (entry.currency.flag) {
-                      <!-- Flag -->
-                      <img
-                        [src]="entry.currency.flag"
-                        alt="Country flag"
-                        class="h-6 w-6 rounded-full" />
-                    }
-                    <!-- Currency name -->
-                    <div>
-                      <p class="hidden truncate sm:block">{{ entry.currency.fullName }}</p>
-                      <p class="sm:text-xs sm:font-medium">{{ entry.currency.shortName }}</p>
-                    </div>
-                  </div>
-                </th>
-                <!-- Rate -->
-                <td class="px-4 text-center font-semibold">
-                  {{ entry.value | number: "1.2-5" }}
-                </td>
-                <!-- Equivalence -->
-                <td class="hidden px-4 text-center font-semibold sm:table-cell">
-                  <p class="truncate text-xs">
-                    1 {{ conversionTableData.origin.shortName }} =
-                    {{ entry.value | number: "1.2-2" }}
-                    {{ entry.currency.shortName }}
-                  </p>
-                  <p class="truncate text-xs">
-                    1 {{ entry.currency.shortName }} =
-                    {{ 1 / entry.value | number: "1.2-2" }}
-                    {{ conversionTableData.origin.shortName }}
-                  </p>
-                </td>
-                <!-- Change -->
-                <td
-                  class="hidden px-4 text-center font-semibold lg:table-cell"
-                  [ngClass]="{
-                    'text-red-500': entry.dailyChange < 0,
-                    'text-green-500': entry.dailyChange > 0
-                  }">
-                  @if (entry.dailyChange > 0) {
-                    <span>+</span>
-                  }
-                  <span>{{ entry.dailyChange | number: "1.2-2" }}%</span>
-                </td>
-                <!-- Chart -->
-                <td class="rounded-r-md px-4 text-right font-semibold">
-                  <div class="flex h-19 w-full">
-                    <highcharts-chart
-                      [Highcharts]="Highcharts"
-                      [options]="entry.chartOptions"
-                      class="display:block mt-6 w-full">
-                    </highcharts-chart>
-                  </div>
-                </td>
-              </tr>
-            }
+                @if (entry.dailyChange > 0) {
+                  <span>+</span>
+                }
+                <span>{{ entry.dailyChange | number: "1.2-2" }}%</span>
+              </td>
+              <!-- Chart -->
+              <td class="rounded-r-md px-4 text-right font-semibold">
+                <div class="flex h-19 w-full">
+                  <highcharts-chart
+                    [Highcharts]="Highcharts"
+                    [options]="entry.chartOptions"
+                    class="display:block mt-6 w-full">
+                  </highcharts-chart>
+                </div>
+              </td>
+            </tr>
           }
         </tbody>
       </table>

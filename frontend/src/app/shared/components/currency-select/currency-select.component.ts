@@ -11,38 +11,21 @@ import {
 import { Currency } from '../../interfaces/currency.interface';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { animate, style, transition, trigger } from '@angular/animations';
+import { slideOutIn } from '../../animations/slide-out-in.animation';
+import { fadeIn } from '../../animations/fade-in.animation';
 
 @Component({
   selector: 'app-currency-select',
   standalone: true,
   imports: [NgClass, FormsModule],
-  animations: [
-    trigger('slideInOut', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-10px)' }),
-        animate(
-          '200ms ease',
-          style({ opacity: 1, transform: 'translateY(0)' }),
-        ),
-      ]),
-      transition(':leave', [
-        animate(
-          '100ms ease',
-          style({ opacity: 0, transform: 'translateY(-10px)' }),
-        ),
-      ]),
-    ]),
-  ],
+  animations: [slideOutIn, fadeIn],
   templateUrl: './currency-select.component.html',
 })
 export class CurrencySelectComponent {
   @Input() label: string | undefined;
   @Input() options: Currency[] | undefined;
   @Input() selectedOption: Currency | undefined;
-  @Output() selectedOptionChange: EventEmitter<Currency> =
-    new EventEmitter<Currency>();
-
+  @Output() selectedOptionChange: EventEmitter<Currency> = new EventEmitter<Currency>();
   isDropdownOpen: boolean = false;
   filteredOptions: Currency[] = [];
   searchTerm: string = '';
@@ -85,9 +68,7 @@ export class CurrencySelectComponent {
     }
 
     this.filteredOptions = this.options.filter((option) =>
-      (option.shortName + ' - ' + option.fullName)
-        .toLowerCase()
-        .includes(this.searchTerm.toLowerCase()),
+      (option.shortName + ' - ' + option.fullName).toLowerCase().includes(this.searchTerm.toLowerCase()),
     );
   }
 
