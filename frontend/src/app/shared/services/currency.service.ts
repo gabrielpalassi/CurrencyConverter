@@ -42,7 +42,7 @@ export class CurrencyService {
             prefix: '¥',
           },
         ]);
-      }, 500);
+      }, 300);
     });
   }
 
@@ -105,7 +105,7 @@ export class CurrencyService {
             },
           ],
         });
-      }, 500);
+      }, 300);
     });
   }
 
@@ -124,7 +124,7 @@ export class CurrencyService {
             chartData: data,
           },
         });
-      }, 500);
+      }, 300);
     });
   }
 }
