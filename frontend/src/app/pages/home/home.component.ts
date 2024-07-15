@@ -24,23 +24,23 @@ interface ConversionTableResult extends ConversionResult {
 }
 
 interface ConversionResponse {
-  origin: {
+  base: {
     currency: Currency;
     value: number;
   };
-  to: ConversionResult;
+  result: ConversionResult;
 }
 
 interface ConversionData {
-  origin: Currency;
-  to: Currency;
+  base: Currency;
+  destiny: Currency;
   value: number | undefined;
   response: ConversionResponse | undefined;
 }
 
 interface ConversionTableData {
-  origin: Currency;
-  to: ConversionTableResult[];
+  base: Currency;
+  result: ConversionTableResult[];
 }
 
 @Component({
@@ -58,15 +58,15 @@ export class HomeComponent {
   conversionIsLoading: boolean = true;
   currencyList: Currency[] | undefined;
   conversionData: ConversionData = {
-    origin: { shortName: '', fullName: '', flag: '', prefix: '' },
-    to: { shortName: '', fullName: '', flag: '', prefix: '' },
+    base: { shortName: '', fullName: '', flag: '', prefix: '' },
+    destiny: { shortName: '', fullName: '', flag: '', prefix: '' },
     value: undefined,
     response: undefined,
   };
   tableIsLoading: boolean = true;
   conversionTableData: ConversionTableData = {
-    origin: { shortName: '', fullName: '', flag: '', prefix: '' },
-    to: [],
+    base: { shortName: '', fullName: '', flag: '', prefix: '' },
+    result: [],
   };
 
   // Injects the currency service
@@ -76,10 +76,10 @@ export class HomeComponent {
   ngOnInit(): void {
     this.currencyService.getCurrencyList().then((currencyList) => {
       this.currencyList = currencyList;
-      this.conversionData.origin = currencyList[0];
-      this.conversionData.to = currencyList[1];
+      this.conversionData.base = currencyList[0];
+      this.conversionData.destiny = currencyList[1];
       this.conversionIsLoading = false;
-      this.currencyService.getConversionTable(this.conversionData.origin).then((conversionTable) => {
+      this.currencyService.getConversionTable(this.conversionData.base).then((conversionTable) => {
         this.setTableData(conversionTable);
         this.tableIsLoading = false;
       });
@@ -88,9 +88,9 @@ export class HomeComponent {
 
   // Switches the currencies
   switchConversionCurrencies(): void {
-    const temp = this.conversionData.origin;
-    this.conversionData.origin = this.conversionData.to;
-    this.conversionData.to = temp;
+    const temp = this.conversionData.base;
+    this.conversionData.base = this.conversionData.destiny;
+    this.conversionData.destiny = temp;
     if (this.conversionData.response) this.convertCurrency();
   }
 
@@ -103,15 +103,15 @@ export class HomeComponent {
     if (this.inputError) this.inputError = false;
     this.conversionIsLoading = true;
     this.currencyService
-      .convert(this.conversionData.origin, this.conversionData.to, this.conversionData.value)
+      .convert(this.conversionData.base, this.conversionData.destiny, this.conversionData.value)
       .then((response) => {
         this.mainChartOptions = {
           ...this.mainChartOptions,
           series: [
             {
               ...this.mainChartOptions.series![0],
-              name: `${response.origin.currency.shortName} to ${response.to.currency.shortName}`,
-              data: response.to.chartData,
+              name: `${response.base.currency.shortName} to ${response.result.currency.shortName}`,
+              data: response.result.chartData,
             },
           ],
         };
@@ -120,10 +120,10 @@ export class HomeComponent {
       });
   }
 
-  // Handles the origin currency change for the table
-  setOriginCurrencyOfTable(origin: Currency): void {
+  // Handles the base currency change for the table
+  setBaseCurrencyOfTable(base: Currency): void {
     this.tableIsLoading = true;
-    this.currencyService.getConversionTable(origin).then((conversionTable) => {
+    this.currencyService.getConversionTable(base).then((conversionTable) => {
       this.setTableData(conversionTable);
       this.tableIsLoading = false;
     });
@@ -132,14 +132,14 @@ export class HomeComponent {
   // Sets the data for the table
   setTableData(conversionTable: ConversionTableData): void {
     this.conversionTableData = conversionTable;
-    this.conversionTableData.to.forEach((entry: ConversionTableResult) => {
+    this.conversionTableData.result.forEach((entry: ConversionTableResult) => {
       entry.dailyChange = (entry.chartData.at(-1)![1] * 100) / entry.chartData[0][1] - 100;
       entry.chartOptions = {
         ...this.tableChartOptions,
         series: [
           {
             ...this.tableChartOptions.series![0],
-            name: `${conversionTable.origin.shortName} to ${entry.currency.shortName}`,
+            name: `${conversionTable.base.shortName} to ${entry.currency.shortName}`,
             data: entry.chartData as any,
           },
         ],

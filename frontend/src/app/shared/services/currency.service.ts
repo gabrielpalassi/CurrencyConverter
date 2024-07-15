@@ -47,12 +47,12 @@ export class CurrencyService {
   }
 
   // Simulates a request to an API to get the conversion table
-  getConversionTable(origin: Currency): Promise<any> {
+  getConversionTable(base: Currency): Promise<any> {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
-          origin,
-          to: [
+          base,
+          result: [
             {
               currency: {
                 shortName: 'USD',
@@ -103,23 +103,23 @@ export class CurrencyService {
               value: 110,
               chartData: data,
             },
-          ],
+          ].filter(({ currency }) => currency.shortName !== base.shortName),
         });
       }, 300);
     });
   }
 
   // Simulates a request to an API to convert a currency
-  convert(origin: Currency, to: Currency, value: number): Promise<any> {
+  convert(base: Currency, destiny: Currency, value: number): Promise<any> {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
-          origin: {
-            currency: origin,
+          base: {
+            currency: base,
             value,
           },
-          to: {
-            currency: to,
+          result: {
+            currency: destiny,
             value: value * 0.85,
             chartData: data,
           },
