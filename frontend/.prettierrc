@@ -1,5 +1,7 @@
 {
-  "plugins": ["prettier-plugin-tailwindcss"],
+  "plugins": [
+    "prettier-plugin-tailwindcss"
+  ],
   "overrides": [
     {
       "files": "*.html",
@@ -15,7 +17,8 @@
       "files": "*.ts",
       "options": {
         "tabWidth": 2,
-        "arrowParens": "always"
+        "arrowParens": "always",
+        "printWidth": 120
       }
     }
   ]
