@@ -15,7 +15,7 @@ CurrencyConverter is a web application that facilitates seamless currency conver
 
 Make sure you have the following installed:
 
-- Node.js
+- Bun
 - Angular CLI
 
 ### Installation
@@ -29,7 +29,7 @@ Make sure you have the following installed:
 2. Install dependencies:
 
    ```bash
-   cd CurrencyConverter/backend && npm install && cd ../frontend && npm install
+   cd CurrencyConverter/backend && bun install && cd ../frontend && bun install
    ```
 
 ### Running localy
@@ -43,7 +43,7 @@ Make sure you have the following installed:
 2. Start the server:
 
    ```bash
-   npm run start
+   bun run start
    ```
 
 3. Navigate to the frontend directory:
@@ -55,7 +55,7 @@ Make sure you have the following installed:
 4. Serve the Angular app:
 
    ```bash
-   npm run start
+   bun run start
    ```
 
 5. Open your browser and visit `http://localhost:4200` to use the application.
