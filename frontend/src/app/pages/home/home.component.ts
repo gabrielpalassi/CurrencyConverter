@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CurrencyInputComponent } from '../../shared/components/currency-input/currency-input.component';
 import { CurrencySelectComponent } from '../../shared/components/currency-select/currency-select.component';
-import { Currency } from '../../shared/interfaces/currency.interface';
+import { Currency } from '../../../../../shared/interfaces/currency.interface';
 import { CurrencyService } from '../../shared/services/currency.service';
 import { HighchartsChartModule } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
@@ -11,37 +11,9 @@ import { DecimalPipe } from '@angular/common';
 import { NgClass } from '@angular/common';
 import { fadeIn } from '../../shared/animations/fade-in.animation';
 import { expand } from '../../shared/animations/expand.animation';
-
-interface ConversionResult {
-  currency: Currency;
-  value: number;
-  chartData: [x: number, y: number][];
-}
-
-interface ConversionTableResult extends ConversionResult {
-  dailyChange: number;
-  chartOptions: Highcharts.Options;
-}
-
-interface ConversionResponse {
-  base: {
-    currency: Currency;
-    value: number;
-  };
-  result: ConversionResult;
-}
-
-interface ConversionData {
-  base: Currency;
-  destiny: Currency;
-  value: number | undefined;
-  response: ConversionResponse | undefined;
-}
-
-interface ConversionTableResponse {
-  base: Currency;
-  result: ConversionTableResult[];
-}
+import { ConversionData } from '../../shared/interfaces/conversion-data.interface';
+import { ConversionTableResult } from '../../../../../shared/interfaces/conversion-table-result.interface';
+import { ConversionTableResponse } from '../../../../../shared/interfaces/conversion-table-response.interface';
 
 @Component({
   selector: 'app-home',

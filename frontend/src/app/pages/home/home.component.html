@@ -212,10 +212,10 @@
               <td
                 class="hidden px-4 text-center font-semibold lg:table-cell"
                 [ngClass]="{
-                  'text-red-500': entry.dailyChange < 0,
-                  'text-green-500': entry.dailyChange > 0
+                  'text-red-500': entry.dailyChange! < 0,
+                  'text-green-500': entry.dailyChange! > 0
                 }">
-                @if (entry.dailyChange > 0) {
+                @if (entry.dailyChange! > 0) {
                   <span>+</span>
                 }
                 <span>{{ entry.dailyChange | number: "1.2-2" }}%</span>
@@ -225,7 +225,7 @@
                 <div class="flex h-19 w-full">
                   <highcharts-chart
                     [Highcharts]="Highcharts"
-                    [options]="entry.chartOptions"
+                    [options]="entry.chartOptions!"
                     class="display:block mt-6 w-full">
                   </highcharts-chart>
                 </div>

@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { Currency } from '../../interfaces/currency.interface';
+import { Currency } from '../../../../../../shared/interfaces/currency.interface';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { slideOutIn } from '../../animations/slide-out-in.animation';

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Currency } from '../interfaces/currency.interface';
+import { Currency } from '../../../../../shared/interfaces/currency.interface';
 import { data } from '../../pages/home/data.mock';
 
 @Injectable({
