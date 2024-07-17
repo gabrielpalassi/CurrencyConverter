@@ -4,8 +4,8 @@
   <!-- Logo/Name -->
   <div class="flex lg:flex-1">
     <a
-      href="#"
-      class="-m-1.5 p-1.5">
+      (click)="routeToElement('/')"
+      class="-m-1.5 cursor-pointer p-1.5">
       <span class="sr-only">CurrencyConverter</span>
       <img
         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -65,8 +65,8 @@
     <div class="flex items-center justify-between">
       <!-- Logo/Name -->
       <a
-        href="#"
-        class="-m-1.5 p-1.5">
+        (click)="routeToElement('/')"
+        class="-m-1.5 cursor-pointer p-1.5">
         <span class="sr-only">CurrencyConverter</span>
         <img
           src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -110,7 +110,6 @@
         <div class="py-6">
           <a
             (click)="routeToElement('/about')"
-            (click)="showMobileMenu = false"
             class="-mx-3 block cursor-pointer rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-slate-900">
             About
           </a>

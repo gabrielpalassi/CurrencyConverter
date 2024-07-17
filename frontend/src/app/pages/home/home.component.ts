@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CurrencyInputComponent } from '../../shared/components/currency-input/currency-input.component';
 import { CurrencySelectComponent } from '../../shared/components/currency-select/currency-select.component';
 import { Currency } from '../../shared/interfaces/currency.interface';
@@ -38,7 +38,7 @@ interface ConversionData {
   response: ConversionResponse | undefined;
 }
 
-interface ConversionTableData {
+interface ConversionTableResponse {
   base: Currency;
   result: ConversionTableResult[];
 }
@@ -64,10 +64,13 @@ export class HomeComponent {
     response: undefined,
   };
   tableIsLoading: boolean = true;
-  conversionTableData: ConversionTableData = {
+  conversionTableResponse: ConversionTableResponse = {
     base: { shortName: '', fullName: '', flag: '', prefix: '' },
     result: [],
   };
+
+  // References the full-width white container
+  @ViewChild('whiteFullWidthContainer') whiteFullWidthContainer!: ElementRef;
 
   // Injects the currency service
   constructor(private readonly currencyService: CurrencyService) {}
@@ -79,11 +82,36 @@ export class HomeComponent {
       this.conversionData.base = currencyList[0];
       this.conversionData.destiny = currencyList[1];
       this.conversionIsLoading = false;
-      this.currencyService.getConversionTable(this.conversionData.base).then((conversionTable) => {
-        this.setTableData(conversionTable);
+      this.currencyService.getConversionTable(this.conversionData.base).then((conversionTableData) => {
+        this.setTableData(conversionTableData);
         this.tableIsLoading = false;
       });
     });
+  }
+
+  // Adjusts the full-width white container height after the view has been initialized
+  ngAfterViewChecked() {
+    this.setContainerHeight();
+  }
+
+  // Adjusts the fullwidth white container height on window resize
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.setContainerHeight();
+  }
+
+  // Check if body height is less than viewport height and adjust the fullwidth white container height to fill the screen
+  private setContainerHeight() {
+    this.whiteFullWidthContainer.nativeElement.style.height = 'auto';
+    const bodyHeight = document.body.clientHeight;
+    const viewportHeight = window.innerHeight;
+    if (bodyHeight < viewportHeight) {
+      const offsetTop = this.whiteFullWidthContainer.nativeElement.offsetTop;
+      const height = viewportHeight - offsetTop;
+      this.whiteFullWidthContainer.nativeElement.style.height = `${height}px`;
+    } else {
+      this.whiteFullWidthContainer.nativeElement.style.height = 'auto';
+    }
   }
 
   // Switches the currencies
@@ -123,23 +151,23 @@ export class HomeComponent {
   // Handles the base currency change for the table
   setBaseCurrencyOfTable(base: Currency): void {
     this.tableIsLoading = true;
-    this.currencyService.getConversionTable(base).then((conversionTable) => {
-      this.setTableData(conversionTable);
+    this.currencyService.getConversionTable(base).then((conversionTableData) => {
+      this.setTableData(conversionTableData);
       this.tableIsLoading = false;
     });
   }
 
   // Sets the data for the table
-  setTableData(conversionTable: ConversionTableData): void {
-    this.conversionTableData = conversionTable;
-    this.conversionTableData.result.forEach((entry: ConversionTableResult) => {
+  private setTableData(conversionTableData: ConversionTableResponse): void {
+    this.conversionTableResponse = conversionTableData;
+    this.conversionTableResponse.result.forEach((entry: ConversionTableResult) => {
       entry.dailyChange = (entry.chartData.at(-1)![1] * 100) / entry.chartData[0][1] - 100;
       entry.chartOptions = {
         ...this.tableChartOptions,
         series: [
           {
             ...this.tableChartOptions.series![0],
-            name: `${conversionTable.base.shortName} to ${entry.currency.shortName}`,
+            name: `${conversionTableData.base.shortName} to ${entry.currency.shortName}`,
             data: entry.chartData as any,
           },
         ],

@@ -12,6 +12,7 @@ import { slideInOut } from '../../animations/slide-in-out.animation';
 export class HeaderComponent {
   showMobileMenu: boolean = false;
 
+  // Injects the Router service
   constructor(private router: Router) {}
 
   // Route and scroll to specified element

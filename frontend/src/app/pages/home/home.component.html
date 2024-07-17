@@ -104,7 +104,10 @@
     </div>
   </div>
 </section>
-<div class="mt-10 flex w-full flex-col items-center justify-center rounded-t-4xl bg-white">
+<!-- White full-width container -->
+<div
+  class="mt-10 flex w-full flex-col items-center justify-start rounded-t-4xl bg-white"
+  #whiteFullWidthContainer>
   <!-- Exchange rates table section -->
   <section
     id="exchangeRates"
@@ -138,13 +141,13 @@
               <div class="flex items-center gap-2">
                 <!-- Flag -->
                 <img
-                  [src]="conversionTableData.base.flag"
+                  [src]="conversionTableResponse.base.flag"
                   alt="Country flag"
                   class="h-6 w-6 rounded-full" />
                 <!-- Currency name -->
                 <div>
-                  <p class="hidden truncate sm:block">{{ conversionTableData.base.fullName }}</p>
-                  <p class="sm:text-xs sm:font-medium">{{ conversionTableData.base.shortName }}</p>
+                  <p class="hidden truncate sm:block">{{ conversionTableResponse.base.fullName }}</p>
+                  <p class="sm:text-xs sm:font-medium">{{ conversionTableResponse.base.shortName }}</p>
                 </div>
               </div>
             </th>
@@ -153,10 +156,10 @@
             <!-- Equivalence -->
             <td class="hidden px-4 text-center font-semibold sm:table-cell">
               <p class="truncate text-xs">
-                1 {{ conversionTableData.base.shortName }} = 1 {{ conversionTableData.base.shortName }}
+                1 {{ conversionTableResponse.base.shortName }} = 1 {{ conversionTableResponse.base.shortName }}
               </p>
               <p class="truncate text-xs">
-                1 {{ conversionTableData.base.shortName }} = 1 {{ conversionTableData.base.shortName }}
+                1 {{ conversionTableResponse.base.shortName }} = 1 {{ conversionTableResponse.base.shortName }}
               </p>
             </td>
             <!-- Change -->
@@ -165,12 +168,13 @@
             <td class="rounded-r-md px-4 text-right font-semibold"></td>
           </tr>
           <!-- Conversions -->
-          @for (entry of conversionTableData.result; track entry.currency.shortName) {
+          @for (entry of conversionTableResponse.result; track entry.currency.shortName) {
             <tr
               (click)="setBaseCurrencyOfTable(entry.currency)"
               class="*:delay-70 h-19 cursor-pointer border-slate-100 text-slate-600 *:transition *:hover:bg-blue-50"
               [ngClass]="{
-                'border-b-[1.5px]': entry.currency.shortName !== conversionTableData.result.at(-1)!.currency.shortName
+                'border-b-[1.5px]':
+                  entry.currency.shortName !== conversionTableResponse.result.at(-1)!.currency.shortName
               }">
               <!-- Currency -->
               <th class="rounded-l-md px-4 text-left font-semibold">
@@ -194,14 +198,14 @@
               <!-- Equivalence -->
               <td class="hidden px-4 text-center font-semibold sm:table-cell">
                 <p class="truncate text-xs">
-                  1 {{ conversionTableData.base.shortName }} =
+                  1 {{ conversionTableResponse.base.shortName }} =
                   {{ entry.value | number: "1.2-2" }}
                   {{ entry.currency.shortName }}
                 </p>
                 <p class="truncate text-xs">
                   1 {{ entry.currency.shortName }} =
                   {{ 1 / entry.value | number: "1.2-2" }}
-                  {{ conversionTableData.base.shortName }}
+                  {{ conversionTableResponse.base.shortName }}
                 </p>
               </td>
               <!-- Change -->
