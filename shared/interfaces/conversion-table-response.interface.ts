@@ -1,7 +1,7 @@
 import Currency from './currency.interface';
-import ConversionTableResult from './conversion-table-result.interface';
+import ConversionResult from './conversion-result.interface';
 
 export default interface ConversionTableResponse {
   base: Currency;
-  result: ConversionTableResult[];
+  result: ConversionResult[];
 }

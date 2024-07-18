@@ -1,4 +1,4 @@
-import ConversionResult from './conversion-result.interface';
+import ConversionResult from '../../../../../shared/interfaces/conversion-result.interface';
 
 export default interface ConversionTableResult extends ConversionResult {
   dailyChange?: number;
