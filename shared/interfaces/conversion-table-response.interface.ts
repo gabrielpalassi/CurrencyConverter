@@ -1,7 +1,7 @@
-import { ConversionTableResult } from "./conversion-table-result.interface";
-import { Currency } from "./currency.interface";
+import Currency from './currency.interface';
+import ConversionTableResult from './conversion-table-result.interface';
 
-export interface ConversionTableResponse {
+export default interface ConversionTableResponse {
   base: Currency;
   result: ConversionTableResult[];
 }

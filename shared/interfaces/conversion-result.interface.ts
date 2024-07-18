@@ -1,6 +1,6 @@
-import { Currency } from "./currency.interface";
+import Currency from './currency.interface';
 
-export interface ConversionResult {
+export default interface ConversionResult {
   currency: Currency;
   value: number;
   chartData: [x: number, y: number][];

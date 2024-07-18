@@ -1,6 +1,6 @@
-import { ConversionResult } from "./conversion-result.interface";
+import ConversionResult from './conversion-result.interface';
 
-export interface ConversionTableResult extends ConversionResult {
+export default interface ConversionTableResult extends ConversionResult {
   dailyChange?: number;
-  chartOptions?: Highcharts.Options;
+  chartOptions?: any;
 }

@@ -1,7 +1,7 @@
-import { ConversionResult } from "./conversion-result.interface";
-import { Currency } from "./currency.interface";
+import ConversionResult from './conversion-result.interface';
+import Currency from './currency.interface';
 
-export interface ConversionResponse {
+export default interface ConversionResponse {
   base: {
     currency: Currency;
     value: number;
