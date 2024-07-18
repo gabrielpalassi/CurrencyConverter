@@ -1,14 +1,14 @@
 {
-  "name": "currencyconverter-backend",
-  "version": "1.0.0",
-  "author": "Gabriel Palassi",
-  "main": "index.js",
-  "description": "A currency converter",
-  "license": "ISC",
+  "name": "backend",
   "scripts": {
-    "start": "bun run --watch index.js"
+    "start": "bun --watch run src/app.ts",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
-    "hono": "^4.5.0"
+    "hono": "^4.4.13"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "prettier": "^3.3.3"
   }
 }
