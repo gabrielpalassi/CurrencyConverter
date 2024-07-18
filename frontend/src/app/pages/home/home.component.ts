@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CurrencyInputComponent } from '../../shared/components/currency-input/currency-input.component';
 import { CurrencySelectComponent } from '../../shared/components/currency-select/currency-select.component';
-import { Currency } from '../../../../../shared/interfaces/currency.interface';
+import Currency from '../../../../../shared/interfaces/currency.interface';
 import { CurrencyService } from '../../shared/services/currency.service';
 import { HighchartsChartModule } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
@@ -12,8 +12,8 @@ import { NgClass } from '@angular/common';
 import { fadeIn } from '../../shared/animations/fade-in.animation';
 import { expand } from '../../shared/animations/expand.animation';
 import { ConversionData } from '../../shared/interfaces/conversion-data.interface';
-import { ConversionTableResult } from '../../../../../shared/interfaces/conversion-table-result.interface';
-import { ConversionTableResponse } from '../../../../../shared/interfaces/conversion-table-response.interface';
+import ConversionTableResult from '../../../../../shared/interfaces/conversion-table-result.interface';
+import ConversionTableResponse from '../../../../../shared/interfaces/conversion-table-response.interface';
 
 @Component({
   selector: 'app-home',
@@ -111,7 +111,7 @@ export class HomeComponent {
             {
               ...this.mainChartOptions.series![0],
               name: `${response.base.currency.shortName} to ${response.result.currency.shortName}`,
-              data: response.result.chartData,
+              data: response.result.chartData as any,
             },
           ],
         };

@@ -1,16 +1,16 @@
 /** @type {import("prettier").Config} */
 
-const baseConfig = require("../shared/prettier.config");
+const baseConfig = require('../shared/prettier.config');
 
 module.exports = {
   ...baseConfig,
-  plugins: ["prettier-plugin-tailwindcss"],
+  plugins: ['prettier-plugin-tailwindcss'],
   overrides: [
     ...baseConfig.overrides,
     {
-      files: "*.html",
+      files: '*.html',
       options: {
-        parser: "angular",
+        parser: 'angular',
         tabWidth: 2,
         bracketSameLine: true,
         singleAttributePerLine: true,

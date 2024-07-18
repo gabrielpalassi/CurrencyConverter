@@ -3,11 +3,12 @@
 module.exports = {
   overrides: [
     {
-      files: ["*.ts", "*.js"],
+      files: ['*.ts', '*.js'],
       options: {
         tabWidth: 2,
-        arrowParens: "always",
+        arrowParens: 'always',
         printWidth: 120,
+        singleQuote: true,
       },
     },
   ],

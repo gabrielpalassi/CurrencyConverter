@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Currency } from '../../../../../shared/interfaces/currency.interface';
+import Currency from '../../../../../shared/interfaces/currency.interface';
 import { data } from '../../pages/home/data.mock';
+import ConversionResponse from '../../../../../shared/interfaces/conversion-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -110,7 +111,7 @@ export class CurrencyService {
   }
 
   // Simulates a request to an API to convert a currency
-  convert(base: Currency, destiny: Currency, value: number): Promise<any> {
+  convert(base: Currency, destiny: Currency, value: number): Promise<ConversionResponse> {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({
@@ -121,7 +122,7 @@ export class CurrencyService {
           result: {
             currency: destiny,
             value: value * 0.85,
-            chartData: data,
+            chartData: data as [x: number, y: number][],
           },
         });
       }, 300);
