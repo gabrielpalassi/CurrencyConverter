@@ -5,13 +5,13 @@ import Currency from '../../../../../shared/interfaces/currency.interface';
 import { CurrencyService } from '../../shared/services/currency.service';
 import { HighchartsChartModule } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
-import { mainChartConfig } from './main-chart.config';
-import { tableChartConfig } from './table-chart.config';
+import { mainChartConfig } from './configs/main-chart.config';
+import { tableChartConfig } from './configs/table-chart.config';
 import { DecimalPipe } from '@angular/common';
 import { NgClass } from '@angular/common';
 import { fadeIn } from '../../shared/animations/fade-in.animation';
 import { expand } from '../../shared/animations/expand.animation';
-import { ConversionData } from '../../shared/interfaces/conversion-data.interface';
+import ConversionData from '../../shared/interfaces/conversion-data.interface';
 import ConversionTableResult from '../../../../../shared/interfaces/conversion-table-result.interface';
 import ConversionTableResponse from '../../../../../shared/interfaces/conversion-table-response.interface';
 
@@ -49,15 +49,25 @@ export class HomeComponent {
 
   // Fetches the currency list and sets the default conversion data
   ngOnInit(): void {
-    this.currencyService.getCurrencyList().then((currencyList) => {
-      this.currencyList = currencyList;
-      this.conversionData.base = currencyList[0];
-      this.conversionData.destiny = currencyList[1];
-      this.conversionIsLoading = false;
-      this.currencyService.getConversionTable(this.conversionData.base).then((conversionTableData) => {
-        this.setTableData(conversionTableData);
-        this.tableIsLoading = false;
-      });
+    this.currencyService.getCurrencyList().subscribe({
+      next: (currencyList) => {
+        this.currencyList = currencyList;
+        this.conversionData.base = currencyList[0];
+        this.conversionData.destiny = currencyList[1];
+        this.conversionIsLoading = false;
+        this.currencyService.getConversionTable(this.conversionData.base).subscribe({
+          next: (conversionTableData) => {
+            this.setTableData(conversionTableData);
+            this.tableIsLoading = false;
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
+      },
+      error: (error) => {
+        console.error(error);
+      },
     });
   }
 
@@ -104,28 +114,38 @@ export class HomeComponent {
     this.conversionIsLoading = true;
     this.currencyService
       .convert(this.conversionData.base, this.conversionData.destiny, this.conversionData.value)
-      .then((response) => {
-        this.mainChartOptions = {
-          ...this.mainChartOptions,
-          series: [
-            {
-              ...this.mainChartOptions.series![0],
-              name: `${response.base.currency.shortName} to ${response.result.currency.shortName}`,
-              data: response.result.chartData as any,
-            },
-          ],
-        };
-        this.conversionData.response = response;
-        this.conversionIsLoading = false;
+      .subscribe({
+        next: (response) => {
+          this.mainChartOptions = {
+            ...this.mainChartOptions,
+            series: [
+              {
+                ...this.mainChartOptions.series![0],
+                name: `${response.base.currency.shortName} to ${response.result.currency.shortName}`,
+                data: response.result.chartData as any,
+              },
+            ],
+          };
+          this.conversionData.response = response;
+          this.conversionIsLoading = false;
+        },
+        error: (error) => {
+          console.error(error);
+        },
       });
   }
 
   // Handles the base currency change for the table
   setBaseCurrencyOfTable(base: Currency): void {
     this.tableIsLoading = true;
-    this.currencyService.getConversionTable(base).then((conversionTableData) => {
-      this.setTableData(conversionTableData);
-      this.tableIsLoading = false;
+    this.currencyService.getConversionTable(base).subscribe({
+      next: (conversionTableData) => {
+        this.setTableData(conversionTableData);
+        this.tableIsLoading = false;
+      },
+      error: (error) => {
+        console.error(error);
+      },
     });
   }
 
