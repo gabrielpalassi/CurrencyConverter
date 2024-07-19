@@ -116,7 +116,7 @@ export class HomeComponent {
               {
                 ...this.mainChartOptions.series![0],
                 name: `${conversionResponse.base.currency.shortName} to ${conversionResponse.result.currency.shortName}`,
-                data: conversionResponse.result.chartData as any, // eslint-disable-line
+                data: conversionResponse.result.chartData as any,
               },
             ],
           };
