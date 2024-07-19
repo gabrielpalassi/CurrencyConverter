@@ -1,4 +1,4 @@
-# CurrencyConverter
+# 💱 CurrencyConverter
 
 CurrencyConverter is a web application that facilitates seamless currency conversion, offering real-time exchange rates and a user-friendly experience.
 
