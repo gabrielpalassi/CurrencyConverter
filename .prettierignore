@@ -1,0 +1,16 @@
+# Ignore node_modules directory
+
+**/node_modules/
+
+# Ignore build output directories
+
+**/dist/
+**/build/
+
+# Ignore VS Code directory
+
+**/.vscode/
+
+# Ignore Angular cache directory
+
+**/.angular/

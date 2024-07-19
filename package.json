@@ -1,0 +1,22 @@
+{
+  "name": "currencyconverter",
+  "scripts": {
+    "lint": "eslint --fix .",
+    "format": "prettier --write ."
+  },
+  "module": "index.ts",
+  "devDependencies": {
+    "@eslint/js": "^9.7.0",
+    "@types/bun": "latest",
+    "eslint": "9.x",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.8.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.5",
+    "typescript-eslint": "^7.16.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "type": "module"
+}

@@ -11,8 +11,8 @@ import {
 import Currency from '../../../../../../shared/interfaces/currency.interface';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { slideOutIn } from '../../animations/slide-out-in.animation';
-import { fadeIn } from '../../animations/fade-in.animation';
+import slideOutIn from '../../animations/slide-out-in.animation';
+import fadeIn from '../../animations/fade-in.animation';
 
 @Component({
   selector: 'app-currency-select',

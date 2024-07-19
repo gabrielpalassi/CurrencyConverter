@@ -1,14 +1,12 @@
 {
   "name": "backend",
   "scripts": {
-    "start": "bun --watch run src/app.ts",
-    "prettier": "prettier --write ."
+    "start": "bun --watch run src/app.ts"
   },
   "dependencies": {
     "hono": "^4.4.13"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "prettier": "^3.3.3"
+    "@types/bun": "latest"
   }
 }

@@ -1,19 +1,17 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
 # Compiled output
+
 /dist
+/build
 /tmp
 /out-tsc
 /bazel-out
 
-# Runtime
+# Dependency directories
+
 /node_modules
-npm-debug.log
-yarn-error.log
-bun-error.log
-bun-debug.log
 
 # IDEs and editors
+
 .idea/
 .project
 .classpath
@@ -23,6 +21,7 @@ bun-debug.log
 *.sublime-workspace
 
 # Visual Studio Code
+
 .vscode/
 .vscode/*
 !.vscode/settings.json
@@ -31,7 +30,8 @@ bun-debug.log
 !.vscode/extensions.json
 .history/*
 
-# Miscellaneous
+# Miscellaneous and logs
+
 /.angular/cache
 .sass-cache/
 /connect.lock
@@ -39,7 +39,42 @@ bun-debug.log
 /libpeerconnection.log
 testem.log
 /typings
+logs
+_.log
+npm-debug.log_
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+bun-error.log
+bun-debug.log
 
 # System files
+
 .DS_Store
 Thumbs.db
+
+# dotenv environment variable files
+
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Output of 'npm pack'
+
+*.tgz
+
+# Optional eslint cache
+
+.eslintcache
+
+# TypeScript cache
+
+*.tsbuildinfo
+
+# Caches
+
+.cache
+

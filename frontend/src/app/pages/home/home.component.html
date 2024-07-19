@@ -106,12 +106,12 @@
 </section>
 <!-- White full-width container -->
 <div
-  class="mt-10 flex w-full flex-col items-center justify-start rounded-t-4xl bg-white"
+  class="rounded-t-4xl mt-10 flex w-full flex-col items-center justify-start bg-white"
   #whiteFullWidthContainer>
   <!-- Exchange rates table section -->
   <section
     id="exchangeRates"
-    class="mt-2 min-h-144 w-full max-w-7xl px-6 py-6 lg:mt-4 lg:px-8">
+    class="min-h-144 mt-2 w-full max-w-7xl px-6 py-6 lg:mt-4 lg:px-8">
     <!-- Title and description -->
     <div class="mb-7 w-full">
       <p class="text-base font-semibold text-slate-600">Stay updated</p>
@@ -173,7 +173,7 @@
               (click)="setBaseCurrencyOfTable(entry.currency)"
               class="*:delay-70 h-19 cursor-pointer border-slate-100 text-slate-600 *:transition *:hover:bg-blue-50"
               [ngClass]="{
-                'border-b-[1.5px]': entry.currency.shortName !== conversionTableData.result.at(-1)!.currency.shortName
+                'border-b-[1.5px]': entry.currency.shortName !== conversionTableData.result.at(-1)!.currency.shortName,
               }">
               <!-- Currency -->
               <th class="rounded-l-md px-4 text-left font-semibold">
@@ -212,7 +212,7 @@
                 class="hidden px-4 text-center font-semibold lg:table-cell"
                 [ngClass]="{
                   'text-red-500': entry.dailyChange! < 0,
-                  'text-green-500': entry.dailyChange! > 0
+                  'text-green-500': entry.dailyChange! > 0,
                 }">
                 @if (entry.dailyChange! > 0) {
                   <span>+</span>
@@ -221,7 +221,7 @@
               </td>
               <!-- Chart -->
               <td class="rounded-r-md px-4 text-right font-semibold">
-                <div class="flex h-19 w-full">
+                <div class="h-19 flex w-full">
                   <highcharts-chart
                     [Highcharts]="Highcharts"
                     [options]="entry.chartOptions!"

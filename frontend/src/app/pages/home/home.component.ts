@@ -9,8 +9,8 @@ import { mainChartConfig } from './configs/main-chart.config';
 import { tableChartConfig } from './configs/table-chart.config';
 import { DecimalPipe } from '@angular/common';
 import { NgClass } from '@angular/common';
-import { fadeIn } from '../../shared/animations/fade-in.animation';
-import { expand } from '../../shared/animations/expand.animation';
+import fadeIn from '../../shared/animations/fade-in.animation';
+import expand from '../../shared/animations/expand.animation';
 import ConversionData from '../../shared/interfaces/conversion-data.interface';
 import ConversionTableResult from '../../shared/interfaces/conversion-table-result.interface';
 import ConversionTableResponse from '../../../../../shared/interfaces/conversion-table-response.interface';
@@ -116,7 +116,7 @@ export class HomeComponent {
               {
                 ...this.mainChartOptions.series![0],
                 name: `${conversionResponse.base.currency.shortName} to ${conversionResponse.result.currency.shortName}`,
-                data: conversionResponse.result.chartData as any,
+                data: conversionResponse.result.chartData as any, // eslint-disable-line
               },
             ],
           };
@@ -159,7 +159,7 @@ export class HomeComponent {
           {
             ...this.tableChartOptions.series![0],
             name: `${conversionTableResponse.base.shortName} to ${entry.currency.shortName}`,
-            data: entry.chartData as [number, number][],
+            data: entry.chartData as any, // eslint-disable-line
           },
         ],
       };
