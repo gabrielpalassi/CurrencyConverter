@@ -2,34 +2,28 @@
 
 CurrencyConverter is a web application that facilitates seamless currency conversion, offering real-time exchange rates and a user-friendly experience.
 
-## Features
-
-- **Currency Conversion:** Convert between different currencies effortlessly.
-- **Real-time Exchange Rates:** Stay updated with the latest market rates.
-- **Intuitive Interface:** User-friendly design for easy navigation.
-- **Global Accessibility:** Ideal for travelers, traders, and anyone dealing with multiple currencies.
-
 ## Getting Started
 
 ### Prerequisites
 
 Make sure you have the following installed:
 
-- Bun
-- Angular CLI
+- [Bun](https://bun.sh/)
+- [Angular CLI](https://angular.dev/installation#install-angular-cli)
 
 ### Installation
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/CurrencyConverter.git
+   git clone https://github.com/gabrielpalassi/CurrencyConverter.git
    ```
 
 2. Install dependencies:
 
    ```bash
-   cd CurrencyConverter/backend && bun install && cd ../frontend && bun install
+   cd CurrencyConverter
+   bun run post-clone
    ```
 
 ### Running localy
@@ -40,29 +34,51 @@ Make sure you have the following installed:
    cd backend
    ```
 
-2. Start the server:
+2. Start the backend server:
 
    ```bash
    bun run start
    ```
 
-3. Navigate to the frontend directory:
+3. Open another terminal and navigate to the frontend directory:
 
    ```bash
-   cd ../frontend
+   cd frontend
    ```
 
-4. Serve the Angular app:
+4. Serve the Angular application:
 
    ```bash
    bun run start
    ```
 
-5. Open your browser and visit `http://localhost:4200` to use the application.
+5. Your browser should automatically open at `http://localhost:4200`, where the app will be accessible.
+
+## Code Quality
+
+To ensure code quality and consistency, the following tools are required and should be run from the root of the repository:
+
+- **Formatting**: Automatically format code using Prettier to adhere to the project's style guidelines.
+
+  ```bash
+  bun run format
+  ```
+
+- **Linting**: Check for and resolve code quality issues using ESLint.
+
+  ```bash
+  bun run lint
+  ```
+
+- **Pre-commit**: This script runs before each commit to enforce code quality. It performs formatting with Prettier and linting with ESLin, in that order. The commit will only proceed if all checks pass.
+
+  ```bash
+  bun run pre-commit
+  ```
 
 ## License
 
-This project is licensed under the GPL-3.0 license - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the GPL-3.0 License. See the [LICENSE](LICENSE) file for more information.
 
 ## Acknowledgments
 
