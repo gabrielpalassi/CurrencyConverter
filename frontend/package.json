@@ -1,7 +1,6 @@
 {
   "name": "currencyconverter-frontend",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve --open",
     "start:prod": "ng serve --configuration production --open",
     "build": "ng build",

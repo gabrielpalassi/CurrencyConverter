@@ -1,6 +1,7 @@
 {
   "name": "currencyconverter",
   "scripts": {
+    "post-clone": "cd frontend && bun install && cd ../backend && bun install && cd ../ && husky",
     "format": "prettier --write .",
     "lint": "eslint --fix .",
     "pre-commit": "bun run format && bun run lint"
