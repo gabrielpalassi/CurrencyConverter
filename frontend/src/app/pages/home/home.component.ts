@@ -159,7 +159,7 @@ export class HomeComponent {
           {
             ...this.tableChartOptions.series![0],
             name: `${conversionTableResponse.base.shortName} to ${entry.currency.shortName}`,
-            data: entry.chartData as any,
+            data: entry.chartData as any, // eslint-disable-line
           },
         ],
       };
