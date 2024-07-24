@@ -22,7 +22,7 @@ export const mainChartConfig: Highcharts.Options = {
   },
   series: [
     {
-      type: 'area',
+      type: 'areaspline',
       color: 'rgba(37, 99, 235, 1)',
       marker: {
         enabled: false,
@@ -39,7 +39,7 @@ export const mainChartConfig: Highcharts.Options = {
     visible: false,
   },
   plotOptions: {
-    area: {
+    areaspline: {
       fillColor: {
         linearGradient: {
           x1: 0,

@@ -22,7 +22,7 @@ export const tableChartConfig: Highcharts.Options = {
   },
   series: [
     {
-      type: 'line',
+      type: 'spline',
       color: 'rgba(37, 99, 235, 1)',
       marker: {
         enabled: false,
@@ -39,7 +39,7 @@ export const tableChartConfig: Highcharts.Options = {
     visible: false,
   },
   plotOptions: {
-    line: {
+    spline: {
       marker: {
         radius: 2,
       },
