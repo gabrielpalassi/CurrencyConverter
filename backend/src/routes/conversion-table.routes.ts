@@ -10,8 +10,9 @@ conversionTableRoutes.post('/', async (context) => {
     const { base }: { base: Currency } = await context.req.json();
     const conversionTable: ConversionTableResponse = await getConversionTable(base);
     return context.json(conversionTable);
-  } catch (error) {
-    return context.json({ error: 'Failed to fetch conversion table' }, 500);
+  } catch (error: any) {
+    const errorMessage = error.message ? `${error.message}` : 'Failed to get conversion table.';
+    return context.json({ error: errorMessage }, 500);
   }
 });
 

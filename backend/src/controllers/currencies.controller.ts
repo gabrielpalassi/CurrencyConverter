@@ -1,7 +1,13 @@
 import Currency from '../../../shared/interfaces/currency.interface';
-import { fetchCurrencies } from '../services/currencies.service';
+import { getAllCurrenciesData } from '../services/currency.service';
 
+// Returns all currencies
 export const getCurrencies = async (): Promise<Currency[]> => {
-  const currencies: Currency[] = await fetchCurrencies();
-  return currencies;
+  try {
+    const currenciesData = await getAllCurrenciesData();
+    return currenciesData.map(({ currency }) => currency);
+  } catch (error: any) {
+    const errorMessage = error.message ? `Failed to fetch currencies: ${error.message}` : 'Failed to fetch currencies.';
+    throw new Error(errorMessage);
+  }
 };

@@ -8,8 +8,9 @@ currenciesRoutes.get('/', async (context) => {
   try {
     const currencies: Currency[] = await getCurrencies();
     return context.json(currencies);
-  } catch (error) {
-    return context.json({ error: 'Failed to fetch currencies' }, 500);
+  } catch (error: any) {
+    const errorMessage = error.message ? `${error.message}` : 'Failed to fetch currencies.';
+    return context.json({ error: errorMessage }, 500);
   }
 });
 

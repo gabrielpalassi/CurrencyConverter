@@ -11,5 +11,10 @@ export default [
   {
     ignores: ['**/.angular/', '**/dist/', '**/build/', '**/.vscode/'],
   },
+  {
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
   eslintConfigPrettier,
 ];

@@ -1,8 +1,37 @@
 import ConversionTableResponse from '../../../shared/interfaces/conversion-table-response.interface';
 import Currency from '../../../shared/interfaces/currency.interface';
-import { fetchConversionTable } from '../services/conversion-table.service';
+import { getAllCurrenciesData } from '../services/currency.service';
+import { convertCurrency } from './convert.controller';
 
+// Returns the conversion table for the given base currency
 export const getConversionTable = async (base: Currency): Promise<ConversionTableResponse> => {
-  const conversionTable: ConversionTableResponse = await fetchConversionTable(base);
-  return conversionTable;
+  try {
+    if (!base) throw new Error('Invalid base currency');
+
+    const allCurrencies = (await getAllCurrenciesData()).map(({ currency }) => currency);
+
+    const targetCurrencyCodes = ['USD', 'EUR', 'GBP', 'JPY', 'AUD'].filter(
+      (currencyCode) => currencyCode !== base.code,
+    );
+
+    const result = (
+      await Promise.all(
+        targetCurrencyCodes.map(async (targetCurrencyCode) => {
+          const target = allCurrencies.find(({ code }) => code === targetCurrencyCode);
+          if (!target) throw new Error(`Currency ${targetCurrencyCode} not found`);
+          return await convertCurrency(base, target, 1);
+        }),
+      )
+    ).map(({ result }) => result);
+
+    return {
+      base,
+      result,
+    };
+  } catch (error: any) {
+    const errorMessage = error.message
+      ? `Failed to get conversion table: ${error.message}`
+      : 'Failed to get conversion table.';
+    throw new Error(errorMessage);
+  }
 };

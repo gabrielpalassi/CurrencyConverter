@@ -4,6 +4,8 @@
     "start": "bun --watch run src/app.ts"
   },
   "dependencies": {
+    "@gaignoux/currency": "^1.1.0",
+    "ecb-euro-exchange-rates": "^4.0.0",
     "hono": "^4.4.13"
   },
   "devDependencies": {
