@@ -28,10 +28,9 @@ export const getConversionTable = async (base: Currency): Promise<ConversionTabl
       base,
       result,
     };
-  } catch (error: any) {
-    const errorMessage = error.message
-      ? `Failed to get conversion table: ${error.message}`
-      : 'Failed to get conversion table.';
+  } catch (error) {
+    let errorMessage = 'Failed to get conversion table.';
+    if (error instanceof Error && error.message) errorMessage = `Failed to get conversion table: ${error.message}`;
     throw new Error(errorMessage);
   }
 };

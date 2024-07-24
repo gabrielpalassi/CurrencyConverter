@@ -116,7 +116,7 @@ export class HomeComponent {
               {
                 ...this.mainChartOptions.series![0],
                 name: `${conversionResponse.base.currency.code} to ${conversionResponse.result.currency.code}`,
-                data: conversionResponse.result.chartData as any,
+                data: conversionResponse.result.chartData as any, // eslint-disable-line @typescript-eslint/no-explicit-any
               },
             ],
           };
@@ -159,7 +159,7 @@ export class HomeComponent {
           {
             ...this.tableChartOptions.series![0],
             name: `${conversionTableResponse.base.code} to ${entry.currency.code}`,
-            data: entry.chartData as any,
+            data: entry.chartData as any, // eslint-disable-line @typescript-eslint/no-explicit-any
           },
         ],
       };

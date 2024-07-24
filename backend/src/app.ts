@@ -6,13 +6,13 @@ import convertRoutes from './routes/convert.routes';
 
 const app = new Hono();
 
-// Middlewares
+// CORS middleware
 app.use('*', cors());
 
 // Error handler
 app.onError((error, context) => {
   console.error(error);
-  return context.json({ error: 'An unexpected error occurred' }, 500);
+  return context.json({ error: 'An unexpected error occurred.' }, 500);
 });
 
 // Routes

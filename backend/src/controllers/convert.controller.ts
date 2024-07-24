@@ -16,9 +16,7 @@ export const convertCurrency = async (
     const baseData = await getCurrencyData(base);
     const targetData = await getCurrencyData(target);
 
-    if (!baseData || !targetData) {
-      throw new Error('Currency data not found.');
-    }
+    if (!baseData || !targetData) throw new Error('Currency data not found.');
 
     const rate = targetData.rate / baseData.rate;
     const result = amount * rate;
@@ -26,9 +24,7 @@ export const convertCurrency = async (
     const chartData = targetData.chartData
       .map(([targetX, targetY]) => {
         const baseChartData = baseData.chartData.find(([baseX]) => baseX === targetX);
-        if (!baseChartData) {
-          throw new Error('Base currency data not found.');
-        }
+        if (!baseChartData) throw new Error('Base currency data not found.');
         const convertedY = targetY / baseChartData[1];
         return [targetX, Number(convertedY.toFixed(5))];
       })
@@ -45,8 +41,9 @@ export const convertCurrency = async (
         chartData,
       },
     };
-  } catch (error: any) {
-    const errorMessage = error.message ? `Failed to convert currency: ${error.message}` : 'Failed to convert currency.';
+  } catch (error) {
+    let errorMessage = 'Failed to convert currency.';
+    if (error instanceof Error && error.message) errorMessage = `Failed to convert currency: ${error.message}`;
     throw new Error(errorMessage);
   }
 };

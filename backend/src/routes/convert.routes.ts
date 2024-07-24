@@ -10,8 +10,9 @@ convertRoutes.post('/', async (context) => {
     const { base, target, amount }: { base: Currency; target: Currency; amount: number } = await context.req.json();
     const result: ConversionResponse = await convertCurrency(base, target, amount);
     return context.json(result);
-  } catch (error: any) {
-    const errorMessage = error.message ? `${error.message}` : 'Failed to convert currency.';
+  } catch (error) {
+    let errorMessage = 'Failed to convert currency.';
+    if (error instanceof Error && error.message) errorMessage = `Failed to convert currency: ${error.message}`;
     return context.json({ error: errorMessage }, 500);
   }
 });

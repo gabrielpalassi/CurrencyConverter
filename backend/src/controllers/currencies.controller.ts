@@ -6,8 +6,9 @@ export const getCurrencies = async (): Promise<Currency[]> => {
   try {
     const currenciesData = await getAllCurrenciesData();
     return currenciesData.map(({ currency }) => currency);
-  } catch (error: any) {
-    const errorMessage = error.message ? `Failed to fetch currencies: ${error.message}` : 'Failed to fetch currencies.';
+  } catch (error) {
+    let errorMessage = 'Failed to fetch currencies.';
+    if (error instanceof Error && error.message) errorMessage = `Failed to fetch currencies: ${error.message}`;
     throw new Error(errorMessage);
   }
 };
