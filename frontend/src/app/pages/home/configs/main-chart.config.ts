@@ -24,6 +24,9 @@ export const mainChartConfig: Highcharts.Options = {
     {
       type: 'area',
       color: 'rgba(37, 99, 235, 1)',
+      marker: {
+        enabled: false,
+      },
     },
   ],
   xAxis: {

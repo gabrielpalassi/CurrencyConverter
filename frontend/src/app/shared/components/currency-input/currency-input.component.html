@@ -8,9 +8,9 @@
     </label>
   }
   <div class="relative rounded-md shadow-sm">
-    <!-- Prefix -->
+    <!-- Symbol -->
     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-      <span class="text-slate-900">{{ prefix }}</span>
+      <span class="text-slate-900">{{ symbol }}</span>
     </div>
     <!-- Input -->
     <input
@@ -20,14 +20,14 @@
       autocomplete="off"
       [ngClass]="{
         'ring-red-500': error,
-        'pl-3': !prefix,
-        'pl-6': prefix?.length === 1,
-        'pl-8': prefix?.length === 2,
-        'pl-10': prefix?.length === 3,
+        'pl-3': !symbol,
+        'pl-6': symbol?.length === 1,
+        'pl-8': symbol?.length === 2,
+        'pl-10': symbol?.length === 3,
       }"
       [placeholder]="placeholder"
-      [(ngModel)]="value"
-      (ngModelChange)="valueChange.emit($event); error = false; errorChange.emit(false)"
+      [(ngModel)]="amount"
+      (ngModelChange)="onModelChange($event)"
       currencyMask
       [options]="{
         align: 'left',

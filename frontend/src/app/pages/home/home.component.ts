@@ -32,14 +32,14 @@ export class HomeComponent {
   conversionIsLoading: boolean = true;
   currencyList: Currency[] | undefined;
   conversionData: ConversionData = {
-    base: { shortName: '', fullName: '', flag: '', prefix: '' },
-    destiny: { shortName: '', fullName: '', flag: '', prefix: '' },
-    value: undefined,
+    base: { code: '', name: '', symbol: '' },
+    target: { code: '', name: '', symbol: '' },
+    amount: undefined,
     response: undefined,
   };
   tableIsLoading: boolean = true;
   conversionTableData: ConversionTableData = {
-    base: { shortName: '', fullName: '', flag: '', prefix: '' },
+    base: { code: '', name: '', symbol: '' },
     result: [],
   };
 
@@ -55,7 +55,7 @@ export class HomeComponent {
       next: (currencyList: Currency[]) => {
         this.currencyList = currencyList;
         this.conversionData.base = currencyList[0];
-        this.conversionData.destiny = currencyList[1];
+        this.conversionData.target = currencyList[1];
         this.conversionIsLoading = false;
         this.getConversionTable(this.conversionData.base);
       },
@@ -93,21 +93,21 @@ export class HomeComponent {
   // Switches the currencies
   switchConversionCurrencies(): void {
     const temp = this.conversionData.base;
-    this.conversionData.base = this.conversionData.destiny;
-    this.conversionData.destiny = temp;
+    this.conversionData.base = this.conversionData.target;
+    this.conversionData.target = temp;
     if (this.conversionData.response) this.convertCurrency();
   }
 
   // Handles the conversion
   convertCurrency(): void {
-    if (!this.conversionData.value) {
+    if (!this.conversionData.amount) {
       this.inputError = true;
       return;
     }
     if (this.inputError) this.inputError = false;
     this.conversionIsLoading = true;
     this.currencyService
-      .convert(this.conversionData.base, this.conversionData.destiny, this.conversionData.value)
+      .convert(this.conversionData.base, this.conversionData.target, this.conversionData.amount)
       .subscribe({
         next: (conversionResponse: ConversionResponse) => {
           this.mainChartOptions = {
@@ -115,8 +115,8 @@ export class HomeComponent {
             series: [
               {
                 ...this.mainChartOptions.series![0],
-                name: `${conversionResponse.base.currency.shortName} to ${conversionResponse.result.currency.shortName}`,
-                data: conversionResponse.result.chartData as any, // eslint-disable-line
+                name: `${conversionResponse.base.currency.code} to ${conversionResponse.result.currency.code}`,
+                data: conversionResponse.result.chartData as any,
               },
             ],
           };
@@ -158,8 +158,8 @@ export class HomeComponent {
         series: [
           {
             ...this.tableChartOptions.series![0],
-            name: `${conversionTableResponse.base.shortName} to ${entry.currency.shortName}`,
-            data: entry.chartData as any, // eslint-disable-line
+            name: `${conversionTableResponse.base.code} to ${entry.currency.code}`,
+            data: entry.chartData as any,
           },
         ],
       };

@@ -3,7 +3,7 @@ import ConversionResponse from '../../../../../shared/interfaces/conversion-resp
 
 export default interface ConversionData {
   base: Currency;
-  destiny: Currency;
-  value: number | undefined;
+  target: Currency;
+  amount: number | undefined;
   response: ConversionResponse | undefined;
 }

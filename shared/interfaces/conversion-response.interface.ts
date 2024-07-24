@@ -4,7 +4,7 @@ import Currency from './currency.interface';
 export default interface ConversionResponse {
   base: {
     currency: Currency;
-    value: number;
+    amount: number;
   };
   result: ConversionResult;
 }

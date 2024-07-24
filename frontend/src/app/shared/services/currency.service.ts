@@ -23,8 +23,8 @@ export class CurrencyService {
     return this.http.post<ConversionTableResponse>(`${environment.apiUrl}/conversion-table`, { base });
   }
 
-  // Convert a currency value from one currency to another
-  convert(base: Currency, destiny: Currency, value: number): Observable<ConversionResponse> {
-    return this.http.post<ConversionResponse>(`${environment.apiUrl}/convert`, { base, destiny, value });
+  // Convert a currency amount from one currency to another
+  convert(base: Currency, target: Currency, amount: number): Observable<ConversionResponse> {
+    return this.http.post<ConversionResponse>(`${environment.apiUrl}/convert`, { base, target, amount });
   }
 }

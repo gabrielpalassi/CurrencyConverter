@@ -68,7 +68,7 @@ export class CurrencySelectComponent {
     }
 
     this.filteredOptions = this.options.filter((option) =>
-      (option.shortName + ' - ' + option.fullName).toLowerCase().includes(this.searchTerm.toLowerCase()),
+      (option.code + ' - ' + option.name).toLowerCase().includes(this.searchTerm.toLowerCase()),
     );
   }
 

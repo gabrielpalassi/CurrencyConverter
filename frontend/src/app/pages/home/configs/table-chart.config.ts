@@ -24,6 +24,9 @@ export const tableChartConfig: Highcharts.Options = {
     {
       type: 'line',
       color: 'rgba(37, 99, 235, 1)',
+      marker: {
+        enabled: false,
+      },
     },
   ],
   xAxis: {

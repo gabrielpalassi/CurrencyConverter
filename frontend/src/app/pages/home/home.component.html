@@ -14,8 +14,8 @@
         <!-- Amount -->
         <currency-input
           label="Amount"
-          [prefix]="conversionData.base.prefix"
-          [(value)]="conversionData.value"
+          [symbol]="conversionData.base.symbol"
+          [(amount)]="conversionData.amount"
           [placeholder]="'0.00'"
           [(error)]="inputError"
           class="w-full">
@@ -39,7 +39,7 @@
         <app-currency-select
           label="To"
           [options]="currencyList"
-          [(selectedOption)]="conversionData.destiny"
+          [(selectedOption)]="conversionData.target"
           class="w-full md:max-w-[283.64px]">
         </app-currency-select>
         <!-- Convert button -->
@@ -66,26 +66,28 @@
             <!-- Data -->
             <div @fadeIn>
               <p class="mt-6 whitespace-nowrap text-base font-semibold text-slate-600">
-                {{ this.conversionData.response.base.value | number: "1.2-2" }}
-                {{ this.conversionData.response.base.currency.shortName }}
+                {{ this.conversionData.response.base.amount | number: "1.2-2" }}
+                {{ this.conversionData.response.base.currency.code }}
               </p>
               <p class="whitespace-nowrap text-2xl font-bold">
-                {{ this.conversionData.response.result.value | number: "1.2-2" }}
-                {{ this.conversionData.response.result.currency.shortName }}
+                {{ this.conversionData.response.result.convertedAmount | number: "1.2-2" }}
+                {{ this.conversionData.response.result.currency.code }}
               </p>
               <p class="mt-2 whitespace-nowrap text-xs text-slate-500">
-                1 {{ this.conversionData.response.base.currency.fullName }} =
+                1 {{ this.conversionData.response.base.currency.name }} =
                 {{
-                  this.conversionData.response.result.value / this.conversionData.response.base.value | number: "1.2-2"
+                  this.conversionData.response.result.convertedAmount / this.conversionData.response.base.amount
+                    | number: "1.2-2"
                 }}
-                {{ this.conversionData.response.result.currency.fullName }}
+                {{ this.conversionData.response.result.currency.name }}
               </p>
               <p class="mt-1 whitespace-nowrap text-xs text-slate-500">
-                1 {{ this.conversionData.response.result.currency.fullName }} =
+                1 {{ this.conversionData.response.result.currency.name }} =
                 {{
-                  this.conversionData.response.base.value / this.conversionData.response.result.value | number: "1.2-2"
+                  this.conversionData.response.base.amount / this.conversionData.response.result.convertedAmount
+                    | number: "1.2-2"
                 }}
-                {{ this.conversionData.response.base.currency.fullName }}
+                {{ this.conversionData.response.base.currency.name }}
               </p>
             </div>
             <!-- Chart -->
@@ -127,9 +129,9 @@
             <th class="w-1/3 max-w-[33%] truncate px-4 pb-4 text-left font-semibold sm:w-auto">Currency</th>
             <th class="w-1/3 max-w-[33%] truncate px-4 pb-4 text-center font-semibold sm:w-auto">Rate</th>
             <th class="hidden truncate px-4 pb-4 text-center font-semibold sm:table-cell">Equivalence</th>
-            <th class="hidden truncate px-4 pb-4 text-center font-semibold lg:table-cell">Change (24h)</th>
+            <th class="hidden truncate px-4 pb-4 text-center font-semibold lg:table-cell">Change (90d)</th>
             <th class="w-1/3 max-w-[33%] truncate px-4 pb-4 text-right font-semibold sm:w-2/5 sm:max-w-none">
-              Chart (24h)
+              Chart (90d)
             </th>
           </tr>
         </thead>
@@ -138,16 +140,16 @@
           <tr class="h-19 text-white *:bg-blue-900">
             <!-- Currency -->
             <th class="rounded-l-md px-4 text-left font-semibold">
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-3">
                 <!-- Flag -->
                 <img
-                  [src]="conversionTableData.base.flag"
+                  src="assets/currency-flags/{{ conversionTableData.base.code }}.svg"
                   alt="Country flag"
-                  class="h-6 w-6 rounded-full" />
+                  class="h-6 w-6" />
                 <!-- Currency name -->
                 <div>
-                  <p class="hidden truncate sm:block">{{ conversionTableData.base.fullName }}</p>
-                  <p class="sm:text-xs sm:font-medium">{{ conversionTableData.base.shortName }}</p>
+                  <p class="hidden truncate sm:block">{{ conversionTableData.base.name }}</p>
+                  <p class="sm:text-xs sm:font-medium">{{ conversionTableData.base.code }}</p>
                 </div>
               </div>
             </th>
@@ -156,10 +158,10 @@
             <!-- Equivalence -->
             <td class="hidden px-4 text-center font-semibold sm:table-cell">
               <p class="truncate text-xs">
-                1 {{ conversionTableData.base.shortName }} = 1 {{ conversionTableData.base.shortName }}
+                1 {{ conversionTableData.base.code }} = 1 {{ conversionTableData.base.code }}
               </p>
               <p class="truncate text-xs">
-                1 {{ conversionTableData.base.shortName }} = 1 {{ conversionTableData.base.shortName }}
+                1 {{ conversionTableData.base.code }} = 1 {{ conversionTableData.base.code }}
               </p>
             </td>
             <!-- Change -->
@@ -168,43 +170,43 @@
             <td class="rounded-r-md px-4 text-right font-semibold"></td>
           </tr>
           <!-- Conversions -->
-          @for (entry of conversionTableData.result; track entry.currency.shortName) {
+          @for (entry of conversionTableData.result; track entry.currency.code) {
             <tr
               (click)="setBaseCurrencyOfTable(entry.currency)"
               class="*:delay-70 h-19 cursor-pointer border-slate-100 text-slate-600 *:transition *:hover:bg-blue-50"
               [ngClass]="{
-                'border-b-[1.5px]': entry.currency.shortName !== conversionTableData.result.at(-1)!.currency.shortName,
+                'border-b-[1.5px]': entry.currency.code !== conversionTableData.result.at(-1)!.currency.code,
               }">
               <!-- Currency -->
               <th class="rounded-l-md px-4 text-left font-semibold">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-3">
                   <!-- Flag -->
                   <img
-                    [src]="entry.currency.flag"
+                    src="assets/currency-flags/{{ entry.currency.code }}.svg"
                     alt="Country flag"
-                    class="h-6 w-6 rounded-full" />
+                    class="h-6 w-6" />
                   <!-- Currency name -->
                   <div>
-                    <p class="hidden truncate sm:block">{{ entry.currency.fullName }}</p>
-                    <p class="sm:text-xs sm:font-medium">{{ entry.currency.shortName }}</p>
+                    <p class="hidden truncate sm:block">{{ entry.currency.name }}</p>
+                    <p class="sm:text-xs sm:font-medium">{{ entry.currency.code }}</p>
                   </div>
                 </div>
               </th>
               <!-- Rate -->
               <td class="px-4 text-center font-semibold">
-                {{ entry.value | number: "1.2-5" }}
+                {{ entry.convertedAmount | number: "1.2-5" }}
               </td>
               <!-- Equivalence -->
               <td class="hidden px-4 text-center font-semibold sm:table-cell">
                 <p class="truncate text-xs">
-                  1 {{ conversionTableData.base.shortName }} =
-                  {{ entry.value | number: "1.2-2" }}
-                  {{ entry.currency.shortName }}
+                  1 {{ conversionTableData.base.code }} =
+                  {{ entry.convertedAmount | number: "1.2-2" }}
+                  {{ entry.currency.code }}
                 </p>
                 <p class="truncate text-xs">
-                  1 {{ entry.currency.shortName }} =
-                  {{ 1 / entry.value | number: "1.2-2" }}
-                  {{ conversionTableData.base.shortName }}
+                  1 {{ entry.currency.code }} =
+                  {{ 1 / entry.convertedAmount | number: "1.2-2" }}
+                  {{ conversionTableData.base.code }}
                 </p>
               </td>
               <!-- Change -->

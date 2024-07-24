@@ -11,10 +11,17 @@ import { NgxCurrencyDirective } from 'ngx-currency';
 })
 export class CurrencyInputComponent {
   @Input() label: string | undefined;
-  @Input() prefix: string | undefined;
+  @Input() symbol: string | undefined;
   @Input() placeholder: string | undefined;
-  @Input() value: number | undefined;
+  @Input() amount: number | undefined;
   @Input() error: boolean | undefined;
   @Output() errorChange = new EventEmitter<boolean>();
-  @Output() valueChange = new EventEmitter<number>();
+  @Output() amountChange = new EventEmitter<number>();
+
+  // Event handler for when the input amount changes
+  onModelChange(event: number) {
+    this.amountChange.emit(event);
+    this.error = false;
+    this.errorChange.emit(false);
+  }
 }
