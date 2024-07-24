@@ -8,8 +8,8 @@ CurrencyConverter is a web application that facilitates seamless currency conver
 
 Make sure you have the following installed:
 
-- [Bun](https://bun.sh/)
-- [Angular CLI](https://angular.dev/installation#install-angular-cli)
+- [Bun](https://bun.sh/) 1.1.20
+- [Angular CLI](https://angular.dev/installation#install-angular-cli) 17.2.1
 
 ### Installation
 
@@ -79,9 +79,5 @@ To ensure code quality and consistency, the following tools are required and sho
 ## License
 
 This project is licensed under the GPL-3.0 License. See the [LICENSE](LICENSE) file for more information.
-
-## Acknowledgments
-
-- Special thanks to [Open Exchange Rates](https://openexchangerates.org/) for providing exchange rate data.
 
 Happy converting!
