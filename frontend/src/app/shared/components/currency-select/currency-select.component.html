@@ -22,8 +22,8 @@
           <img
             @fadeIn
             src="assets/currency-flags/{{ selectedOption.code }}.svg"
-            alt="Country flag"
-            class="h-6 w-6 flex-shrink-0" />
+            alt="Currency flag"
+            class="h-auto w-6 border-[1px] border-slate-200" />
           <!-- Name -->
           <span
             class="block truncate"
@@ -86,7 +86,7 @@
                 <img
                   src="assets/currency-flags/{{ option.code }}.svg"
                   alt=""
-                  class="h-6 w-6 flex-shrink-0" />
+                  class="h-auto w-6 border-[1px] border-slate-200" />
                 <span
                   class="block truncate"
                   [ngClass]="{

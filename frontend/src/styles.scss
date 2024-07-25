@@ -34,3 +34,28 @@ html {
     gap: 15px;
   }
 }
+
+// Custom table row for the exchange rates table
+
+.custom-tr {
+  @apply h-19 border-b-[1.5px] border-slate-200;
+
+  td,
+  th {
+    @apply px-4 text-center font-semibold;
+  }
+
+  td:first-child,
+  th:first-child {
+    @apply rounded-l-md text-left;
+  }
+
+  td:last-child,
+  th:last-child {
+    @apply rounded-r-md text-right;
+  }
+}
+
+.custom-tr:last-child {
+  @apply border-b-0;
+}

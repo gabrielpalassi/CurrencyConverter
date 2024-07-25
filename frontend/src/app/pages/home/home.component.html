@@ -1,239 +1,230 @@
-<section class="flex w-full justify-center">
-  <div class="mt-5 w-full max-w-7xl px-6 py-6 lg:px-8">
-    <!-- Title and description -->
-    <div class="mb-12 w-full">
-      <p class="text-base font-semibold text-blue-500">Global currency converter</p>
-      <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">CurrencyConverter</h1>
-      <p class="mt-1 text-lg leading-8 text-slate-400">
-        Trusted and open-source global currency conversion and tracking of exchange rates.
-      </p>
+<section class="mt-5 flex flex-col items-center justify-start px-6 py-8 *:w-full *:max-w-[1216px] lg:px-8">
+  <!-- Title and description -->
+  <p class="text-base font-semibold text-blue-500">Global currency converter</p>
+  <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">CurrencyConverter</h1>
+  <p class="mt-1 text-lg leading-8 text-slate-400">
+    Trusted and open-source global currency conversion and tracking of exchange rates.
+  </p>
+  <!-- Conversion container -->
+  <div class="mt-12 w-full rounded-lg bg-white px-8 py-8 md:px-9">
+    <div class="conversion-custom-grid flex w-full flex-col gap-4">
+      <!-- Amount -->
+      <currency-input
+        label="Amount"
+        [symbol]="conversionData.base.symbol"
+        [(amount)]="conversionData.amount"
+        [placeholder]="'0.00'"
+        [(error)]="inputError"
+        class="w-full">
+      </currency-input>
+      <!-- Base currency -->
+      <app-currency-select
+        label="From"
+        [options]="currencyList"
+        [(selectedOption)]="conversionData.base"
+        class="w-full md:max-w-[283.64px]">
+      </app-currency-select>
+      <!-- Switch currencies button -->
+      <button
+        (click)="switchConversionCurrencies()"
+        [disabled]="conversionIsLoading"
+        class="delay-70 h-[48px] w-[48px] rounded-full text-sm text-slate-600 ring-1 ring-inset ring-slate-300 transition hover:text-slate-500 disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:text-slate-400 md:mt-8">
+        <span class="hidden md:inline">&#x21C4;</span>
+        <span class="inline md:hidden">&#x21C5;</span>
+      </button>
+      <!-- Currency to -->
+      <app-currency-select
+        label="To"
+        [options]="currencyList"
+        [(selectedOption)]="conversionData.target"
+        class="w-full md:max-w-[283.64px]">
+      </app-currency-select>
+      <!-- Convert button -->
+      <button
+        (click)="convertCurrency()"
+        [disabled]="conversionIsLoading"
+        class="delay-70 h-[48px] w-full rounded-md bg-blue-600 px-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:bg-blue-400 disabled:hover:bg-blue-400 md:mt-8">
+        @if (conversionIsLoading) {
+          <div class="flex h-full w-full items-center justify-center gap-2">
+            <div class="h-4 w-4 animate-spin rounded-full border-2 border-blue-200 border-t-white"></div>
+            Loading...
+          </div>
+        } @else {
+          Convert
+        }
+      </button>
     </div>
-    <!-- Conversion container -->
-    <div class="w-full rounded-lg bg-white px-8 py-8 md:px-9">
-      <div class="conversion-custom-grid flex w-full flex-col gap-4">
-        <!-- Amount -->
-        <currency-input
-          label="Amount"
-          [symbol]="conversionData.base.symbol"
-          [(amount)]="conversionData.amount"
-          [placeholder]="'0.00'"
-          [(error)]="inputError"
-          class="w-full">
-        </currency-input>
-        <!-- Base currency -->
-        <app-currency-select
-          label="From"
-          [options]="currencyList"
-          [(selectedOption)]="conversionData.base"
-          class="w-full md:max-w-[283.64px]">
-        </app-currency-select>
-        <!-- Switch currencies button -->
-        <button
-          (click)="switchConversionCurrencies()"
-          [disabled]="conversionIsLoading"
-          class="delay-70 h-[48px] w-[48px] rounded-full text-sm text-slate-600 ring-1 ring-inset ring-slate-300 transition hover:text-slate-500 disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:text-slate-400 md:mt-8">
-          <span class="hidden md:inline">&#x21C4;</span>
-          <span class="inline md:hidden">&#x21C5;</span>
-        </button>
-        <!-- Currency to -->
-        <app-currency-select
-          label="To"
-          [options]="currencyList"
-          [(selectedOption)]="conversionData.target"
-          class="w-full md:max-w-[283.64px]">
-        </app-currency-select>
-        <!-- Convert button -->
-        <button
-          (click)="convertCurrency()"
-          [disabled]="conversionIsLoading"
-          class="delay-70 h-[48px] w-full rounded-md bg-blue-600 px-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:bg-blue-400 disabled:hover:bg-blue-400 md:mt-8">
-          @if (conversionIsLoading) {
-            <div class="flex h-full w-full items-center justify-center gap-2">
-              <div class="h-4 w-4 animate-spin rounded-full border-2 border-blue-200 border-t-white"></div>
-              Loading...
-            </div>
-          } @else {
-            Convert
-          }
-        </button>
+    <!-- Conversion response -->
+    @if (this.conversionData.response) {
+      <div
+        class="flex h-[124px] w-full gap-3"
+        @expand>
+        @if (!conversionIsLoading) {
+          <!-- Data -->
+          <div
+            @fadeIn
+            class="*:whitespace-nowrap">
+            <p class="mt-6 text-base font-semibold text-slate-600">
+              {{ this.conversionData.response.base.amount | number: "1.2-2" }}
+              {{ this.conversionData.response.base.currency.code }}
+            </p>
+            <p class="text-2xl font-bold">
+              {{ this.conversionData.response.result.convertedAmount | number: "1.2-2" }}
+              {{ this.conversionData.response.result.currency.code }}
+            </p>
+            <p class="mt-2 text-xs text-slate-500">
+              1 {{ this.conversionData.response.base.currency.name }} =
+              {{
+                this.conversionData.response.result.convertedAmount / this.conversionData.response.base.amount
+                  | number: "1.2-2"
+              }}
+              {{ this.conversionData.response.result.currency.name }}
+            </p>
+            <p class="mt-1 text-xs text-slate-500">
+              1 {{ this.conversionData.response.result.currency.name }} =
+              {{
+                this.conversionData.response.base.amount / this.conversionData.response.result.convertedAmount
+                  | number: "1.2-2"
+              }}
+              {{ this.conversionData.response.base.currency.name }}
+            </p>
+          </div>
+          <!-- Chart -->
+          <div
+            class="flex w-full"
+            @fadeIn>
+            <highcharts-chart
+              [Highcharts]="Highcharts"
+              [options]="mainChartOptions"
+              class="display:block mt-6 w-full">
+            </highcharts-chart>
+          </div>
+        }
       </div>
-      <!-- Conversion response -->
-      @if (this.conversionData.response) {
-        <div
-          class="flex h-[124px] w-full gap-3"
-          @expand>
-          @if (!conversionIsLoading) {
-            <!-- Data -->
-            <div @fadeIn>
-              <p class="mt-6 whitespace-nowrap text-base font-semibold text-slate-600">
-                {{ this.conversionData.response.base.amount | number: "1.2-2" }}
-                {{ this.conversionData.response.base.currency.code }}
-              </p>
-              <p class="whitespace-nowrap text-2xl font-bold">
-                {{ this.conversionData.response.result.convertedAmount | number: "1.2-2" }}
-                {{ this.conversionData.response.result.currency.code }}
-              </p>
-              <p class="mt-2 whitespace-nowrap text-xs text-slate-500">
-                1 {{ this.conversionData.response.base.currency.name }} =
-                {{
-                  this.conversionData.response.result.convertedAmount / this.conversionData.response.base.amount
-                    | number: "1.2-2"
-                }}
-                {{ this.conversionData.response.result.currency.name }}
-              </p>
-              <p class="mt-1 whitespace-nowrap text-xs text-slate-500">
-                1 {{ this.conversionData.response.result.currency.name }} =
-                {{
-                  this.conversionData.response.base.amount / this.conversionData.response.result.convertedAmount
-                    | number: "1.2-2"
-                }}
-                {{ this.conversionData.response.base.currency.name }}
-              </p>
-            </div>
-            <!-- Chart -->
-            <div
-              class="flex w-full"
-              @fadeIn>
-              <highcharts-chart
-                [Highcharts]="Highcharts"
-                [options]="mainChartOptions"
-                class="display:block mt-6 w-full">
-              </highcharts-chart>
-            </div>
-          }
-        </div>
-      }
-    </div>
+    }
   </div>
 </section>
 <!-- White full-width container -->
 <section
-  class="rounded-t-4xl mt-10 flex w-full flex-col items-center justify-start bg-white"
-  #whiteFullWidthContainer>
-  <div
-    id="exchangeRates"
-    class="min-h-144 mt-2 w-full max-w-7xl px-6 py-6 lg:mt-4 lg:px-8">
-    <!-- Title and description -->
-    <div class="mb-7 w-full">
-      <p class="text-base font-semibold text-slate-600">Stay updated</p>
-      <h2 class="text-2xl font-bold tracking-tight">Major Forex Rates</h2>
-    </div>
-    <!-- Exchange rate table -->
-    @if (!tableIsLoading) {
-      <table
-        class="w-full"
-        @fadeIn>
-        <thead>
-          <tr class="text-slate-600">
-            <th class="w-1/3 max-w-[33%] truncate px-4 pb-4 text-left font-semibold sm:w-auto">Currency</th>
-            <th class="w-1/3 max-w-[33%] truncate px-4 pb-4 text-center font-semibold sm:w-auto">Rate</th>
-            <th class="hidden truncate px-4 pb-4 text-center font-semibold sm:table-cell">Equivalence</th>
-            <th class="hidden truncate px-4 pb-4 text-center font-semibold lg:table-cell">Change (90d)</th>
-            <th class="w-1/3 max-w-[33%] truncate px-4 pb-4 text-right font-semibold sm:w-2/5 sm:max-w-none">
-              Chart (90d)
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Base -->
-          <tr class="h-19 text-white *:bg-blue-900">
+  class="rounded-t-4xl mt-10 flex flex-col items-center justify-start bg-white px-6 py-8 *:w-full *:max-w-[1216px] lg:px-8 lg:py-10"
+  #whiteFullWidthContainer
+  id="exchangeRates">
+  <!-- Title and description -->
+  <p class="text-base font-semibold text-slate-600">Stay updated</p>
+  <h2 class="text-2xl font-bold tracking-tight">Major Forex Rates</h2>
+  <!-- Exchange rate table -->
+  @if (!tableIsLoading) {
+    <table
+      @fadeIn
+      class="mt-5">
+      <thead>
+        <tr class="h-12 text-slate-600 *:truncate *:px-4 *:font-semibold">
+          <th class="w-1/3 max-w-[33%] text-left sm:w-auto">Currency</th>
+          <th class="w-1/3 max-w-[33%] text-center sm:w-auto">Rate</th>
+          <th class="hidden text-center sm:table-cell">Equivalence</th>
+          <th class="hidden text-center lg:table-cell">Change (90d)</th>
+          <th class="w-1/3 max-w-[33%] text-right sm:w-2/5 sm:max-w-none">Chart (90d)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Base -->
+        <tr class="custom-tr text-white *:bg-blue-900">
+          <!-- Currency -->
+          <th>
+            <div class="flex items-center gap-3">
+              <!-- Flag -->
+              <img
+                src="assets/currency-flags/{{ conversionTableData.base.code }}.svg"
+                alt="Currency flag"
+                class="h-auto w-6 border-[1px] border-blue-900" />
+              <!-- Currency name -->
+              <div>
+                <p class="hidden truncate sm:block">{{ conversionTableData.base.name }}</p>
+                <p class="sm:text-xs sm:font-medium">{{ conversionTableData.base.code }}</p>
+              </div>
+            </div>
+          </th>
+          <!-- Rate -->
+          <td>1.00</td>
+          <!-- Equivalence -->
+          <td class="hidden *:truncate *:text-xs sm:table-cell">
+            <p>1 {{ conversionTableData.base.code }} = 1 {{ conversionTableData.base.code }}</p>
+            <p>1 {{ conversionTableData.base.code }} = 1 {{ conversionTableData.base.code }}</p>
+          </td>
+          <!-- Change -->
+          <td class="hidden lg:table-cell">0.00%</td>
+          <!-- Chart -->
+          <td></td>
+        </tr>
+        <!-- Conversions -->
+        @for (entry of conversionTableData.result; track entry.currency.code) {
+          <tr
+            (click)="setBaseCurrencyOfTable(entry.currency)"
+            class="*:delay-70 custom-tr cursor-pointer text-slate-600 *:transition *:hover:bg-blue-50">
             <!-- Currency -->
-            <th class="rounded-l-md px-4 text-left font-semibold">
+            <th>
               <div class="flex items-center gap-3">
                 <!-- Flag -->
                 <img
-                  src="assets/currency-flags/{{ conversionTableData.base.code }}.svg"
-                  alt="Country flag"
-                  class="h-6 w-6" />
+                  src="assets/currency-flags/{{ entry.currency.code }}.svg"
+                  alt="Currency flag"
+                  class="h-auto w-6 border-[1px] border-slate-200" />
                 <!-- Currency name -->
                 <div>
-                  <p class="hidden truncate sm:block">{{ conversionTableData.base.name }}</p>
-                  <p class="sm:text-xs sm:font-medium">{{ conversionTableData.base.code }}</p>
+                  <p class="hidden truncate sm:block">{{ entry.currency.name }}</p>
+                  <p class="sm:text-xs sm:font-medium">{{ entry.currency.code }}</p>
                 </div>
               </div>
             </th>
             <!-- Rate -->
-            <td class="px-4 text-center font-semibold">1.00</td>
+            <td>
+              {{ entry.convertedAmount | number: "1.2-5" }}
+            </td>
             <!-- Equivalence -->
-            <td class="hidden px-4 text-center font-semibold sm:table-cell">
-              <p class="truncate text-xs">
-                1 {{ conversionTableData.base.code }} = 1 {{ conversionTableData.base.code }}
+            <td class="hidden *:truncate *:text-xs sm:table-cell">
+              <p>
+                1 {{ conversionTableData.base.code }} =
+                {{ entry.convertedAmount | number: "1.2-2" }}
+                {{ entry.currency.code }}
               </p>
-              <p class="truncate text-xs">
-                1 {{ conversionTableData.base.code }} = 1 {{ conversionTableData.base.code }}
+              <p>
+                1 {{ entry.currency.code }} =
+                {{ 1 / entry.convertedAmount | number: "1.2-2" }}
+                {{ conversionTableData.base.code }}
               </p>
             </td>
             <!-- Change -->
-            <td class="hidden px-4 text-center font-semibold lg:table-cell">0.00%</td>
-            <!-- Chart -->
-            <td class="rounded-r-md px-4 text-right font-semibold"></td>
-          </tr>
-          <!-- Conversions -->
-          @for (entry of conversionTableData.result; track entry.currency.code) {
-            <tr
-              (click)="setBaseCurrencyOfTable(entry.currency)"
-              class="*:delay-70 h-19 cursor-pointer border-slate-100 text-slate-600 *:transition *:hover:bg-blue-50"
+            <td
+              class="hidden lg:table-cell"
               [ngClass]="{
-                'border-b-[1.5px]': entry.currency.code !== conversionTableData.result.at(-1)!.currency.code,
+                'text-red-500': entry.dailyChange! < 0,
+                'text-green-500': entry.dailyChange! > 0,
               }">
-              <!-- Currency -->
-              <th class="rounded-l-md px-4 text-left font-semibold">
-                <div class="flex items-center gap-3">
-                  <!-- Flag -->
-                  <img
-                    src="assets/currency-flags/{{ entry.currency.code }}.svg"
-                    alt="Country flag"
-                    class="h-6 w-6" />
-                  <!-- Currency name -->
-                  <div>
-                    <p class="hidden truncate sm:block">{{ entry.currency.name }}</p>
-                    <p class="sm:text-xs sm:font-medium">{{ entry.currency.code }}</p>
-                  </div>
-                </div>
-              </th>
-              <!-- Rate -->
-              <td class="px-4 text-center font-semibold">
-                {{ entry.convertedAmount | number: "1.2-5" }}
-              </td>
-              <!-- Equivalence -->
-              <td class="hidden px-4 text-center font-semibold sm:table-cell">
-                <p class="truncate text-xs">
-                  1 {{ conversionTableData.base.code }} =
-                  {{ entry.convertedAmount | number: "1.2-2" }}
-                  {{ entry.currency.code }}
-                </p>
-                <p class="truncate text-xs">
-                  1 {{ entry.currency.code }} =
-                  {{ 1 / entry.convertedAmount | number: "1.2-2" }}
-                  {{ conversionTableData.base.code }}
-                </p>
-              </td>
-              <!-- Change -->
-              <td
-                class="hidden px-4 text-center font-semibold lg:table-cell"
-                [ngClass]="{
-                  'text-red-500': entry.dailyChange! < 0,
-                  'text-green-500': entry.dailyChange! > 0,
-                }">
-                @if (entry.dailyChange! > 0) {
-                  <span>+</span>
-                }
-                <span>{{ entry.dailyChange | number: "1.2-2" }}%</span>
-              </td>
-              <!-- Chart -->
-              <td class="rounded-r-md px-4 text-right font-semibold">
-                <div class="h-19 flex w-full">
-                  <highcharts-chart
-                    [Highcharts]="Highcharts"
-                    [options]="entry.chartOptions!"
-                    class="display:block mt-6 w-full">
-                  </highcharts-chart>
-                </div>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    }
-  </div>
+              @if (entry.dailyChange! > 0) {
+                <span>+</span>
+              }
+              <span>{{ entry.dailyChange | number: "1.2-2" }}%</span>
+            </td>
+            <!-- Chart -->
+            <td>
+              <div class="h-19 flex py-3">
+                <highcharts-chart
+                  [Highcharts]="Highcharts"
+                  [options]="entry.chartOptions!"
+                  class="w-full">
+                </highcharts-chart>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <div class="mt-5 h-[26.75rem]">
+      <div class="flex h-12 items-center gap-2 text-slate-600">
+        <div class="h-4 w-4 animate-spin rounded-full border-2 border-slate-600 border-t-white"></div>
+        Loading...
+      </div>
+    </div>
+  }
 </section>

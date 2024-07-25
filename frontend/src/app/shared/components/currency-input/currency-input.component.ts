@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxCurrencyDirective } from 'ngx-currency';
@@ -17,6 +17,16 @@ export class CurrencyInputComponent {
   @Input() error: boolean | undefined;
   @Output() errorChange = new EventEmitter<boolean>();
   @Output() amountChange = new EventEmitter<number>();
+  inputLeftPadding: string = '0px';
+
+  // References the symbol div and the input element
+  @ViewChild('symbolDiv') symbolDiv!: ElementRef;
+  @ViewChild('input') input!: ElementRef;
+
+  // Set inputLeftPadding every time the view is checked
+  ngAfterViewChecked() {
+    this.input.nativeElement.style.paddingLeft = this.symbolDiv.nativeElement.offsetWidth + 3 + 'px';
+  }
 
   // Event handler for when the input amount changes
   onModelChange(event: number) {
