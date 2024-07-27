@@ -22,11 +22,12 @@
       id="price"
       autocomplete="off"
       [ngClass]="{
-        'ring-red-500': error,
+        'ring-red-500 focus:ring-red-500': error,
       }"
       [placeholder]="placeholder"
       [(ngModel)]="amount"
       (ngModelChange)="onModelChange($event)"
+      (keyup.enter)="enterPressed.emit()"
       currencyMask
       [options]="{
         align: 'left',

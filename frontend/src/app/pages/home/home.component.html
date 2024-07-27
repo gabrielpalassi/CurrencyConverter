@@ -15,6 +15,7 @@
         [(amount)]="conversionData.amount"
         [placeholder]="'0.00'"
         [(error)]="inputError"
+        (enterPressed)="convertCurrency()"
         class="w-full">
       </currency-input>
       <!-- Base currency -->

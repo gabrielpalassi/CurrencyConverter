@@ -14,10 +14,11 @@ export class CurrencyInputComponent {
   @Input() symbol: string | undefined;
   @Input() placeholder: string | undefined;
   @Input() amount: number | undefined;
+  @Output() amountChange = new EventEmitter<number>();
   @Input() error: boolean | undefined;
   @Output() errorChange = new EventEmitter<boolean>();
-  @Output() amountChange = new EventEmitter<number>();
-  inputLeftPadding: string = '0px';
+  @Output() enterPressed = new EventEmitter<void>();
+  inputLeftPadding: string = '0.5rem';
 
   // References the symbol div and the input element
   @ViewChild('symbolDiv') symbolDiv!: ElementRef;
@@ -25,7 +26,11 @@ export class CurrencyInputComponent {
 
   // Set inputLeftPadding every time the view is checked
   ngAfterViewChecked() {
-    this.input.nativeElement.style.paddingLeft = this.symbolDiv.nativeElement.offsetWidth + 3 + 'px';
+    const offsetWidthInPx = this.symbolDiv.nativeElement.offsetWidth;
+    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    const offsetWidthInRem = offsetWidthInPx / rootFontSize;
+    const inputLeftPadding = this.symbolDiv.nativeElement.offsetWidth ? offsetWidthInRem + 0.1875 + 'rem' : '0.5rem';
+    this.input.nativeElement.style.paddingLeft = inputLeftPadding;
   }
 
   // Event handler for when the input amount changes
