@@ -12,7 +12,7 @@ conversionTableRoutes.post('/', async (context) => {
     return context.json(conversionTable);
   } catch (error) {
     let errorMessage = 'Failed to get conversion table.';
-    if (error instanceof Error && error.message) errorMessage = `Failed to get conversion table: ${error.message}`;
+    if (error instanceof Error && error.message) errorMessage = error.message;
     return context.json({ error: errorMessage }, 500);
   }
 });

@@ -10,7 +10,7 @@ currenciesRoutes.get('/', async (context) => {
     return context.json(currencies);
   } catch (error) {
     let errorMessage = 'Failed to fetch currencies.';
-    if (error instanceof Error && error.message) errorMessage = `Failed to fetch currencies: ${error.message}`;
+    if (error instanceof Error && error.message) errorMessage = error.message;
     return context.json({ error: errorMessage }, 500);
   }
 });

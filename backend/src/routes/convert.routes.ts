@@ -12,7 +12,7 @@ convertRoutes.post('/', async (context) => {
     return context.json(result);
   } catch (error) {
     let errorMessage = 'Failed to convert currency.';
-    if (error instanceof Error && error.message) errorMessage = `Failed to convert currency: ${error.message}`;
+    if (error instanceof Error && error.message) errorMessage = error.message;
     return context.json({ error: errorMessage }, 500);
   }
 });

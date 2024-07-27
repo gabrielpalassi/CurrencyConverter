@@ -1,5 +1,5 @@
 import Currency from '../../../shared/interfaces/currency.interface';
-import { getCurrencySymbol, getCurrencyName, TCurrencyCode } from '@gaignoux/currency';
+import { getCurrencySymbol, getCurrencyName, TCurrencyCode, getAllCodes } from '@gaignoux/currency';
 
 type CurrencyCode = string;
 
@@ -63,7 +63,7 @@ export class Cache {
 
   public setEntry(currencyCode: string, rate: number, chartData: [number, number][]): void {
     try {
-      if (!currencyCode) throw new Error('Invalid currency code.');
+      if (!currencyCode || !getAllCodes().includes(currencyCode)) throw new Error('Invalid currency code.');
       if (!rate) throw new Error('Invalid rate.');
       if (!chartData) throw new Error('Invalid chart data.');
 
