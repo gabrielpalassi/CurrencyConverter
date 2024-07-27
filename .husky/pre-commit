@@ -1,1 +1,2 @@
+# Run pre-commit checks
 bun run pre-commit

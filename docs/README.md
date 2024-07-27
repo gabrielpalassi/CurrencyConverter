@@ -58,19 +58,25 @@ Make sure you have the following installed:
 
 To ensure code quality and consistency, the following tools are required and should be run from the root of the repository:
 
-- **Formatting**: Automatically format code using Prettier to adhere to the project's style guidelines.
+- **Formatting**: Use Prettier to automatically format your code according to the project's style guidelines.
 
   ```bash
   bun run format
   ```
 
-- **Linting**: Check for and resolve code quality issues using ESLint.
+- **Linting**: Employ ESLint to identify and address code quality issues.
 
   ```bash
   bun run lint
   ```
 
-- **Pre-commit**: This script runs before each commit to enforce code quality. It performs formatting with Prettier and linting with ESLin, in that order. The commit will only proceed if all checks pass.
+- **Format and Lint**: Run both formatting and linting in one step to ensure your code meets all quality standards.
+
+  ```bash
+  bun run format-and-lint
+  ```
+
+- **Pre-commit**: This script runs before each commit to enforce code quality. It performs formatting checks with Prettier and linting checks with ESLint, in that order. The commit will only proceed if all checks pass.
 
   ```bash
   bun run pre-commit
