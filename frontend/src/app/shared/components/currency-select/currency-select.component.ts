@@ -15,7 +15,7 @@ import slideOutIn from '../../animations/slide-out-in.animation';
 import fadeIn from '../../animations/fade-in.animation';
 
 @Component({
-  selector: 'app-currency-select',
+  selector: 'currency-select',
   standalone: true,
   imports: [NgClass, FormsModule],
   animations: [slideOutIn, fadeIn],

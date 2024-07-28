@@ -16,15 +16,13 @@
         [placeholder]="'0.00'"
         [(error)]="inputError"
         (enterPressed)="convertCurrency()"
-        class="w-full">
-      </currency-input>
+        class="w-full" />
       <!-- Base currency -->
-      <app-currency-select
+      <currency-select
         label="From"
         [options]="currencyList"
         [(selectedOption)]="conversionData.base"
-        class="w-full md:max-w-[283.64px]">
-      </app-currency-select>
+        class="w-full md:max-w-[283.64px]" />
       <!-- Switch currencies button -->
       <button
         (click)="switchConversionCurrencies()"
@@ -34,12 +32,11 @@
         <span class="inline md:hidden">&#x21C5;</span>
       </button>
       <!-- Currency to -->
-      <app-currency-select
+      <currency-select
         label="To"
         [options]="currencyList"
         [(selectedOption)]="conversionData.target"
-        class="w-full md:max-w-[283.64px]">
-      </app-currency-select>
+        class="w-full md:max-w-[283.64px]" />
       <!-- Convert button -->
       <button
         (click)="convertCurrency()"
@@ -97,8 +94,7 @@
             <highcharts-chart
               [Highcharts]="Highcharts"
               [options]="mainChartOptions"
-              class="display:block mt-6 w-full">
-            </highcharts-chart>
+              class="display:block mt-6 w-full" />
           </div>
         }
       </div>
@@ -212,8 +208,7 @@
                 <highcharts-chart
                   [Highcharts]="Highcharts"
                   [options]="entry.chartOptions!"
-                  class="w-full">
-                </highcharts-chart>
+                  class="w-full" />
               </div>
             </td>
           </tr>
