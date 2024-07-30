@@ -16,6 +16,7 @@ import ConversionTableResult from '../../shared/interfaces/conversion-table-resu
 import ConversionTableResponse from '../../../../../shared/interfaces/conversion-table-response.interface';
 import ConversionTableData from '../../shared/interfaces/conversion-table-data.interface';
 import ConversionResponse from '../../../../../shared/interfaces/conversion-response.interface';
+import { ErrorModalService } from '../../shared/services/error-modal.service';
 
 @Component({
   selector: 'app-home',
@@ -46,8 +47,11 @@ export class HomeComponent {
   // References the full-width white container
   @ViewChild('whiteFullWidthContainer') whiteFullWidthContainer!: ElementRef;
 
-  // Injects the currency service
-  constructor(private readonly currencyService: CurrencyService) {}
+  // Injects the currency and error modal services
+  constructor(
+    private readonly currencyService: CurrencyService,
+    private readonly errorModalService: ErrorModalService,
+  ) {}
 
   // Fetches the currency list and sets the default conversion data
   ngOnInit(): void {
@@ -61,6 +65,7 @@ export class HomeComponent {
       },
       error: (error) => {
         console.error(error);
+        this.errorModalService.open('Oops! Failed to fetch currency list. Please try again later.');
       },
     });
   }
@@ -138,6 +143,7 @@ export class HomeComponent {
       },
       error: (error) => {
         console.error(error);
+        this.errorModalService.open('Oops! Failed to fetch conversion table. Please try again later.');
       },
     });
   }
