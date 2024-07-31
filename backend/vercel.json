@@ -1,5 +1,13 @@
 {
   "version": 2,
-  "builds": [{ "src": "src/index.ts", "use": "@vercel/bun" }],
-  "rewrites": [{ "source": "/(.*)", "destination": "/src/$1" }]
+  "builds": [
+    {
+      "src": "src/index.ts",
+      "config": {
+        "buildCommand": "bun run build",
+        "outputDirectory": "dist"
+      }
+    }
+  ],
+  "routes": [{ "src": "/(.*)", "dest": "/dist/$1" }]
 }
