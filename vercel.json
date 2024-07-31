@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "installCommand": "bun install",
+        "buildCommand": "bun run build:prod",
+        "outputDirectory": "frontend/dist"
+      }
+    },
+    {
+      "src": "backend/app.ts",
+      "use": "@vercel/bun",
+      "config": {
+        "installCommand": "bun install",
+        "buildCommand": "bun run build",
+        "outputDirectory": "backend/dist"
+      }
+    }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "backend/$1" },
+    { "src": "/(.*)", "dest": "frontend/$1" }
+  ]
+}
