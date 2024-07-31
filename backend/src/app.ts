@@ -10,13 +10,9 @@ const app = new Hono();
 app.use(
   '*',
   cors({
-    origin: (origin) => {
-      const allowedOrigins = ['https://currencyconverter-frontend.vercel.app', 'http://localhost:4200'];
-      if (allowedOrigins.includes(origin)) {
-        return origin;
-      }
-      return '';
-    },
+    origin: ['https://currencyconverter-frontend.vercel.app', 'http://localhost:4200'],
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
   }),
 );
 
