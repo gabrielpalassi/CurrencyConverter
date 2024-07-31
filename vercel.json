@@ -6,8 +6,7 @@
       "use": "@vercel/static-build",
       "config": {
         "installCommand": "bun install",
-        "buildCommand": "bun run build:prod",
-        "outputDirectory": "frontend/dist"
+        "buildCommand": "bun run build:prod"
       }
     },
     {
@@ -15,8 +14,7 @@
       "use": "@vercel/bun",
       "config": {
         "installCommand": "bun install",
-        "buildCommand": "bun run build",
-        "outputDirectory": "backend/dist"
+        "buildCommand": "bun run build"
       }
     }
   ],
