@@ -7,7 +7,18 @@ import convertRoutes from './routes/convert.routes';
 const app = new Hono();
 
 // CORS middleware
-app.use('*', cors());
+app.use(
+  '*',
+  cors({
+    origin: (origin) => {
+      const allowedOrigins = ['https://currencyconverter-frontend.vercel.app', 'http://localhost:4200'];
+      if (allowedOrigins.includes(origin)) {
+        return origin;
+      }
+      return '';
+    },
+  }),
+);
 
 // Error handler
 app.onError((error, context) => {
