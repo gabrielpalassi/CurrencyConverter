@@ -3,7 +3,7 @@
   "builds": [
     {
       "src": "src/index.ts",
-      "use": "vercel-bun",
+      "use": "@vercel/node",
       "config": {
         "buildCommand": "bun run build",
         "outputDirectory": "dist"
