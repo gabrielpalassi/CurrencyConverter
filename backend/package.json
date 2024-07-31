@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "scripts": {
-    "start": "bun --watch run src/app.ts",
+    "start": "bun --watch run src/index.ts",
     "build": "bun build src/app.ts --outdir dist"
   },
   "dependencies": {

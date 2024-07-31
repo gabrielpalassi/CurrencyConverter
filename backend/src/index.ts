@@ -10,7 +10,7 @@ const app = new Hono();
 app.use(
   '*',
   cors({
-    origin: '*',
+    origin: ['http://localhost:4200', 'https://currencyconverter-frontend.vercel.app'],
   }),
 );
 
