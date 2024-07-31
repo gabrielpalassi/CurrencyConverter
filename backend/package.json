@@ -1,7 +1,8 @@
 {
   "name": "backend",
   "scripts": {
-    "start": "bun --watch run src/app.ts"
+    "start": "bun --watch run src/app.ts",
+    "build": "bun build src/app.ts --outdir dist"
   },
   "dependencies": {
     "@gaignoux/currency": "^1.1.0",
