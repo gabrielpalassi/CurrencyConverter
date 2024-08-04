@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import slideInOut from '../../animations/slide-in-out.animation';
+import slideInOut from '../../animations/slide-in-out';
 
 @Component({
   selector: 'app-header',

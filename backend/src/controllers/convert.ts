@@ -1,6 +1,6 @@
-import ConversionResponse from '../../../shared/interfaces/conversion-response.interface';
-import Currency from '../../../shared/interfaces/currency.interface';
-import { getCurrencyData } from '../services/currency.service';
+import ConversionResponse from '../../../shared/interfaces/conversion-response';
+import Currency from '../../../shared/interfaces/currency';
+import { getCurrencyData } from '../services/currency';
 
 // Converts the given amount from the base currency to the target currency
 export const convertCurrency = async (

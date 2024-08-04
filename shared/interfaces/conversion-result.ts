@@ -1,4 +1,4 @@
-import Currency from './currency.interface';
+import Currency from './currency';
 
 export default interface ConversionResult {
   currency: Currency;

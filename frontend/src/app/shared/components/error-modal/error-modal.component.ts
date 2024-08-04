@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ErrorModalService } from '../../services/error-modal.service';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
-import modalPanel from '../../animations/modal-panel.animation';
-import modalBackdrop from '../../animations/modal-backdrop.animation';
+import modalPanel from '../../animations/modal-panel';
+import modalBackdrop from '../../animations/modal-backdrop';
 
 @Component({
   selector: 'error-modal',

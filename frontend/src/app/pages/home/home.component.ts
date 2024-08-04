@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CurrencyInputComponent } from '../../shared/components/currency-input/currency-input.component';
 import { CurrencySelectComponent } from '../../shared/components/currency-select/currency-select.component';
-import Currency from '../../../../../shared/interfaces/currency.interface';
+import Currency from '../../../../../shared/interfaces/currency';
 import { CurrencyService } from '../../shared/services/currency.service';
 import { HighchartsChartModule } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
@@ -9,13 +9,13 @@ import { mainChartConfig } from './configs/main-chart.config';
 import { tableChartConfig } from './configs/table-chart.config';
 import { DecimalPipe } from '@angular/common';
 import { NgClass } from '@angular/common';
-import fadeIn from '../../shared/animations/fade-in.animation';
-import expand from '../../shared/animations/expand.animation';
-import ConversionData from '../../shared/interfaces/conversion-data.interface';
-import ConversionTableResult from '../../shared/interfaces/conversion-table-result.interface';
-import ConversionTableResponse from '../../../../../shared/interfaces/conversion-table-response.interface';
-import ConversionTableData from '../../shared/interfaces/conversion-table-data.interface';
-import ConversionResponse from '../../../../../shared/interfaces/conversion-response.interface';
+import fadeIn from '../../shared/animations/fade-in';
+import expand from '../../shared/animations/expand';
+import ConversionData from '../../shared/interfaces/conversion-data';
+import ConversionTableResult from '../../shared/interfaces/conversion-table-result';
+import ConversionTableResponse from '../../../../../shared/interfaces/conversion-table-response';
+import ConversionTableData from '../../shared/interfaces/conversion-table-data';
+import ConversionResponse from '../../../../../shared/interfaces/conversion-response';
 import { ErrorModalService } from '../../shared/services/error-modal.service';
 
 @Component({

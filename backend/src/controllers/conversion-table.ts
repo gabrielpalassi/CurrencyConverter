@@ -1,7 +1,7 @@
-import ConversionTableResponse from '../../../shared/interfaces/conversion-table-response.interface';
-import Currency from '../../../shared/interfaces/currency.interface';
-import { getAllCurrenciesData } from '../services/currency.service';
-import { convertCurrency } from './convert.controller';
+import ConversionTableResponse from '../../../shared/interfaces/conversion-table-response';
+import Currency from '../../../shared/interfaces/currency';
+import { getAllCurrenciesData } from '../services/currency';
+import { convertCurrency } from './convert';
 
 // Returns the conversion table for the given base currency
 export const getConversionTable = async (base: Currency): Promise<ConversionTableResponse> => {

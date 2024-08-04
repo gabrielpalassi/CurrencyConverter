@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import currenciesRoutes from './routes/currencies.routes';
-import conversionTableRoutes from './routes/conversion-table.routes';
-import convertRoutes from './routes/convert.routes';
+import currenciesRoutes from './routes/currencies';
+import conversionTableRoutes from './routes/conversion-table';
+import convertRoutes from './routes/convert';
 
 const app = new Hono();
 

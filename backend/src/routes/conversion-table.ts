@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
-import { getConversionTable } from '../controllers/conversion-table.controller';
-import ConversionTableResponse from '../../../shared/interfaces/conversion-table-response.interface';
-import Currency from '../../../shared/interfaces/currency.interface';
+import { getConversionTable } from '../controllers/conversion-table';
+import ConversionTableResponse from '../../../shared/interfaces/conversion-table-response';
+import Currency from '../../../shared/interfaces/currency';
 
 const conversionTableRoutes = new Hono();
 

@@ -1,5 +1,5 @@
-import Currency from '../../../shared/interfaces/currency.interface';
-import { getAllCurrenciesData } from '../services/currency.service';
+import Currency from '../../../shared/interfaces/currency';
+import { getAllCurrenciesData } from '../services/currency';
 
 // Returns all currencies
 export const getCurrencies = async (): Promise<Currency[]> => {

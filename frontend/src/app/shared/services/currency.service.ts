@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import Currency from '../../../../../shared/interfaces/currency.interface';
-import ConversionResponse from '../../../../../shared/interfaces/conversion-response.interface';
-import ConversionTableResponse from '../../../../../shared/interfaces/conversion-table-response.interface';
+import Currency from '../../../../../shared/interfaces/currency';
+import ConversionResponse from '../../../../../shared/interfaces/conversion-response';
+import ConversionTableResponse from '../../../../../shared/interfaces/conversion-table-response';
 import { environment } from '../../../environments/environment';
 
 @Injectable({

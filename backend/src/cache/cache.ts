@@ -1,4 +1,4 @@
-import Currency from '../../../shared/interfaces/currency.interface';
+import Currency from '../../../shared/interfaces/currency';
 import { getCurrencySymbol, getCurrencyName, TCurrencyCode, getAllCodes } from '@gaignoux/currency';
 
 type CurrencyCode = string;
