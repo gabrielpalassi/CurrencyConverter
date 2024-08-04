@@ -2,8 +2,7 @@
 
 CurrencyConverter is a lightning-fast web application offering instant currency conversions with hourly updated rates. Enjoy a responsive design for seamless use on any device, and an intuitive interface for easy navigation.
 
-<img src="./images/desktop.png" height=350>
-<img src="./images/mobile.png" height=350>
+<img src="./images/desktop.png" height=375> <img src="./images/mobile.png" height=375>
 
 ## Getting Started
 
