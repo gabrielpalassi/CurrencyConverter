@@ -2,7 +2,8 @@
   "name": "currencyconverter-backend",
   "type": "module",
   "scripts": {
-    "start": "bun --watch run src/index.ts",
+    "start": "bun --watch src/index.ts",
+    "start:prod": "bun dist/index.js || (echo 'The project needs to be built before running. Run `bun run build` to compile.' && exit 1)",
     "build": "bun build src/index.ts --outdir dist"
   },
   "dependencies": {
