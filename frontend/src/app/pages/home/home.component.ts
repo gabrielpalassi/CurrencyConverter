@@ -116,15 +116,28 @@ export class HomeComponent {
       .subscribe({
         next: (conversionResponse: ConversionResponse) => {
           this.mainChartOptions = {
-            ...this.mainChartOptions,
+            ...mainChartConfig,
             series: [
               {
-                ...this.mainChartOptions.series![0],
+                ...mainChartConfig.series![0],
                 name: `${conversionResponse.base.currency.code} to ${conversionResponse.result.currency.code}`,
                 data: conversionResponse.result.chartData as any, // eslint-disable-line @typescript-eslint/no-explicit-any
               },
             ],
           };
+          if (window.innerWidth < 640) {
+            this.mainChartOptions.plotOptions!.areaspline = {
+              ...mainChartConfig.plotOptions!.areaspline,
+              states: {
+                hover: {
+                  enabled: false,
+                },
+              },
+            };
+            this.mainChartOptions.tooltip = {
+              enabled: false,
+            };
+          }
           this.conversionData.response = conversionResponse;
           this.conversionIsLoading = false;
         },
@@ -160,15 +173,28 @@ export class HomeComponent {
     this.conversionTableData.result.forEach((entry: ConversionTableResult) => {
       entry.dailyChange = (entry.chartData.at(-1)![1] * 100) / entry.chartData[0][1] - 100;
       entry.chartOptions = {
-        ...this.tableChartOptions,
+        ...tableChartConfig,
         series: [
           {
-            ...this.tableChartOptions.series![0],
+            ...tableChartConfig.series![0],
             name: `${conversionTableResponse.base.code} to ${entry.currency.code}`,
             data: entry.chartData as any, // eslint-disable-line @typescript-eslint/no-explicit-any
           },
         ],
       };
+      if (window.innerWidth < 640) {
+        entry.chartOptions.plotOptions!.spline = {
+          ...tableChartConfig.plotOptions!.spline,
+          states: {
+            hover: {
+              enabled: false,
+            },
+          },
+        };
+        entry.chartOptions.tooltip = {
+          enabled: false,
+        };
+      }
     });
   }
 }
