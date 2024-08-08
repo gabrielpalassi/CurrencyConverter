@@ -2,8 +2,8 @@
   "name": "currencyconverter",
   "scripts": {
     "post-clone": "bun install && husky && cd frontend && bun install && cd ../backend && bun install",
-    "format": "prettier --write .",
-    "lint": "eslint --fix .",
+    "format": "bunx prettier --write .",
+    "lint": "bunx eslint --fix .",
     "format-and-lint": "bun run format && bun run lint",
     "pre-commit": "prettier --check . && eslint . || (echo 'Please resolve any linting and formatting issues before committing. Run `bun run format-and-lint` to fix these issues.' && exit 1)"
   },
