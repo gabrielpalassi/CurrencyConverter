@@ -1,6 +1,6 @@
 # Compiled output
 
-frontend/dist
+**/dist
 **/build
 **/tmp
 **/out-tsc

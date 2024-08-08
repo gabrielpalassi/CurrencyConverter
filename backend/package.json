@@ -4,7 +4,7 @@
   "scripts": {
     "start": "bun --watch src/index.ts",
     "start:prod": "bun dist/index.js || (echo 'The project needs to be built before running. Run `bun run build` to compile.' && exit 1)",
-    "build": "bun build src/index.ts --outdir dist --target node"
+    "build": "bun build src/index.ts --outdir dist"
   },
   "dependencies": {
     "@gaignoux/currency": "^1.1.0",
