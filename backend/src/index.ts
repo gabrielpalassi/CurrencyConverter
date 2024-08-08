@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
+import { handle } from '@hono/node-server/vercel';
 import currenciesRoutes from './routes/currencies';
 import conversionTableRoutes from './routes/conversion-table';
 import convertRoutes from './routes/convert';
@@ -26,7 +27,4 @@ app.route('/conversion-table', conversionTableRoutes);
 app.route('/convert', convertRoutes);
 
 // Export the app
-export default {
-  port: Number(process.env.PORT) || 3000,
-  fetch: app.fetch,
-};
+export default process.env.VERCEL ? handle(app) : app;
