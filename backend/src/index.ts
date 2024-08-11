@@ -30,3 +30,6 @@ export default {
   port: Number(process.env.PORT) || 3000,
   fetch: app.fetch,
 };
+
+// Log the port
+console.log(`Server running on port ${Number(process.env.PORT) || 3000}`);
