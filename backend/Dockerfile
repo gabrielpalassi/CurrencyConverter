@@ -5,9 +5,7 @@ FROM oven/bun:1.1.20
 WORKDIR /app
 
 # Copy the source code and necessary files
-COPY src src
-COPY package.json package.json
-COPY bun.lockb bun.lockb
+COPY src package.json bun.lockb ./
 
 # Install dependencies
 RUN bun install --production
@@ -15,9 +13,8 @@ RUN bun install --production
 # Build
 RUN bun run build
 
-# Remove the source code and dependencies directories after build
-RUN rm -rf src
-RUN rm -rf node_modules
+# Remove source code and dependencies after build
+RUN rm -rf src node_modules
 
 # Expose the port
 EXPOSE 3000
