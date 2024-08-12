@@ -15,8 +15,9 @@ RUN bun install --production
 # Build
 RUN bun run build
 
-# Remove the source code directory after build
+# Remove the source code and dependencies directories after build
 RUN rm -rf src
+RUN rm -rf node_modules
 
 # Expose the port
 EXPOSE 3000
