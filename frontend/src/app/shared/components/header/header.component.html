@@ -4,7 +4,8 @@
   <!-- Logo/Name -->
   <div class="flex lg:flex-1">
     <a
-      (click)="routeToElement('/')"
+      href="/"
+      (click)="routeToElement($event, '/')"
       class="-m-1.5 cursor-pointer p-1.5">
       <span class="sr-only">CurrencyConverter</span>
       <img
@@ -37,12 +38,14 @@
   <!-- Center navigation links - only on large screens -->
   <div class="hidden lg:flex lg:gap-x-12">
     <a
-      (click)="routeToElement('/')"
+      href="/"
+      (click)="routeToElement($event, '/')"
       class="delay-70 cursor-pointer text-sm font-semibold leading-6 text-slate-400 transition hover:text-slate-300">
       Home
     </a>
     <a
-      (click)="routeToElement('/', 'exchangeRates')"
+      href="/"
+      (click)="routeToElement($event, '/', 'exchangeRates')"
       class="delay-70 cursor-pointer text-sm font-semibold leading-6 text-slate-400 transition hover:text-slate-300">
       Exchange Rates
     </a>
@@ -50,7 +53,8 @@
   <!-- Right navigation links - only on large screens -->
   <div class="hidden lg:flex lg:flex-1 lg:justify-end">
     <a
-      (click)="routeToElement('/about')"
+      href="/about"
+      (click)="routeToElement($event, '/about')"
       class="delay-70 cursor-pointer text-sm font-semibold leading-6 text-slate-400 transition hover:text-slate-300">
       About
     </a>
@@ -66,7 +70,8 @@
     <div class="flex items-center justify-between">
       <!-- Logo/Name -->
       <a
-        (click)="routeToElement('/')"
+        href="/"
+        (click)="routeToElement($event, '/')"
         class="-m-1.5 cursor-pointer p-1.5">
         <span class="sr-only">CurrencyConverter</span>
         <img
@@ -99,19 +104,22 @@
       <div class="-my-6 divide-y divide-slate-500/10">
         <div class="space-y-2 py-6">
           <a
-            (click)="routeToElement('/')"
+            href="/"
+            (click)="routeToElement($event, '/')"
             class="-mx-3 block cursor-pointer rounded-lg px-3 py-2 text-base font-semibold leading-7">
             Home
           </a>
           <a
-            (click)="routeToElement('/', 'exchangeRates')"
+            href="/"
+            (click)="routeToElement($event, '/', 'exchangeRates')"
             class="-mx-3 block cursor-pointer rounded-lg px-3 py-2 text-base font-semibold leading-7">
             Exchange Rates
           </a>
         </div>
         <div class="py-6">
           <a
-            (click)="routeToElement('/about')"
+            href="/about"
+            (click)="routeToElement($event, '/about')"
             class="-mx-3 block cursor-pointer rounded-lg px-3 py-2.5 text-base font-semibold leading-7">
             About
           </a>

@@ -16,7 +16,8 @@ export class HeaderComponent {
   constructor(private router: Router) {}
 
   // Route and scroll to specified element
-  routeToElement(route: string, element: string | undefined = undefined): void {
+  routeToElement(event: Event, route: string, element: string | undefined = undefined): void {
+    event.preventDefault(); // Prevent default anchor navigation
     if (this.showMobileMenu) this.showMobileMenu = false;
     this.router.navigate([route]).then(() => {
       setTimeout(() => {
