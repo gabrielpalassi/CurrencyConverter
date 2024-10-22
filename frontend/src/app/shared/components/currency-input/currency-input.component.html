@@ -1,11 +1,9 @@
 <div class="h-19 w-full">
   <!-- Label -->
   @if (label) {
-    <label
-      for="price"
-      class="mb-2 block font-semibold text-slate-600">
+    <span class="mb-2 block font-semibold text-slate-600">
       {{ label }}
-    </label>
+    </span>
   }
   <div class="relative rounded-md shadow-sm">
     <!-- Symbol -->
@@ -17,11 +15,9 @@
     <!-- Input -->
     <input
       #input
-      autocomplete="off"
+      name="amount"
       pattern="[0-9]*"
       inputmode="numeric"
-      name="price"
-      id="price"
       autocomplete="off"
       [ngClass]="{
         'ring-red-500 focus:ring-red-500': error,

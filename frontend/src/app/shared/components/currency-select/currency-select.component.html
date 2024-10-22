@@ -1,12 +1,11 @@
 <div class="w-full">
   <!-- Label -->
   @if (label) {
-    <label
+    <span
       (click)="isDropdownOpen = false"
-      for="custom-select"
       class="mb-2 block font-semibold text-slate-600">
       {{ label }}
-    </label>
+    </span>
   }
   <div class="relative rounded-md shadow-sm">
     <!-- Button that simulates select -->
