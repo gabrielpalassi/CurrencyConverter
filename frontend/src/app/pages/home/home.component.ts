@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CurrencyInputComponent } from '../../shared/components/currency-input/currency-input.component';
 import { CurrencySelectComponent } from '../../shared/components/currency-select/currency-select.component';
 import Currency from '../../../../../shared/interfaces/currency';
@@ -50,9 +50,6 @@ export class HomeComponent {
     result: [],
   });
   tableChartOptions = signal<Highcharts.Options>(tableChartConfig);
-
-  // Reference the white full-width container element
-  whiteFullWidthContainer = viewChild.required<ElementRef>('whiteFullWidthContainer');
 
   // Fetches the currency list and sets the default conversion data
   ngOnInit(): void {
@@ -156,30 +153,5 @@ export class HomeComponent {
     this.conversionData.update((conversionData) => ({ ...conversionData, base: conversionData.target }));
     this.conversionData.update((conversionData) => ({ ...conversionData, target: temp }));
     if (this.conversionData().response) this.getConvertion();
-  }
-
-  // Adjusts the full-width white container height after the view has been initialized
-  ngAfterViewChecked() {
-    this.setContainerHeight();
-  }
-
-  // Adjusts the fullwidth white container height on window resize
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.setContainerHeight();
-  }
-
-  // Check if body height is less than viewport height and adjust the fullwidth white container height to fill the screen
-  private setContainerHeight() {
-    this.whiteFullWidthContainer().nativeElement.style.height = 'auto';
-    const bodyHeight = document.body.clientHeight;
-    const viewportHeight = window.innerHeight;
-    if (bodyHeight < viewportHeight) {
-      const offsetTop = this.whiteFullWidthContainer().nativeElement.offsetTop;
-      const height = viewportHeight - offsetTop;
-      this.whiteFullWidthContainer().nativeElement.style.height = `${height}px`;
-    } else {
-      this.whiteFullWidthContainer().nativeElement.style.height = 'auto';
-    }
   }
 }
