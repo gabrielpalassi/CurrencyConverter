@@ -2,5 +2,5 @@ import ConversionTableResponse from '../../../../../shared/interfaces/conversion
 import ConversionTableResult from './conversion-table-result';
 
 export default interface ConversionTableData extends ConversionTableResponse {
-  result: ConversionTableResult[];
+  result: ConversionTableResult[] | undefined;
 }

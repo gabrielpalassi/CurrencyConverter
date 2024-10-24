@@ -11,22 +11,22 @@
       <!-- Amount -->
       <currency-input
         label="Amount"
-        [symbol]="conversionData.base.symbol"
-        [(amount)]="conversionData.amount"
+        [symbol]="conversionData().base?.symbol"
+        [(amount)]="conversionData().amount"
         [placeholder]="'0.00'"
         [(error)]="inputError"
-        (enterPressed)="convertCurrency()"
+        (enterPressed)="getConvertion()"
         class="w-full" />
       <!-- Base currency -->
       <currency-select
         label="From"
-        [options]="currencyList"
-        [(selectedOption)]="conversionData.base"
+        [options]="currencyList()"
+        [(selectedOption)]="conversionData().base"
         class="w-full md:max-w-[283.64px]" />
       <!-- Switch currencies button -->
       <button
         (click)="switchConversionCurrencies()"
-        [disabled]="conversionIsLoading"
+        [disabled]="conversionIsLoading()"
         class="delay-70 h-[48px] w-[48px] rounded-full text-sm text-slate-600 ring-1 ring-inset ring-slate-300 transition hover:text-slate-500 disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:text-slate-400 md:mt-8">
         <span class="hidden md:inline">&#x21C4;</span>
         <span class="inline md:hidden">&#x21C5;</span>
@@ -34,15 +34,15 @@
       <!-- Currency to -->
       <currency-select
         label="To"
-        [options]="currencyList"
-        [(selectedOption)]="conversionData.target"
+        [options]="currencyList()"
+        [(selectedOption)]="conversionData().target"
         class="w-full md:max-w-[283.64px]" />
       <!-- Convert button -->
       <button
-        (click)="convertCurrency()"
-        [disabled]="conversionIsLoading"
+        (click)="getConvertion()"
+        [disabled]="conversionIsLoading()"
         class="delay-70 h-[48px] w-full rounded-md bg-blue-600 px-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:bg-blue-400 disabled:hover:bg-blue-400 md:mt-8">
-        @if (conversionIsLoading) {
+        @if (conversionIsLoading()) {
           <div class="flex h-full w-full items-center justify-center gap-2">
             <div class="h-4 w-4 animate-spin rounded-full border-2 border-blue-200 border-t-white"></div>
             Loading...
@@ -53,38 +53,38 @@
       </button>
     </div>
     <!-- Conversion response -->
-    @if (this.conversionData.response) {
+    @if (conversionData().response) {
       <div
         class="flex h-[124px] w-full gap-3"
         @expand>
-        @if (!conversionIsLoading) {
+        @if (!conversionIsLoading()) {
           <!-- Data -->
           <div
             @fadeIn
             class="*:whitespace-nowrap">
             <p class="mt-6 text-base font-semibold text-slate-600">
-              {{ this.conversionData.response.base.amount | number: "1.2-2" }}
-              {{ this.conversionData.response.base.currency.code }}
+              {{ conversionData().response!.base.amount | number: "1.2-2" }}
+              {{ conversionData().response!.base.currency.code }}
             </p>
             <p class="text-2xl font-bold">
-              {{ this.conversionData.response.result.convertedAmount | number: "1.2-2" }}
-              {{ this.conversionData.response.result.currency.code }}
+              {{ conversionData().response!.result.convertedAmount | number: "1.2-2" }}
+              {{ conversionData().response!.result.currency.code }}
             </p>
             <p class="mt-2 text-xs text-slate-500">
-              1 {{ this.conversionData.response.base.currency.name }} =
+              1 {{ conversionData().response!.base.currency.name }} =
               {{
-                this.conversionData.response.result.convertedAmount / this.conversionData.response.base.amount
+                conversionData().response!.result.convertedAmount / conversionData().response!.base.amount
                   | number: "1.2-2"
               }}
-              {{ this.conversionData.response.result.currency.name }}
+              {{ conversionData().response!.result.currency.name }}
             </p>
             <p class="mt-1 text-xs text-slate-500">
-              1 {{ this.conversionData.response.result.currency.name }} =
+              1 {{ conversionData().response!.result.currency.name }} =
               {{
-                this.conversionData.response.base.amount / this.conversionData.response.result.convertedAmount
+                conversionData().response!.base.amount / conversionData().response!.result.convertedAmount
                   | number: "1.2-2"
               }}
-              {{ this.conversionData.response.base.currency.name }}
+              {{ conversionData().response!.base.currency.name }}
             </p>
           </div>
           <!-- Chart -->
@@ -93,7 +93,7 @@
             @fadeIn>
             <highcharts-chart
               [Highcharts]="Highcharts"
-              [options]="mainChartOptions"
+              [options]="mainChartOptions()"
               class="display:block mt-6 w-full" />
           </div>
         }
@@ -110,7 +110,7 @@
   <p class="text-base font-semibold text-slate-600">Stay updated</p>
   <h2 class="text-2xl font-bold tracking-tight">Major Forex Rates</h2>
   <!-- Exchange rate table -->
-  @if (!tableIsLoading) {
+  @if (!tableIsLoading() && conversionTableData().base && conversionTableData().result) {
     <table
       @fadeIn
       class="mt-5">
@@ -131,13 +131,13 @@
             <div class="flex items-center gap-3">
               <!-- Flag -->
               <img
-                src="assets/currency-flags/{{ conversionTableData.base.code }}.svg"
+                src="assets/currency-flags/{{ conversionTableData().base!.code }}.svg"
                 alt="Currency flag"
                 class="h-auto w-6 border-[1px] border-blue-900" />
               <!-- Currency name -->
               <div>
-                <p class="hidden truncate sm:block">{{ conversionTableData.base.name }}</p>
-                <p class="sm:text-xs sm:font-medium">{{ conversionTableData.base.code }}</p>
+                <p class="hidden truncate sm:block">{{ conversionTableData().base!.name }}</p>
+                <p class="sm:text-xs sm:font-medium">{{ conversionTableData().base!.code }}</p>
               </div>
             </div>
           </th>
@@ -145,8 +145,8 @@
           <td>1.00</td>
           <!-- Equivalence -->
           <td class="hidden *:truncate *:text-xs sm:table-cell">
-            <p>1 {{ conversionTableData.base.code }} = 1 {{ conversionTableData.base.code }}</p>
-            <p>1 {{ conversionTableData.base.code }} = 1 {{ conversionTableData.base.code }}</p>
+            <p>1 {{ conversionTableData().base!.code }} = 1 {{ conversionTableData().base!.code }}</p>
+            <p>1 {{ conversionTableData().base!.code }} = 1 {{ conversionTableData().base!.code }}</p>
           </td>
           <!-- Change -->
           <td class="hidden lg:table-cell">0.00%</td>
@@ -154,9 +154,9 @@
           <td></td>
         </tr>
         <!-- Conversions -->
-        @for (entry of conversionTableData.result; track entry.currency.code) {
+        @for (entry of conversionTableData().result; track entry.currency.code) {
           <tr
-            (click)="setBaseCurrencyOfTable(entry.currency)"
+            (click)="getConversionTable(entry.currency)"
             class="*:delay-70 custom-tr cursor-pointer text-slate-600 *:h-20 *:transition sm:*:hover:bg-blue-50">
             <!-- Currency -->
             <th>
@@ -180,20 +180,20 @@
             <!-- Equivalence -->
             <td class="hidden *:truncate *:text-xs sm:table-cell">
               <p>
-                1 {{ conversionTableData.base.code }} =
+                1 {{ conversionTableData().base!.code }} =
                 {{ entry.convertedAmount | number: "1.2-2" }}
                 {{ entry.currency.code }}
               </p>
               <p>
                 1 {{ entry.currency.code }} =
                 {{ 1 / entry.convertedAmount | number: "1.2-2" }}
-                {{ conversionTableData.base.code }}
+                {{ conversionTableData().base!.code }}
               </p>
             </td>
             <!-- Change -->
             <td
               class="hidden lg:table-cell"
-              [ngClass]="{
+              [class]="{
                 'text-red-500': entry.dailyChange! < 0,
                 'text-green-500': entry.dailyChange! > 0,
               }">
@@ -216,11 +216,19 @@
       </tbody>
     </table>
   } @else {
-    <div class="mt-5 h-[28rem]">
-      <div class="flex h-12 items-center gap-2 text-slate-600">
-        <div class="h-4 w-4 animate-spin rounded-full border-2 border-slate-600 border-t-white"></div>
-        Loading...
+    @if (tableIsLoading()) {
+      <div class="mt-5 h-[28rem]">
+        <div class="flex h-12 items-center gap-2 text-slate-600">
+          <div class="h-4 w-4 animate-spin rounded-full border-2 border-slate-600 border-t-white"></div>
+          Loading...
+        </div>
       </div>
-    </div>
+    } @else {
+      <div class="mt-5 h-[28rem]">
+        <div class="flex h-12 items-center gap-2 text-slate-600">
+          <p>Failed to load exchange rates.</p>
+        </div>
+      </div>
+    }
   }
 </section>

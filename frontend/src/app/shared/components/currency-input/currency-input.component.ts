@@ -1,28 +1,25 @@
-import { Component, ElementRef, EventEmitter, Input, Output, viewChild } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { Component, ElementRef, input, model, output, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgxCurrencyDirective } from 'ngx-currency';
 
 @Component({
   selector: 'currency-input',
   standalone: true,
-  imports: [NgClass, FormsModule, NgxCurrencyDirective],
+  imports: [FormsModule, NgxCurrencyDirective],
   templateUrl: './currency-input.component.html',
 })
 export class CurrencyInputComponent {
   // Inputs and outputs
-  @Input() label: string | undefined;
-  @Input() symbol: string | undefined;
-  @Input() placeholder: string | undefined;
-  @Input() amount: number | undefined;
-  @Output() amountChange = new EventEmitter<number>();
-  @Input() error: boolean | undefined;
-  @Output() errorChange = new EventEmitter<boolean>();
-  @Output() enterPressed = new EventEmitter<void>();
+  label = input<string>();
+  symbol = input<string>();
+  placeholder = input<string>();
+  amount = model<number>();
+  error = model<boolean>(false);
+  enterPressed = output<void>();
 
   // Reference symbolDiv and input elements
   symbolDiv = viewChild.required<ElementRef>('symbolDiv');
-  input = viewChild.required<ElementRef>('input');
+  amountInput = viewChild.required<ElementRef>('amountInput');
 
   // Set inputLeftPadding every time the view is checked
   ngAfterViewChecked() {
@@ -30,13 +27,12 @@ export class CurrencyInputComponent {
     const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
     const offsetWidthInRem = offsetWidthInPx / rootFontSize;
     const inputLeftPadding = this.symbolDiv().nativeElement.offsetWidth ? offsetWidthInRem + 0.1875 + 'rem' : '0.5rem';
-    this.input().nativeElement.style.paddingLeft = inputLeftPadding;
+    this.amountInput().nativeElement.style.paddingLeft = inputLeftPadding;
   }
 
   // Event handler for when the input amount changes
   onModelChange(event: number) {
-    this.amountChange.emit(event);
-    this.error = false;
-    this.errorChange.emit(false);
+    this.amount.set(event);
+    this.error.set(false);
   }
 }

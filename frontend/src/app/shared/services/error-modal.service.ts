@@ -4,19 +4,20 @@ import { computed, Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class ErrorModalService {
-  private visibilitySource = signal(false);
-  private contentSource = signal('');
-  visibility = computed(() => this.visibilitySource());
-  content = computed(() => this.contentSource());
+  // Properties
+  private visibilitySignal = signal(false);
+  private contentSignal = signal('');
+  visibility = computed(() => this.visibilitySignal());
+  content = computed(() => this.contentSignal());
 
   // Opens the error modal with the given content
   open(content: string) {
-    this.contentSource.set(content);
-    this.visibilitySource.set(true);
+    this.contentSignal.set(content);
+    this.visibilitySignal.set(true);
   }
 
   // Closes the error modal
   close() {
-    this.visibilitySource.set(false);
+    this.visibilitySignal.set(false);
   }
 }

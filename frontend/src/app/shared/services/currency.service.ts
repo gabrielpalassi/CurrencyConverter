@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class CurrencyService {
+  // Inject the HttpClient service
   private http = inject(HttpClient);
 
   // Fetches the available currencies

@@ -1,6 +1,5 @@
 import { Component, computed, ElementRef, HostListener, inject, input, model, signal, viewChild } from '@angular/core';
 import Currency from '../../../../../../shared/interfaces/currency';
-import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import slideOutIn from '../../animations/slide-out-in';
 import fadeIn from '../../animations/fade-in';
@@ -8,7 +7,7 @@ import fadeIn from '../../animations/fade-in';
 @Component({
   selector: 'currency-select',
   standalone: true,
-  imports: [NgClass, FormsModule],
+  imports: [FormsModule],
   animations: [slideOutIn, fadeIn],
   templateUrl: './currency-select.component.html',
 })
