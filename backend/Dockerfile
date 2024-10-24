@@ -1,5 +1,5 @@
 # Use the official bun image as a parent image
-FROM oven/bun:1.1.20
+FROM oven/bun:1.1.32
 
 # Set the working directory
 WORKDIR /app
