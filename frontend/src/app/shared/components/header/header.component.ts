@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import slideInOut from '../../animations/slide-in-out';
 
@@ -10,15 +10,16 @@ import slideInOut from '../../animations/slide-in-out';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
-  showMobileMenu: boolean = false;
+  // Inject the Router
+  private router = inject(Router);
 
-  // Injects the Router service
-  constructor(private router: Router) {}
+  // Properties
+  showMobileMenu = signal<boolean>(false);
 
   // Route and scroll to specified element
   routeToElement(event: Event, route: string, element: string | undefined = undefined): void {
     event.preventDefault(); // Prevent default anchor navigation
-    if (this.showMobileMenu) this.showMobileMenu = false;
+    if (this.showMobileMenu()) this.showMobileMenu.set(false);
     this.router.navigate([route]).then(() => {
       setTimeout(() => {
         if (element) document.getElementById(element)?.scrollIntoView({ block: 'center' });

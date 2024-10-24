@@ -1,26 +1,26 @@
 <div class="w-full">
   <!-- Label -->
-  @if (label) {
+  @if (label()) {
     <span
-      (click)="isDropdownOpen = false"
+      (click)="isDropdownOpen.set(false)"
       class="mb-2 block font-semibold text-slate-600">
-      {{ label }}
+      {{ label() }}
     </span>
   }
   <div class="relative rounded-md shadow-sm">
     <!-- Button that simulates select -->
     <button
-      (click)="isDropdownOpen = !isDropdownOpen"
+      (click)="toggleDropdown()"
       type="button"
       aria-haspopup="listbox"
       [attr.aria-expanded]="isDropdownOpen.toString()"
       class="delay-70 relative w-full rounded-md bg-white py-3 pl-3 pr-10 text-left text-slate-600 shadow-sm ring-1 ring-inset ring-slate-300 transition focus:outline-none focus:ring-2 focus:ring-blue-500">
       <div class="flex h-6 items-center space-x-3">
-        @if (selectedOption && selectedOption.code && selectedOption.name) {
+        @if (selectedOption() && selectedOption()!.code && selectedOption()!.name) {
           <!-- Flag -->
           <img
             @fadeIn
-            src="assets/currency-flags/{{ selectedOption.code }}.svg"
+            src="assets/currency-flags/{{ selectedOption()!.code }}.svg"
             alt="Currency flag"
             class="h-auto w-6 border-[1px] border-slate-200" />
           <!-- Name -->
@@ -28,9 +28,9 @@
             class="block truncate"
             @fadeIn>
             <span class="inline md:hidden lg:inline">
-              {{ selectedOption.code + " - " + selectedOption.name }}
+              {{ selectedOption()!.code + " - " + selectedOption()!.name }}
             </span>
-            <span class="hidden md:inline lg:hidden">{{ selectedOption.code }}</span>
+            <span class="hidden md:inline lg:hidden">{{ selectedOption()!.code }}</span>
           </span>
         } @else {
           <!-- Placeholder -->
@@ -43,7 +43,7 @@
       </div>
       <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
         <svg
-          [class.rotate]="isDropdownOpen ? 'rotate-180' : ''"
+          [class.rotate]="isDropdownOpen() ? 'rotate-180' : ''"
           viewBox="0 0 20 20"
           fill="currentColor"
           class="h-5 w-5 transform text-slate-400 transition-transform duration-200">
@@ -55,7 +55,7 @@
       </span>
     </button>
     <!-- Dropdown menu -->
-    @if (isDropdownOpen) {
+    @if (isDropdownOpen()) {
       <div
         @slideOutIn
         class="absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg">
@@ -64,8 +64,8 @@
           #searchInput
           type="text"
           placeholder="Type to search..."
-          [(ngModel)]="searchTerm"
-          (ngModelChange)="filterOptions()"
+          [ngModel]="searchTerm()"
+          (ngModelChange)="searchTerm.set($event)"
           class="w-full rounded-t-md px-3 py-3 text-slate-600 outline-none" />
         <!-- Divider -->
         <hr class="mx-auto w-11/12" />
@@ -76,7 +76,7 @@
           aria-labelledby="assigned-to-label"
           aria-activedescendant="assigned-to-option-0"
           class="shadow-xs custom-scrollbar max-h-60 w-full overflow-auto rounded-b-md py-1 text-base leading-6 outline-none">
-          @for (option of filteredOptions; track option.code) {
+          @for (option of filteredOptions(); track option.code) {
             <li
               (click)="selectOption(option)"
               role="option"
@@ -89,13 +89,13 @@
                 <span
                   class="block truncate"
                   [ngClass]="{
-                    'font-semibold': option === selectedOption,
+                    'font-semibold': option === selectedOption(),
                   }">
                   {{ option.code + " - " + option.name }}
                 </span>
               </div>
               <!-- Highlights in case it's the option that is selected -->
-              @if (option === selectedOption) {
+              @if (option === selectedOption()) {
                 <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-500">
                   <svg
                     viewBox="0 0 20 20"

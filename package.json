@@ -9,18 +9,18 @@
   },
   "module": "index.ts",
   "devDependencies": {
-    "@eslint/js": "^9.7.0",
+    "@eslint/js": "^9.13.0",
     "@types/bun": "latest",
-    "eslint": "9.x",
+    "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
-    "globals": "^15.8.0",
-    "husky": "^9.1.1",
+    "globals": "^15.11.0",
+    "husky": "^9.1.6",
     "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.5",
-    "typescript-eslint": "^7.16.1"
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "typescript-eslint": "^7.18.0"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.5.3"
   },
   "type": "module"
 }

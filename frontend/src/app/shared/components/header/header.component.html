@@ -18,7 +18,7 @@
   <div class="flex lg:hidden">
     <button
       type="button"
-      (click)="showMobileMenu = true"
+      (click)="showMobileMenu.set(true)"
       class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-slate-400">
       <span class="sr-only">Open main menu</span>
       <svg
@@ -61,7 +61,7 @@
   </div>
 </nav>
 <!-- Mobile menu -->
-@if (showMobileMenu) {
+@if (showMobileMenu()) {
   <div
     @slideInOut
     role="dialog"
@@ -82,7 +82,7 @@
       <!-- Close button -->
       <button
         type="button"
-        (click)="showMobileMenu = false"
+        (click)="showMobileMenu.set(false)"
         class="-m-2.5 cursor-pointer rounded-md p-2.5">
         <span class="sr-only">Close menu</span>
         <svg

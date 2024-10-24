@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import Currency from '../../../../../shared/interfaces/currency';
@@ -10,8 +10,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class CurrencyService {
-  // Injects the HttpClient
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   // Fetches the available currencies
   getCurrencyList(): Observable<Currency[]> {

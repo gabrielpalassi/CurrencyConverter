@@ -1,23 +1,22 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { computed, Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ErrorModalService {
-  private visibilitySource = new BehaviorSubject<boolean>(false);
-  private contentSource = new BehaviorSubject<string>('');
-  visibility$ = this.visibilitySource.asObservable();
-  content$ = this.contentSource.asObservable();
+  private visibilitySource = signal(false);
+  private contentSource = signal('');
+  visibility = computed(() => this.visibilitySource());
+  content = computed(() => this.contentSource());
 
   // Opens the error modal with the given content
   open(content: string) {
-    this.contentSource.next(content);
-    this.visibilitySource.next(true);
+    this.contentSource.set(content);
+    this.visibilitySource.set(true);
   }
 
   // Closes the error modal
   close() {
-    this.visibilitySource.next(false);
+    this.visibilitySource.set(false);
   }
 }

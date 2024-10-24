@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, viewChild } from '@angular/core';
 import { CurrencyInputComponent } from '../../shared/components/currency-input/currency-input.component';
 import { CurrencySelectComponent } from '../../shared/components/currency-select/currency-select.component';
 import Currency from '../../../../../shared/interfaces/currency';
@@ -26,6 +26,11 @@ import { ErrorModalService } from '../../shared/services/error-modal.service';
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
+  // Inject services
+  private readonly currencyService = inject(CurrencyService);
+  private readonly errorModalService = inject(ErrorModalService);
+
+  // Properties
   Highcharts: typeof Highcharts = Highcharts;
   mainChartOptions: Highcharts.Options = mainChartConfig;
   tableChartOptions: Highcharts.Options = tableChartConfig;
@@ -44,14 +49,8 @@ export class HomeComponent {
     result: [],
   };
 
-  // References the full-width white container
-  @ViewChild('whiteFullWidthContainer') whiteFullWidthContainer!: ElementRef;
-
-  // Injects the currency and error modal services
-  constructor(
-    private readonly currencyService: CurrencyService,
-    private readonly errorModalService: ErrorModalService,
-  ) {}
+  // Reference the white full-width container element
+  whiteFullWidthContainer = viewChild.required<ElementRef>('whiteFullWidthContainer');
 
   // Fetches the currency list and sets the default conversion data
   ngOnInit(): void {
@@ -83,15 +82,15 @@ export class HomeComponent {
 
   // Check if body height is less than viewport height and adjust the fullwidth white container height to fill the screen
   private setContainerHeight() {
-    this.whiteFullWidthContainer.nativeElement.style.height = 'auto';
+    this.whiteFullWidthContainer().nativeElement.style.height = 'auto';
     const bodyHeight = document.body.clientHeight;
     const viewportHeight = window.innerHeight;
     if (bodyHeight < viewportHeight) {
-      const offsetTop = this.whiteFullWidthContainer.nativeElement.offsetTop;
+      const offsetTop = this.whiteFullWidthContainer().nativeElement.offsetTop;
       const height = viewportHeight - offsetTop;
-      this.whiteFullWidthContainer.nativeElement.style.height = `${height}px`;
+      this.whiteFullWidthContainer().nativeElement.style.height = `${height}px`;
     } else {
-      this.whiteFullWidthContainer.nativeElement.style.height = 'auto';
+      this.whiteFullWidthContainer().nativeElement.style.height = 'auto';
     }
   }
 
