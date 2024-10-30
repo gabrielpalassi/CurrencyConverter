@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { getCurrencies } from '../controllers/currencies';
-import Currency from '../../../shared/interfaces/currency';
+import { Currency } from '@shared/types';
 
 const currenciesRoutes = new Hono();
 

@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { convertCurrency } from '../controllers/convert';
 import ConversionResponse from '../../../shared/interfaces/conversion-response';
-import Currency from '../../../shared/interfaces/currency';
+import { Currency } from '@shared/types';
 
 const convertRoutes = new Hono();
 

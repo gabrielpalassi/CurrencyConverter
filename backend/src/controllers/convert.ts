@@ -1,5 +1,5 @@
-import ConversionResponse from '../../../shared/interfaces/conversion-response';
-import Currency from '../../../shared/interfaces/currency';
+import { ConversionResponse } from '@shared/types';
+import { Currency } from '@shared/types';
 import { getCurrencyData } from '../services/currency';
 
 // Converts the given amount from the base currency to the target currency

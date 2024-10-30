@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ErrorModalService } from '../../services/error-modal.service';
-import modalPanel from '../../animations/modal-panel';
-import modalBackdrop from '../../animations/modal-backdrop';
+import { modalPanel } from '../../animations/modal-panel';
+import { modalBackdrop } from '../../animations/modal-backdrop';
 
 @Component({
   selector: 'error-modal',

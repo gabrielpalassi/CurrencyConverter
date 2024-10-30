@@ -1,5 +1,5 @@
-import ConversionTableResponse from '../../../shared/interfaces/conversion-table-response';
-import Currency from '../../../shared/interfaces/currency';
+import { ConversionTableResponse } from '@shared/types';
+import { Currency } from '@shared/types';
 import { getAllCurrenciesData } from '../services/currency';
 import { convertCurrency } from './convert';
 

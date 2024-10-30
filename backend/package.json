@@ -13,6 +13,7 @@
     "hono": "^4.6.6"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@shared/types": "*"
   }
 }

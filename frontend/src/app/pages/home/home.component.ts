@@ -1,20 +1,20 @@
 import { Component, inject, signal } from '@angular/core';
 import { CurrencyInputComponent } from '../../shared/components/currency-input/currency-input.component';
 import { CurrencySelectComponent } from '../../shared/components/currency-select/currency-select.component';
-import Currency from '../../../../../shared/interfaces/currency';
+import { Currency } from '@shared/types';
 import { CurrencyService } from '../../shared/services/currency.service';
 import { HighchartsChartModule } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
 import { mainChartConfig } from './utlils/main-chart.config';
 import { tableChartConfig } from './utlils/table-chart.config';
 import { DecimalPipe } from '@angular/common';
-import fadeIn from '../../shared/animations/fade-in';
-import expand from '../../shared/animations/expand';
-import ConversionData from '../../shared/interfaces/conversion-data';
-import ConversionTableResult from '../../shared/interfaces/conversion-table-result';
-import ConversionTableResponse from '../../../../../shared/interfaces/conversion-table-response';
-import ConversionTableData from '../../shared/interfaces/conversion-table-data';
-import ConversionResponse from '../../../../../shared/interfaces/conversion-response';
+import { fadeIn } from '../../shared/animations/fade-in';
+import { expand } from '../../shared/animations/expand';
+import { ConversionData } from '../../shared/types/conversion-data';
+import { ConversionTableResult } from '../../shared/types/conversion-table-result';
+import { ConversionTableResponse } from '@shared/types';
+import { ConversionTableData } from '../../shared/types/conversion-table-data';
+import { ConversionResponse } from '@shared/types';
 import { ErrorModalService } from '../../shared/services/error-modal.service';
 import { getChartOptions } from './utlils/chart-utils';
 
@@ -61,8 +61,11 @@ export class HomeComponent {
         }
 
         this.currencyList.set(currencyList);
-        this.conversionData.update((conversionData) => ({ ...conversionData, base: currencyList[0] }));
-        this.conversionData.update((conversionData) => ({ ...conversionData, target: currencyList[1] }));
+        this.conversionData.update((conversionData) => ({
+          ...conversionData,
+          base: currencyList[0],
+          target: currencyList[1],
+        }));
         this.conversionIsLoading.set(false);
 
         this.getConversionTable(this.conversionData().base!);
@@ -149,9 +152,11 @@ export class HomeComponent {
 
   // Switches the conversion currencies
   switchConversionCurrencies(): void {
-    const temp = this.conversionData().base;
-    this.conversionData.update((conversionData) => ({ ...conversionData, base: conversionData.target }));
-    this.conversionData.update((conversionData) => ({ ...conversionData, target: temp }));
+    this.conversionData.update((conversionData) => ({
+      ...conversionData,
+      base: conversionData.target,
+      target: conversionData.base,
+    }));
     if (this.conversionData().response) this.getConvertion();
   }
 }

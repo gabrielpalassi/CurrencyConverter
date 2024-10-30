@@ -1,8 +1,8 @@
 import { Component, computed, ElementRef, HostListener, inject, input, model, signal, viewChild } from '@angular/core';
-import Currency from '../../../../../../shared/interfaces/currency';
+import { Currency } from '@shared/types';
 import { FormsModule } from '@angular/forms';
-import slideOutIn from '../../animations/slide-out-in';
-import fadeIn from '../../animations/fade-in';
+import { slideOutIn } from '../../animations/slide-out-in';
+import { fadeIn } from '../../animations/fade-in';
 
 @Component({
   selector: 'currency-select',

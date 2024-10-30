@@ -1,4 +1,4 @@
-export default interface Environment {
+export interface Environment {
   production: boolean;
   apiUrl: string;
 }

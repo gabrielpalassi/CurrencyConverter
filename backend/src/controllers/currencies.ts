@@ -1,4 +1,4 @@
-import Currency from '../../../shared/interfaces/currency';
+import { Currency } from '@shared/types';
 import { getAllCurrenciesData } from '../services/currency';
 
 // Returns all currencies

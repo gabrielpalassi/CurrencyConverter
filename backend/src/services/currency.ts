@@ -1,4 +1,4 @@
-import Currency from '../../../shared/interfaces/currency';
+import { Currency } from '@shared/types';
 import { Cache, CacheEntry } from '../cache/cache';
 import { fetch, fetchHistoric90d } from 'ecb-euro-exchange-rates';
 
