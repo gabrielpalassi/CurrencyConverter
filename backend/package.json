@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "@gaignoux/currency": "^1.1.0",
-    "@hono/node-server": "^1.13.2",
     "ecb-euro-exchange-rates": "^4.0.0",
     "hono": "^4.6.6"
   },

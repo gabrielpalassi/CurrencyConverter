@@ -1,24 +1,14 @@
-# Use the official bun image as a parent image
-FROM oven/bun:1.1.32
+# Use the official alpine bun image as a parent image
+FROM oven/bun:1.1.34-alpine
 
 # Set the working directory
 WORKDIR /app
 
-# Copy the source code and necessary files
-COPY src ./src
-COPY package.json bun.lockb ./
-
-# Install dependencies
-RUN bun install --production
-
-# Build
-RUN bun run build
-
-# Remove source code and dependencies after build
-RUN rm -rf src node_modules
+# Copy the built source code
+COPY dist/index.js ./
 
 # Expose the port
 EXPOSE 3000
 
 # Start the server
-CMD ["bun", "start:prod"]
+CMD ["bun", "index.js"]
