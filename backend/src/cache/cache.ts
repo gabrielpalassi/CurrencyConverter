@@ -15,10 +15,9 @@ export class Cache {
   private timestamp: number;
   private duration: number;
 
-  constructor() {
+  private constructor() {
     if (Cache.instance) throw new Error('Use Cache.getInstance() instead of new Cache().');
 
-    Cache.instance = this;
     this.data = new Map<CurrencyCode, CacheEntry>();
     this.timestamp = Date.now();
     this.duration = 60 * 60 * 1000; // 1 hour (60 minutes * 60 seconds * 1000 milliseconds)
