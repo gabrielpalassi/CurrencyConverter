@@ -5,5 +5,5 @@ export const slideInOut = trigger('slideInOut', [
     style({ opacity: 0, transform: 'translateX(10px)' }),
     animate('200ms ease', style({ opacity: 1, transform: 'translateY(0)' })),
   ]),
-  transition(':leave', [animate('150ms ease', style({ opacity: 0, transform: 'translateX(10px)' }))]),
+  transition(':leave', [animate('200ms ease', style({ opacity: 0, transform: 'translateX(10px)' }))]),
 ]);
