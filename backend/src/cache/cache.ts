@@ -1,24 +1,18 @@
-import { Currency } from '@shared/types';
+import { CurrencyData } from '@shared/types';
 import { getCurrencySymbol, getCurrencyName, TCurrencyCode, getAllCodes } from '@gaignoux/currency';
 
 type CurrencyCode = string;
 
-export interface CacheEntry {
-  currency: Currency;
-  rate: number;
-  chartData: [x: number, y: number][];
-}
-
 export class Cache {
   private static instance: Cache;
-  private data: Map<CurrencyCode, CacheEntry>;
+  private data: Map<CurrencyCode, CurrencyData>;
   private timestamp: number;
   private duration: number;
 
   private constructor() {
     if (Cache.instance) throw new Error('Use Cache.getInstance() instead of new Cache().');
 
-    this.data = new Map<CurrencyCode, CacheEntry>();
+    this.data = new Map<CurrencyCode, CurrencyData>();
     this.timestamp = Date.now();
     this.duration = 60 * 60 * 1000; // 1 hour (60 minutes * 60 seconds * 1000 milliseconds)
   }
@@ -44,7 +38,7 @@ export class Cache {
     return this.data.size > 0;
   }
 
-  public getEntry(currencyCode: string): CacheEntry | undefined {
+  public getEntry(currencyCode: string): CurrencyData | undefined {
     try {
       if (!currencyCode) throw new Error('Invalid currency code.');
 
@@ -56,7 +50,7 @@ export class Cache {
     }
   }
 
-  public getAllEntries(): CacheEntry[] {
+  public getAllEntries(): CurrencyData[] {
     return Array.from(this.data.values());
   }
 

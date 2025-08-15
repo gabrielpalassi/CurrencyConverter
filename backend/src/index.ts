@@ -1,8 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import currenciesRoutes from './routes/currencies';
-import conversionTableRoutes from './routes/conversion-table';
-import convertRoutes from './routes/convert';
 
 const app = new Hono();
 
@@ -22,8 +20,6 @@ app.onError((error, context) => {
 
 // Routes
 app.route('/currencies', currenciesRoutes);
-app.route('/conversion-table', conversionTableRoutes);
-app.route('/convert', convertRoutes);
 
 // Export the app
 export default {

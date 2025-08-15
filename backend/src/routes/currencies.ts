@@ -1,12 +1,12 @@
 import { Hono } from 'hono';
 import { getCurrencies } from '../controllers/currencies';
-import { Currency } from '@shared/types';
+import { CurrencyData } from '@shared/types';
 
 const currenciesRoutes = new Hono();
 
 currenciesRoutes.get('/', async (context) => {
   try {
-    const currencies: Currency[] = await getCurrencies();
+    const currencies: CurrencyData[] = await getCurrencies();
     return context.json(currencies);
   } catch (error) {
     let errorMessage = 'Failed to fetch currencies.';

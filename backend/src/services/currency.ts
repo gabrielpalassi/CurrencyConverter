@@ -1,11 +1,11 @@
-import { Currency } from '@shared/types';
-import { Cache, CacheEntry } from '../cache/cache';
+import { Currency, CurrencyData } from '@shared/types';
+import { Cache } from '../cache/cache';
 import { fetch, fetchHistoric90d } from 'ecb-euro-exchange-rates';
 
 const cache = Cache.getInstance();
 
 // Returns the data for the given currency code
-export const getCurrencyData = async (currency: Currency): Promise<CacheEntry | undefined> => {
+export const getCurrencyData = async (currency: Currency): Promise<CurrencyData | undefined> => {
   try {
     if (!currency) throw new Error('Invalid currency.');
 
@@ -23,7 +23,7 @@ export const getCurrencyData = async (currency: Currency): Promise<CacheEntry | 
 };
 
 // Returns all currencies' data
-export const getAllCurrenciesData = async (): Promise<CacheEntry[]> => {
+export const getAllCurrenciesData = async (): Promise<CurrencyData[]> => {
   try {
     if (Date.now() - cache.getTimeStamp() > cache.getDuration() || !cache.hasAnyEntries()) {
       await updateCache();
