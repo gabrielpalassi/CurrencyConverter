@@ -111,7 +111,7 @@ export class HomeComponent {
           );
           this.conversionIsLoading.set(false);
           const timerEnd = Date.now();
-          if (timerEnd - timerStart <= 1) {
+          if (timerEnd - timerStart <= 2) {
             setTimeout(() => {
               this.mainChartIsLoading.set(false);
             });
