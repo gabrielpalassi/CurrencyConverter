@@ -89,14 +89,16 @@
             </p>
           </div>
           <!-- Chart -->
-          <div
-            class="flex w-full"
-            @fadeIn>
-            <highcharts-chart
-              [Highcharts]="Highcharts"
-              [options]="mainChartOptions()"
-              class="display:block mt-6 w-full" />
-          </div>
+          @if (!mainChartIsLoading()) {
+            <div
+              class="flex w-full"
+              @fadeIn>
+              <highcharts-chart
+                [Highcharts]="Highcharts"
+                [options]="mainChartOptions()"
+                class="display:block mt-6 w-full" />
+            </div>
+          }
         }
       </div>
     }

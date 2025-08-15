@@ -43,6 +43,7 @@ export class HomeComponent {
     response: undefined,
   });
   mainChartOptions = signal<Highcharts.Options>(mainChartConfig);
+  mainChartIsLoading = signal<boolean>(true);
 
   tableIsLoading = signal<boolean>(true);
   conversionTableData = signal<ConversionTableData>({
@@ -90,7 +91,9 @@ export class HomeComponent {
     }
 
     if (this.inputError) this.inputError.set(false);
+    const timerStart = Date.now();
     this.conversionIsLoading.set(true);
+    this.mainChartIsLoading.set(true);
 
     this.currencyService
       .convert(this.conversionData().base!, this.conversionData().target!, this.conversionData().amount!)
@@ -107,6 +110,14 @@ export class HomeComponent {
             ),
           );
           this.conversionIsLoading.set(false);
+          const timerEnd = Date.now();
+          if (timerEnd - timerStart <= 1) {
+            setTimeout(() => {
+              this.mainChartIsLoading.set(false);
+            });
+          } else {
+            this.mainChartIsLoading.set(false);
+          }
         },
         error: (error) => {
           console.error(error);
