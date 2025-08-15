@@ -161,6 +161,17 @@ export class HomeComponent {
     });
   }
 
+  // Set currencies for conversion
+  setConversionCurrencies(currency: Currency, type: 'base' | 'target'): void {
+    if (currency !== this.conversionData()[type]) {
+      this.conversionData.update((conversionData) => ({
+        ...conversionData,
+        [type]: currency,
+      }));
+      if (this.conversionData().amount) this.getConvertion();
+    }
+  }
+
   // Switches the conversion currencies
   switchConversionCurrencies(): void {
     this.conversionData.update((conversionData) => ({

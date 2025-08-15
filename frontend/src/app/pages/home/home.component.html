@@ -22,7 +22,9 @@
       <currency-select
         label="From"
         [options]="currencyList()"
-        [(selectedOption)]="conversionData().base"
+        [selectedOption]="conversionData().base"
+        [currencyType]="'base'"
+        (optionSelected)="setConversionCurrencies($event.currency, $event.type)"
         class="w-full md:max-w-[283.64px]" />
       <!-- Switch currencies button -->
       <button
@@ -36,7 +38,9 @@
       <currency-select
         label="To"
         [options]="currencyList()"
-        [(selectedOption)]="conversionData().target"
+        [selectedOption]="conversionData().target"
+        [currencyType]="'target'"
+        (optionSelected)="setConversionCurrencies($event.currency, $event.type)"
         class="w-full md:max-w-[283.64px]" />
       <!-- Convert button -->
       <button

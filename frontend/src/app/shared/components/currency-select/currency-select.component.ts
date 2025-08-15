@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, HostListener, inject, input, model, signal, viewChild } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, inject, input, output, signal, viewChild } from '@angular/core';
 import { Currency } from '@shared/types';
 import { FormsModule } from '@angular/forms';
 import { slideOutIn } from '../../animations/slide-out-in';
@@ -15,7 +15,9 @@ export class CurrencySelectComponent {
   // Inputs and outputs
   label = input<string>();
   options = input<Currency[]>();
-  selectedOption = model<Currency>();
+  selectedOption = input<Currency>();
+  currencyType = input<'base' | 'target'>();
+  optionSelected = output<{ currency: Currency; type: 'base' | 'target' }>();
 
   // Properties
   isDropdownOpen = signal<boolean>(false);
@@ -38,7 +40,7 @@ export class CurrencySelectComponent {
 
   // Selects an option and closes the menu
   selectOption(option: Currency): void {
-    this.selectedOption.set(option);
+    this.optionSelected.emit({ currency: option, type: this.currencyType()! });
     this.isDropdownOpen.set(false);
   }
 
