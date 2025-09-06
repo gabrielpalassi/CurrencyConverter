@@ -55,7 +55,7 @@ export class CurrencyService {
         if (!baseData) throw new Error('Base currency data not found');
 
         // Define target currencies for the conversion table
-        const targetCurrencyCodes = ['USD', 'EUR', 'GBP', 'JPY', 'AUD'].filter(
+        const targetCurrencyCodes = ['EUR', 'USD', 'JPY', 'GBP', 'CNY', 'AUD', 'CAD', 'CHF', 'HKD', 'SGD'].filter(
           (currencyCode) => currencyCode !== base.code,
         );
 
