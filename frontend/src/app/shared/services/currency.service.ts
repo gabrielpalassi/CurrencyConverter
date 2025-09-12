@@ -1,13 +1,13 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of, map } from 'rxjs';
-import { Currency, CurrencyData } from '@shared/types';
-import { ConversionResponse } from '@shared/types';
-import { ConversionTableResponse } from '@shared/types';
-import { environment } from '@/environments/environment';
+import { inject, Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable, of, map } from "rxjs";
+import { Currency, CurrencyData } from "@shared/types";
+import { ConversionResponse } from "@shared/types";
+import { ConversionTableResponse } from "@shared/types";
+import { environment } from "@/environments/environment";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class CurrencyService {
   // Inject the HttpClient service
@@ -46,16 +46,16 @@ export class CurrencyService {
   getConversionTable(base: Currency): Observable<ConversionTableResponse> {
     return this.getAllCurrenciesData().pipe(
       map((currenciesData) => {
-        if (!base) throw new Error('Invalid base currency');
+        if (!base) throw new Error("Invalid base currency");
 
         // Extract currencies and find base currency data
         const allCurrencies = currenciesData.map(({ currency }) => currency);
         const baseData = currenciesData.find(({ currency }) => currency.code === base.code);
 
-        if (!baseData) throw new Error('Base currency data not found');
+        if (!baseData) throw new Error("Base currency data not found");
 
         // Define target currencies for the conversion table
-        const targetCurrencyCodes = ['EUR', 'USD', 'JPY', 'GBP', 'CNY', 'AUD', 'CAD', 'CHF', 'HKD', 'SGD'].filter(
+        const targetCurrencyCodes = ["EUR", "USD", "JPY", "GBP", "CNY", "AUD", "CAD", "CHF", "HKD", "SGD"].filter(
           (currencyCode) => currencyCode !== base.code,
         );
 
@@ -100,15 +100,15 @@ export class CurrencyService {
   convert(base: Currency, target: Currency, amount: number): Observable<ConversionResponse> {
     return this.getAllCurrenciesData().pipe(
       map((currenciesData) => {
-        if (!base) throw new Error('Invalid base currency.');
-        if (!target) throw new Error('Invalid target currency.');
-        if (amount <= 0) throw new Error('Invalid amount.');
+        if (!base) throw new Error("Invalid base currency.");
+        if (!target) throw new Error("Invalid target currency.");
+        if (amount <= 0) throw new Error("Invalid amount.");
 
         // Find currency data for both base and target
         const baseData = currenciesData.find(({ currency }) => currency.code === base.code);
         const targetData = currenciesData.find(({ currency }) => currency.code === target.code);
 
-        if (!baseData || !targetData) throw new Error('Currency data not found.');
+        if (!baseData || !targetData) throw new Error("Currency data not found.");
 
         // Calculate conversion rate and result
         const rate = targetData.rate / baseData.rate;

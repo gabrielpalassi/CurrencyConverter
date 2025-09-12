@@ -1,5 +1,5 @@
-import { CurrencyData } from '@shared/types';
-import { getAllCurrenciesData } from '@/services/currency';
+import { CurrencyData } from "@shared/types";
+import { getAllCurrenciesData } from "@/services/currency";
 
 // Returns all currencies with their data (rate and chart)
 export const getCurrencies = async (): Promise<CurrencyData[]> => {
@@ -7,7 +7,7 @@ export const getCurrencies = async (): Promise<CurrencyData[]> => {
     const currenciesData = await getAllCurrenciesData();
     return currenciesData;
   } catch (error) {
-    let errorMessage = 'Failed to fetch currencies.';
+    let errorMessage = "Failed to fetch currencies.";
     if (error instanceof Error && error.message) errorMessage = `Failed to fetch currencies: ${error.message}`;
     throw new Error(errorMessage);
   }

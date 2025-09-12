@@ -1,5 +1,5 @@
-import { Currency } from '@shared/types';
-import { ConversionResponse } from '@shared/types';
+import { Currency } from "@shared/types";
+import { ConversionResponse } from "@shared/types";
 
 export interface ConversionData {
   base: Currency | undefined;

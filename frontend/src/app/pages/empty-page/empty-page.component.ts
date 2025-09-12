@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component } from "@angular/core";
+import { RouterModule } from "@angular/router";
 
 @Component({
-  selector: 'app-empty-page',
+  selector: "app-empty-page",
   standalone: true,
   imports: [RouterModule],
-  templateUrl: 'empty-page.component.html',
+  templateUrl: "empty-page.component.html",
 })
 export class EmptyPageComponent {}

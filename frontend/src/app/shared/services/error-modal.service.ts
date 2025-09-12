@@ -1,12 +1,12 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from "@angular/core";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ErrorModalService {
   // Properties
   private visibilitySignal = signal(false);
-  private contentSignal = signal('');
+  private contentSignal = signal("");
   visibility = computed(() => this.visibilitySignal());
   content = computed(() => this.contentSignal());
 

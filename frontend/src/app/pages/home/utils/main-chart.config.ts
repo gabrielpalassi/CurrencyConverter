@@ -6,14 +6,14 @@ export const mainChartConfig: Highcharts.Options = {
     enabled: false,
   },
   title: {
-    text: '',
+    text: "",
   },
   legend: {
     enabled: false,
   },
   chart: {
     margin: 0,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   boost: {
     enabled: true,
@@ -22,8 +22,8 @@ export const mainChartConfig: Highcharts.Options = {
   },
   series: [
     {
-      type: 'areaspline',
-      color: 'rgba(37, 99, 235, 1)',
+      type: "areaspline",
+      color: "rgba(37, 99, 235, 1)",
       marker: {
         enabled: false,
       },
@@ -31,7 +31,7 @@ export const mainChartConfig: Highcharts.Options = {
   ],
   xAxis: {
     visible: false,
-    type: 'datetime',
+    type: "datetime",
     minPadding: 0,
     maxPadding: 0,
   },
@@ -48,9 +48,9 @@ export const mainChartConfig: Highcharts.Options = {
           y2: 1,
         },
         stops: [
-          [0, 'rgba(255, 255, 255, 0)'],
-          [0.1, 'rgba(37, 99, 235, 0.1)'],
-          [1, 'rgba(37, 99, 235, 0.5)'],
+          [0, "rgba(255, 255, 255, 0)"],
+          [0.1, "rgba(37, 99, 235, 0.1)"],
+          [1, "rgba(37, 99, 235, 0.5)"],
         ],
       },
       marker: {
@@ -65,10 +65,10 @@ export const mainChartConfig: Highcharts.Options = {
           y2: 1,
         },
         stops: [
-          [0, 'rgba(255, 255, 255, 0)'],
-          [0.1, 'rgba(37, 99, 235, 0.5)'],
-          [0.2, 'rgba(37, 99, 235, 1)'],
-          [1, 'rgba(37, 99, 235, 1)'],
+          [0, "rgba(255, 255, 255, 0)"],
+          [0.1, "rgba(37, 99, 235, 0.5)"],
+          [0.2, "rgba(37, 99, 235, 1)"],
+          [1, "rgba(37, 99, 235, 1)"],
         ],
       },
       states: {

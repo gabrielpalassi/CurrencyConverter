@@ -1,37 +1,37 @@
-import { Component, computed, ElementRef, HostListener, inject, input, output, signal, viewChild } from '@angular/core';
-import { Currency } from '@shared/types';
-import { FormsModule } from '@angular/forms';
-import { slideOutIn } from '@/app/shared/animations/slide-out-in';
-import { fadeIn } from '@/app/shared/animations/fade-in';
+import { Component, computed, ElementRef, HostListener, inject, input, output, signal, viewChild } from "@angular/core";
+import { Currency } from "@shared/types";
+import { FormsModule } from "@angular/forms";
+import { slideOutIn } from "@/app/shared/animations/slide-out-in";
+import { fadeIn } from "@/app/shared/animations/fade-in";
 
 @Component({
-  selector: 'currency-select',
+  selector: "currency-select",
   standalone: true,
   imports: [FormsModule],
   animations: [slideOutIn, fadeIn],
-  templateUrl: 'currency-select.component.html',
+  templateUrl: "currency-select.component.html",
 })
 export class CurrencySelectComponent {
   // Inputs and outputs
   label = input<string>();
   options = input<Currency[]>();
   selectedOption = input<Currency>();
-  currencyType = input<'base' | 'target'>();
-  optionSelected = output<{ currency: Currency; type: 'base' | 'target' }>();
+  currencyType = input<"base" | "target">();
+  optionSelected = output<{ currency: Currency; type: "base" | "target" }>();
 
   // Properties
   isDropdownOpen = signal<boolean>(false);
-  searchTerm = signal<string>('');
+  searchTerm = signal<string>("");
   filteredOptions = computed<Currency[]>(() => {
     if (!this.searchTerm()) return this.options() ?? [];
     return this.options()!.filter((option) =>
-      (option.code + ' - ' + option.name).toLowerCase().includes(this.searchTerm().toLowerCase()),
+      (option.code + " - " + option.name).toLowerCase().includes(this.searchTerm().toLowerCase()),
     );
   });
 
   // Inject ElementRef and reference the search input element
   private elementRef = inject(ElementRef);
-  private searchInput = viewChild.required<ElementRef>('searchInput');
+  private searchInput = viewChild.required<ElementRef>("searchInput");
 
   // Toggles the dropdown menu
   toggleDropdown(): void {
@@ -45,7 +45,7 @@ export class CurrencySelectComponent {
   }
 
   // Listens for clicks and closes the dropdown menu when clicking outside of the component
-  @HostListener('document:click', ['$event'])
+  @HostListener("document:click", ["$event"])
   onClick(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     const clickedInside = this.elementRef.nativeElement.contains(target);
@@ -53,7 +53,7 @@ export class CurrencySelectComponent {
   }
 
   // Listen for keypress events and focus the search input if the dropdown is open
-  @HostListener('document:keydown', ['$event'])
+  @HostListener("document:keydown", ["$event"])
   handleKeyboardEvent(): void {
     if (this.isDropdownOpen()) this.searchInput().nativeElement.focus();
   }

@@ -1,12 +1,12 @@
-import { Component, input, model, output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { NgxCurrencyDirective } from 'ngx-currency';
+import { Component, input, model, output } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { NgxCurrencyDirective } from "ngx-currency";
 
 @Component({
-  selector: 'currency-input',
+  selector: "currency-input",
   standalone: true,
   imports: [FormsModule, NgxCurrencyDirective],
-  templateUrl: 'currency-input.component.html',
+  templateUrl: "currency-input.component.html",
 })
 export class CurrencyInputComponent {
   // Inputs and outputs

@@ -1,4 +1,4 @@
-import { ConversionResult } from '@shared/types';
+import { ConversionResult } from "@shared/types";
 
 export interface ConversionTableResult extends ConversionResult {
   dailyChange?: number;

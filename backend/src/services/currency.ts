@@ -1,13 +1,13 @@
-import { Currency, CurrencyData } from '@shared/types';
-import { Cache } from '@/cache/cache';
-import { fetch, fetchHistoric90d } from 'ecb-euro-exchange-rates';
+import { Currency, CurrencyData } from "@shared/types";
+import { Cache } from "@/cache/cache";
+import { fetch, fetchHistoric90d } from "ecb-euro-exchange-rates";
 
 const cache = Cache.getInstance();
 
 // Returns the data for the given currency code
 export const getCurrencyData = async (currency: Currency): Promise<CurrencyData | undefined> => {
   try {
-    if (!currency) throw new Error('Invalid currency.');
+    if (!currency) throw new Error("Invalid currency.");
 
     if (Date.now() - cache.getTimeStamp() > cache.getDuration() || !cache.hasEntry(currency.code)) {
       await updateCache();
@@ -16,7 +16,7 @@ export const getCurrencyData = async (currency: Currency): Promise<CurrencyData 
 
     return cache.getEntry(currency.code);
   } catch (error) {
-    let errorMessage = 'Failed to get currency data.';
+    let errorMessage = "Failed to get currency data.";
     if (error instanceof Error && error.message) errorMessage = `Failed to get currency data: ${error.message}`;
     throw new Error(errorMessage);
   }
@@ -32,7 +32,7 @@ export const getAllCurrenciesData = async (): Promise<CurrencyData[]> => {
 
     return cache.getAllEntries();
   } catch (error) {
-    let errorMessage = 'Failed to get all currencies data.';
+    let errorMessage = "Failed to get all currencies data.";
     if (error instanceof Error && error.message) errorMessage = `Failed to get all currencies data: ${error.message}`;
     throw new Error(errorMessage);
   }
@@ -45,7 +45,7 @@ const updateCache = async (): Promise<void> => {
 
     const [fetchResults, fetchHistoric90dResults] = await Promise.all([fetch(), fetchHistoric90d()]);
 
-    if (!fetchResults || !fetchHistoric90dResults) throw new Error('Failed to fetch data from the ECB API.');
+    if (!fetchResults || !fetchHistoric90dResults) throw new Error("Failed to fetch data from the ECB API.");
 
     // Process historical data
     const chartData = new Map<string, [x: number, y: number][]>();
@@ -58,14 +58,14 @@ const updateCache = async (): Promise<void> => {
       });
 
       // Ensure EUR data is present
-      if (!chartData.has('EUR')) {
-        chartData.set('EUR', []);
+      if (!chartData.has("EUR")) {
+        chartData.set("EUR", []);
       }
-      chartData.get('EUR')!.push([timestamp, 1]);
+      chartData.get("EUR")!.push([timestamp, 1]);
     });
 
     // Update cache entries
-    cache.setEntry('EUR', 1, chartData.get('EUR')!);
+    cache.setEntry("EUR", 1, chartData.get("EUR")!);
 
     Object.entries(fetchResults.rates).forEach(([currencyCode, rate]) => {
       cache.setEntry(currencyCode, rate, chartData.get(currencyCode) || []);
@@ -73,7 +73,7 @@ const updateCache = async (): Promise<void> => {
 
     cache.setTimeStamp(Date.now());
   } catch (error) {
-    let errorMessage = 'Failed to update cache.';
+    let errorMessage = "Failed to update cache.";
     if (error instanceof Error && error.message) errorMessage = `Failed to update cache: ${error.message}`;
     throw new Error(errorMessage);
   }

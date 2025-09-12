@@ -6,14 +6,14 @@ export const tableChartConfig: Highcharts.Options = {
     enabled: false,
   },
   title: {
-    text: '',
+    text: "",
   },
   legend: {
     enabled: false,
   },
   chart: {
     margin: 0,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   boost: {
     enabled: true,
@@ -22,8 +22,8 @@ export const tableChartConfig: Highcharts.Options = {
   },
   series: [
     {
-      type: 'spline',
-      color: 'rgba(37, 99, 235, 1)',
+      type: "spline",
+      color: "rgba(37, 99, 235, 1)",
       marker: {
         enabled: false,
       },
@@ -31,7 +31,7 @@ export const tableChartConfig: Highcharts.Options = {
   ],
   xAxis: {
     visible: false,
-    type: 'datetime',
+    type: "datetime",
     minPadding: 0,
     maxPadding: 0,
   },

@@ -1,5 +1,5 @@
-import { CurrencyData } from '@shared/types';
-import { getCurrencySymbol, getCurrencyName, TCurrencyCode, getAllCodes } from '@gaignoux/currency';
+import { CurrencyData } from "@shared/types";
+import { getCurrencySymbol, getCurrencyName, TCurrencyCode, getAllCodes } from "@gaignoux/currency";
 
 type CurrencyCode = string;
 
@@ -10,7 +10,7 @@ export class Cache {
   private duration: number;
 
   private constructor() {
-    if (Cache.instance) throw new Error('Use Cache.getInstance() instead of new Cache().');
+    if (Cache.instance) throw new Error("Use Cache.getInstance() instead of new Cache().");
 
     this.data = new Map<CurrencyCode, CurrencyData>();
     this.timestamp = Date.now();
@@ -24,11 +24,11 @@ export class Cache {
 
   public hasEntry(currencyCode: string): boolean {
     try {
-      if (!currencyCode) throw new Error('Invalid currency code.');
+      if (!currencyCode) throw new Error("Invalid currency code.");
 
       return this.data.has(currencyCode);
     } catch (error) {
-      let errorMessage = 'Failed to check cache entry.';
+      let errorMessage = "Failed to check cache entry.";
       if (error instanceof Error && error.message) errorMessage = `Failed to check cache entry: ${error.message}`;
       throw new Error(errorMessage);
     }
@@ -40,11 +40,11 @@ export class Cache {
 
   public getEntry(currencyCode: string): CurrencyData | undefined {
     try {
-      if (!currencyCode) throw new Error('Invalid currency code.');
+      if (!currencyCode) throw new Error("Invalid currency code.");
 
       return this.data.get(currencyCode);
     } catch (error) {
-      let errorMessage = 'Failed to get cache entry.';
+      let errorMessage = "Failed to get cache entry.";
       if (error instanceof Error && error.message) errorMessage = `Failed to get cache entry: ${error.message}`;
       throw new Error(errorMessage);
     }
@@ -56,9 +56,9 @@ export class Cache {
 
   public setEntry(currencyCode: string, rate: number, chartData: [number, number][]): void {
     try {
-      if (!currencyCode || !getAllCodes().includes(currencyCode)) throw new Error('Invalid currency code.');
-      if (!rate) throw new Error('Invalid rate.');
-      if (!chartData) throw new Error('Invalid chart data.');
+      if (!currencyCode || !getAllCodes().includes(currencyCode)) throw new Error("Invalid currency code.");
+      if (!rate) throw new Error("Invalid rate.");
+      if (!chartData) throw new Error("Invalid chart data.");
 
       this.data.set(currencyCode, {
         currency: {
@@ -70,7 +70,7 @@ export class Cache {
         chartData,
       });
     } catch (error) {
-      let errorMessage = 'Failed to set cache entry.';
+      let errorMessage = "Failed to set cache entry.";
       if (error instanceof Error && error.message) errorMessage = `Failed to set cache entry: ${error.message}`;
       throw new Error(errorMessage);
     }
@@ -86,11 +86,11 @@ export class Cache {
 
   public setTimeStamp(timestamp: number): void {
     try {
-      if (!timestamp) throw new Error('Invalid timestamp.');
+      if (!timestamp) throw new Error("Invalid timestamp.");
 
       this.timestamp = timestamp;
     } catch (error) {
-      let errorMessage = 'Failed to set cache timestamp.';
+      let errorMessage = "Failed to set cache timestamp.";
       if (error instanceof Error && error.message) errorMessage = `Failed to set cache timestamp: ${error.message}`;
       throw new Error(errorMessage);
     }
@@ -102,11 +102,11 @@ export class Cache {
 
   public setDuration(duration: number): void {
     try {
-      if (!duration) throw new Error('Invalid cache duration.');
+      if (!duration) throw new Error("Invalid cache duration.");
 
       this.duration = duration;
     } catch (error) {
-      let errorMessage = 'Failed to set cache duration.';
+      let errorMessage = "Failed to set cache duration.";
       if (error instanceof Error && error.message) errorMessage = `Failed to set cache duration: ${error.message}`;
       throw new Error(errorMessage);
     }

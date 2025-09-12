@@ -1,20 +1,19 @@
 /** @type {import("prettier").Config} */
 export default {
-  plugins: ['prettier-plugin-tailwindcss'],
+  plugins: ["prettier-plugin-tailwindcss"],
   overrides: [
     {
-      files: ['*.ts', '*.js', '*.mjs', '*.cjs'],
+      files: ["*.ts", "*.js", "*.mjs", "*.cjs"],
       options: {
         tabWidth: 2,
-        arrowParens: 'always',
+        arrowParens: "always",
         printWidth: 120,
-        singleQuote: true,
       },
     },
     {
-      files: '*.html',
+      files: "*.html",
       options: {
-        parser: 'angular',
+        parser: "angular",
         tabWidth: 2,
         bracketSameLine: true,
         singleAttributePerLine: true,

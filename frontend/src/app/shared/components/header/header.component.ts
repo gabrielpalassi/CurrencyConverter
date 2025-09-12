@@ -1,13 +1,13 @@
-import { Component, inject, signal } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { slideInOut } from '@/app/shared/animations/slide-in-out';
+import { Component, inject, signal } from "@angular/core";
+import { Router, RouterModule } from "@angular/router";
+import { slideInOut } from "@/app/shared/animations/slide-in-out";
 
 @Component({
-  selector: 'app-header',
+  selector: "app-header",
   standalone: true,
   imports: [RouterModule],
   animations: [slideInOut],
-  templateUrl: 'header.component.html',
+  templateUrl: "header.component.html",
 })
 export class HeaderComponent {
   // Inject the Router
@@ -22,7 +22,7 @@ export class HeaderComponent {
     if (this.showMobileMenu()) this.showMobileMenu.set(false);
     this.router.navigate([route]).then(() => {
       setTimeout(() => {
-        if (element) document.getElementById(element)?.scrollIntoView({ block: 'center' });
+        if (element) document.getElementById(element)?.scrollIntoView({ block: "center" });
         else window.scrollTo({ top: 0 });
       });
     });
