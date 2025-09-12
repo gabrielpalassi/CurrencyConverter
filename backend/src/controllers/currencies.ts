@@ -1,5 +1,5 @@
 import { CurrencyData } from '@shared/types';
-import { getAllCurrenciesData } from '../services/currency';
+import { getAllCurrenciesData } from '@/services/currency';
 
 // Returns all currencies with their data (rate and chart)
 export const getCurrencies = async (): Promise<CurrencyData[]> => {

@@ -1,29 +1,29 @@
 import { Component, inject, signal } from '@angular/core';
-import { CurrencyInputComponent } from '../../shared/components/currency-input/currency-input.component';
-import { CurrencySelectComponent } from '../../shared/components/currency-select/currency-select.component';
+import { CurrencyInputComponent } from '@/app/shared/components/currency-input/currency-input.component';
+import { CurrencySelectComponent } from '@/app/shared/components/currency-select/currency-select.component';
 import { Currency } from '@shared/types';
-import { CurrencyService } from '../../shared/services/currency.service';
+import { CurrencyService } from '@/app/shared/services/currency.service';
 import { HighchartsChartModule } from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
-import { mainChartConfig } from './utlils/main-chart.config';
-import { tableChartConfig } from './utlils/table-chart.config';
+import { mainChartConfig } from '@/app/pages/home/utils/main-chart.config';
+import { tableChartConfig } from '@/app/pages/home/utils/table-chart.config';
 import { DecimalPipe } from '@angular/common';
-import { fadeIn } from '../../shared/animations/fade-in';
-import { expand } from '../../shared/animations/expand';
-import { ConversionData } from '../../shared/types/conversion-data';
-import { ConversionTableResult } from '../../shared/types/conversion-table-result';
+import { fadeIn } from '@/app/shared/animations/fade-in';
+import { expand } from '@/app/shared/animations/expand';
+import { ConversionData } from '@/app/shared/types/conversion-data';
+import { ConversionTableResult } from '@/app/shared/types/conversion-table-result';
 import { ConversionTableResponse } from '@shared/types';
-import { ConversionTableData } from '../../shared/types/conversion-table-data';
+import { ConversionTableData } from '@/app/shared/types/conversion-table-data';
 import { ConversionResponse } from '@shared/types';
-import { ErrorModalService } from '../../shared/services/error-modal.service';
-import { getChartOptions } from './utlils/chart-utils';
+import { ErrorModalService } from '@/app/shared/services/error-modal.service';
+import { getChartOptions } from '@/app/pages/home/utils/chart-utils';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CurrencyInputComponent, CurrencySelectComponent, HighchartsChartModule, DecimalPipe],
   animations: [expand, fadeIn],
-  templateUrl: './home.component.html',
+  templateUrl: 'home.component.html',
 })
 export class HomeComponent {
   // Inject services

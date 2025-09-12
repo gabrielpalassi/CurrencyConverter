@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import currenciesRoutes from './routes/currencies';
+import currenciesRoutes from '@/routes/currencies';
 
 const app = new Hono();
 

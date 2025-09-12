@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { getCurrencies } from '../controllers/currencies';
+import { getCurrencies } from '@/controllers/currencies';
 import { CurrencyData } from '@shared/types';
 
 const currenciesRoutes = new Hono();

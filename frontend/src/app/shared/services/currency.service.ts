@@ -4,7 +4,7 @@ import { Observable, of, map } from 'rxjs';
 import { Currency, CurrencyData } from '@shared/types';
 import { ConversionResponse } from '@shared/types';
 import { ConversionTableResponse } from '@shared/types';
-import { environment } from '../../../environments/environment';
+import { environment } from '@/environments/environment';
 
 @Injectable({
   providedIn: 'root',

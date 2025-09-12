@@ -6,7 +6,7 @@ import { NgxCurrencyDirective } from 'ngx-currency';
   selector: 'currency-input',
   standalone: true,
   imports: [FormsModule, NgxCurrencyDirective],
-  templateUrl: './currency-input.component.html',
+  templateUrl: 'currency-input.component.html',
 })
 export class CurrencyInputComponent {
   // Inputs and outputs

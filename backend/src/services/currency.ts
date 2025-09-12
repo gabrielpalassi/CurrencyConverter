@@ -1,5 +1,5 @@
 import { Currency, CurrencyData } from '@shared/types';
-import { Cache } from '../cache/cache';
+import { Cache } from '@/cache/cache';
 import { fetch, fetchHistoric90d } from 'ecb-euro-exchange-rates';
 
 const cache = Cache.getInstance();

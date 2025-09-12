@@ -1,13 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { slideInOut } from '../../animations/slide-in-out';
+import { slideInOut } from '@/app/shared/animations/slide-in-out';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [RouterModule],
   animations: [slideInOut],
-  templateUrl: './header.component.html',
+  templateUrl: 'header.component.html',
 })
 export class HeaderComponent {
   // Inject the Router

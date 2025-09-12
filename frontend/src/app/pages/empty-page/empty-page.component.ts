@@ -5,6 +5,6 @@ import { RouterModule } from '@angular/router';
   selector: 'app-empty-page',
   standalone: true,
   imports: [RouterModule],
-  templateUrl: './empty-page.component.html',
+  templateUrl: 'empty-page.component.html',
 })
 export class EmptyPageComponent {}
